@@ -1,0 +1,32 @@
+
+So you would like to add some changes into the central DesySusy repository. 
+
+There are essentially two ways, the pull request being the preferred one. 
+The pull request means: 
+     "hey you, owner of the central repository, take a look at the differences between your repo 
+     and mine and add them into your repository". 
+
+Well. Sort of. If you want more truthful info, a pull request is more like:
+
+     "hey you, owner of the central repository, take a look at the differences between THIS BRANCH 
+      in my repo and THAT BRANCH in your repo and add them into your branch in your repo."
+
+
+Anyway, to make these changes present in the central DesySusy repository through a pull request:
+   
+   0. The changes must already be in your PERSONAL github account. Take a look at pushCode to remember how.
+   1. In your personal github account, click on "Compare and review", it's the green button.
+   2. Verify that the changes shown there are indeed the ones you want to add into the central repository.
+   3. make the pull request
+
+
+
+IMPORTANT REMARKS:
+
+1. It is mandatory that your personal github copy of DesySusy has been obtained through a Fork of the DesySusy central repo.
+Otherwise the two repos cannot communicate through a pull request.
+
+2. For the time being, to ACCEPT pull requests, one needs to log in the desysusy account on github and do it there.
+
+
+More info: https://help.github.com/articles/using-pull-requests
