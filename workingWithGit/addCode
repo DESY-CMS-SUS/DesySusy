@@ -1,0 +1,31 @@
+
+
+So you have your code and you want it to be in git. Very well.
+
+First of all, you must have followed the steps in firstSteps and you have a local copy of the DesySusy repository. 
+That is, you have a working directory with the DesySusy code and a DesySusy repository in your github account.
+
+    -Verify that the command:
+     git remote -v
+     returns at least two entries that look like this:
+     origin  git://github.com/YOUR_USER_NAME/DesySusy (fetch)
+     origin  git://github.com/YOUR_USER_NAME/DesySusy (push)
+
+     This means that there is a remote repository, called origin (this name can be changed) TO which changes in the local repository can be exported (in the git lingo, they can be pushed), or from which changes can be imported (that is, pulled). 
+
+          
+
+1) Now you can copy the files/folders you want into the local repository.
+
+2) To make git track the changes:
+   git add them
+   git commit -m "your mandatory commit message"
+
+Now you have, in your local repository, and up-to-date version with YOUR changes included. 
+
+3) To make these changes present in your github remote repository, please read pushCode.
+
+4) See the file pullRequest to know how to make these changes present in the central repository.
+
+  
+

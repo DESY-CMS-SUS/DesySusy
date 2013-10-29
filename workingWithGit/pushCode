@@ -1,0 +1,14 @@
+
+To push the code in your working directory so that it is present in your github account:
+
+ git push -u origin master
+
+   
+
+IMPORTANT REMARKS: This assumes that your personal github repository is called "origin", 
+                   you can verify this with the "git remote -v" command.
+	  	   	
+                   It also assumes that you want to push the changes in the branch called "master".
+                   It may very well be that you have a development branch called something different 
+                   and you want to push that one instead, then use the name of the branch you want.
+		   More on branching: http://git-scm.com/book/en/Git-Branching-Basic-Branching-and-Merging

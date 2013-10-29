@@ -1,0 +1,39 @@
+
+=====================================================================
+GET A COPY OF THE REPOSITORY IN YOUR LOCAL DIRECTORY
+=====================================================================
+You have to do this to no matter what, so please read below.
+
+There are several ways of doing this, but I think the optimal/canonical is to:
+
+0) Once you have a personal github account and your are logged in...
+
+1) Go to the DesySusy github account:
+https://github.com/desysusy/DesySusy
+
+2) On the right upper part, click on Fork.
+
+   -This will create a copy of the DesySusy repository on the desysusy account in your PERSONAL github account. Read the sentence again, it's confusing.
+
+   -Verify that in your personal github account, the new repostory exists and it's called DesySusy.
+
+
+3) Now you have a repo in your github account, to make a local copy in your WORKING directory, simply do:
+   git clone  https://github.com/YOUR_USER_NAME/DesySusy.git
+   
+   where YOUR_USER_NAME is, against all expectations, your user name.
+
+   -Verify that you have a directory called DesySusy and all the code is there.
+
+
+WHAT TO DO IF:
+
+i) You have a lot of code that is not present in DesySusy and you would like to add it to git.
+   See the file addCode.
+
+ii) Start working locally from the copy and save the changes in:
+    a) your personal github account: see pushCode
+    b) the central DesySusy repository: see pullRequest
+
+
+
