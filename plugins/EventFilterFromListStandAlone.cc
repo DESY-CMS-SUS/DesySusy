@@ -1,4 +1,4 @@
-#include "SUSYBSMAnalysis/DesySusy/interface/EventFilterFromListStandAlone.h"
+#include "EventFilterFromListStandAlone.h"
 
 using namespace std;
 
