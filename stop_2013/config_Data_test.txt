@@ -1,0 +1,11 @@
+# prelim RA4b_config
+
+isData      = true
+filename    = /pnfs/desy.de/cms/tier2/store/user/fcostanz/SingleMu_Run2012B13Jul_cfg-365.root
+quick       = true
+SampleName    = SingleMu
+SubSampleName = Run2012A
+Estimation = STOP-mu
+outName = SingleMu_Run2012B13Jul_cfg-365_out.root
+Tail = NoTail
+turntriggersoff = false

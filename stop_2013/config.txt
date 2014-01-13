@@ -1,0 +1,11 @@
+# prelim RA4b_config
+
+isData      = false
+filename    = /pnfs/desy.de/cms/tier2/store/user/fcostanz/TTJetsPowhegv1_cfg-91.root
+quick       = false
+SampleName    = TTJetsPOWHEG
+SubSampleName = DR53-v1
+Estimation = STOP-mu
+outName = TTJetsPWHG_v1.root
+Tail = histo
+turntriggersoff = true
