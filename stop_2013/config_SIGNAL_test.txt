@@ -1,0 +1,11 @@
+# prelim RA4b_config
+
+isData      = false
+filename    = /pnfs/desy.de/cms/tier2/store/user/fcostanz/T2tt_mStop400mLSP150_cfg-10.root
+quick       = false
+SampleName    = T2ttPoints
+SubSampleName = Stop400-LSP150
+Estimation = STOP-mu
+outName = T2tt_mStop400mLSP150_cfg-10_out.root
+Tail = NoTail
+turntriggersoff = true

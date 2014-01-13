@@ -1,0 +1,13 @@
+# prelim RA4b_config
+
+isData      = false
+filename    = RelValTTbarNewCodeNewJEC.root
+quick       = false
+SampleName    = TTJetsPOWHEG
+SubSampleName = DR53-v2
+Estimation = STOP-mu
+outName = RelValTTbarNewCodeNewJEC_Synch.root
+Tail = NoTail
+turntriggersoff = true
+SelectedElectrons_PTMIN = 30
+SelectedMuons_PTMIN = 25

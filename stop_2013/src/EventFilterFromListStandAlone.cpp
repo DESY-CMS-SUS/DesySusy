@@ -1,0 +1,1 @@
+../../plugins/EventFilterFromListStandAlone.cc
