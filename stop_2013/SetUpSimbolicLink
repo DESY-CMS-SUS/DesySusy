@@ -10,6 +10,9 @@ ln -fs ../../examples/compiled/tools/CutFlow.h ./src/CutFlow.h
 ln -fs ../../examples/compiled/tools/ConfigReader.cpp ./src/ConfigReader.cpp
 ln -fs ../../examples/compiled/Linkdef.h ./src/Linkdef.h
 ln -fs ./runOnAll_eron.py runOnAll
+
+ln -fs ../../plugins/EventFilterFromListStandAlone.cc  ./src/EventFilterFromListStandAlone.cpp
+ln -fs ../../plugins/EventFilterFromListStandAlone.h  ./src/EventFilterFromListStandAlone.h
 #
 
 
