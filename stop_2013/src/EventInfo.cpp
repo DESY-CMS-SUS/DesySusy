@@ -1,17 +1,18 @@
 #include "EventInfo.h"
 
+
 EventInfo::EventInfo(const EventInfo& copy){
 
-  std::cout<<"EventInfo_Copy"<<std::endl;
+  //std::cout<<"EventInfo_Copy"<<std::endl;
 
-  /*Sample     = copy.Sample;      
+  Sample     = copy.Sample;      
   SubSample  = copy.SubSample; 
   Estimation = copy.Estimation;
   Tail	     = copy.Tail;      
   isData     = copy.isData;    
-  */
+  
   xs           = copy.xs;
-  /*NEvents      = copy.NEvents;
+  NEvents      = copy.NEvents;
   FE  	       = copy.FE;    
   GlobalWeight = copy.GlobalWeight;
 
@@ -36,8 +37,9 @@ EventInfo::EventInfo(const EventInfo& copy){
 
   badLaserFilter         	= copy.badLaserFilter;               
   badXTalLaserCorrectionFilter  = copy.badXTalLaserCorrectionFilter; 
-  trackingPOGFilter		= copy.trackingPOGFilter;*/
+  trackingPOGFilter		= copy.trackingPOGFilter;
 }
+
 /*
 EventInfo& EventInfo::operator= (const EventInfo& copy){
   std::cout<<"EventInfo_operator= "<<xs<<" "<<copy.xs<<std::endl;

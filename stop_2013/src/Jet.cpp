@@ -126,7 +126,7 @@ void Jet::SetWP(const string& cme){
 void Jet::SetJECorrFactor(const map<string, double>& jECorrFactor_In) { jECorrFactor=jECorrFactor_In;}
 void Jet::SetJECorrUncertainty(const map<string, double>& jECorrUncertainty_In) { jECorrUncertainty=jECorrUncertainty_In;}
 void Jet::SetJECorrFactor(const string& key, const double& value){  jECorrFactor[key]=value;}
-void Jet::SetJECorrUncertainty(const string& key, const double& value){  jECorrFactor[key]=value;}
+void Jet::SetJECorrUncertainty(const string& key, const double& value){  jECorrUncertainty[key]=value;}
 
 void Jet::SetIsMatched(const bool& isMatched_In){ isMatched=isMatched_In;}
 void Jet::SetMatchedGenJetIndex(const int& matchedGenJetIndex_In){ matchedGenJetIndex=matchedGenJetIndex_In;}

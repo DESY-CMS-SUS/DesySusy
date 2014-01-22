@@ -19,7 +19,11 @@ class SubTree
  public:
    SubTree( TDirectory* indir = 0, TString newdir = "");
 
+   virtual void Fill() = 0;
+   virtual void Fill( Event* event) = 0;
+   virtual void Fill( EasyChain* chain) = 0;
    virtual void Fill( Event* event, EasyChain* chain) = 0;
+
    void Write();
 
    void SetHome( TDirectory*);

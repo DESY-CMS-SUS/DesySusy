@@ -247,7 +247,7 @@ bool makeSelectedMuons(EasyChain* tree, vector<Muon>& allMuons,vector<Muon*>& se
     OK=allMuons.at(imu).Iso() < PFAbsIsoMAX;
     if(!flow->keepIf("Absolute PF Isolation DeltaB corrected max",OK)) continue;
     //
-    OK= desy_tools::Consistency( allMuons.at(imu).P4(), allMuons.at(imu).Charge(), tree,"muonP4PF", "muonChargePF") < PFRECO_MAXDIFF;
+    OK= desy_tools::Consistency( allMuons.at(imu).P4(), (int) allMuons.at(imu).Charge(), tree,"muonP4PF", "muonChargePF") < PFRECO_MAXDIFF;
     if(!flow->keepIf("RecoPt-PFPt",OK)) continue;
 
     allMuons.at(imu).SetID( "Selected", true);

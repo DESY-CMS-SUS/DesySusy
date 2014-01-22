@@ -116,13 +116,13 @@ void TriggerStudyTree::Fill( Event* event, EasyChain* chain) {
     for(Int_t i=0,N=event->Muons()->size(); i<N; ++i){
       imu = event->Muons()->at(i);
       muonP4.push_back( imu->P4());
-      muonCharge.push_back( imu->Charge());
+      muonCharge.push_back( (int)imu->Charge());
       muonIsSelected.push_back( (int)imu->Is("Selected"));
     }
     for(Int_t i=0,N=event->Electrons()->size(); i<N; ++i){
       iel = event->Electrons()->at(i);
       electronP4.push_back( iel->P4());
-      electronCharge.push_back( iel->Charge());
+      electronCharge.push_back( (int)iel->Charge());
       electronIsSelected.push_back( (int)iel->Is("Selected"));
     }
     

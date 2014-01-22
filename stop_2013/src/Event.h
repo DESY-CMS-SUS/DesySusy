@@ -57,6 +57,7 @@ class Event{
     SetTaus             (  copy.CopyTaus());
     SetJets             (  copy.CopyJets());
     SetGenJets          (  copy.CopyGenJets());
+    MatchGenJets();
     SetUnclusteredEnergy( *copy.UnclusteredEnergy());
     SetRawMET           ( *copy.RawMET());
     SetTypeIMET         ( *copy.TypeIMET());
@@ -85,7 +86,9 @@ class Event{
   void SetTaus             ( const vector<Tau*>& in);
   void SetJets             ( const vector<Jet*>& in);
   void SetGenJets          ( const vector<GenJet*>& in);
-  void SetFirstLepton(); 
+  void SetFirstLepton();
+
+  void MatchGenJets();
 
   const EventInfo*   Info      () const;
   const vector< const Particle* >* Tracks    (const string& key="All");
@@ -173,8 +176,5 @@ class Event{
   double DeltaPhiCaloTypeI();
   double HadChi2();
   double Topness();
-
-public:
-  //ClassDef(Event,1);
 };
 #endif

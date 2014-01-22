@@ -18,11 +18,4 @@ void makeGoodJets(EasyChain* tree, vector<Jet>& allJets, vector<Jet*>& goodJets,
 void makeSelectedJets(EasyChain* tree, vector<Jet>& allJets, vector<Jet*>& selectedJets, CutSet* flow_in = 0);
 
 vector<GenJet> makeAllGenJets( EasyChain* tree, CutSet* flow_in = 0);
-void matchGenJets(EasyChain* tree,vector<GenJet>& genJets, vector<Jet*>& Jets);
-void matchJets( const vector<Jet*> & recoJets, const vector<LorentzM> & genJets, vector<int> & recoToGen, vector<int> & genToReco);
-
-void  rescaleJES(EasyChain* tree, vector<Jet*>& AllJets, LorentzM & metCorr, float jesSF_err);
-//void  rescaleJER(EasyChain* tree, vector<Jet*>& AllJets, LorentzM & metCorr, float jerSF_err, JetMonitor * pJetM);
-float getJerSF(float eta, float err_factor);
-float getJetRes(double pT, double eta);
 #endif

@@ -55,9 +55,14 @@ namespace desy_tools {
   template <class Comp> bool CleaningByDR( LorentzM const & ref, vector<Comp*>& comp, float DR = 0.3);
   bool CleaningByDR( LorentzM const & ref, vector<LorentzM*>& comp, float DR = 0.3);
 
+  LorentzM Rescale( const LorentzM& vec, const double& c);
+  
   template <class Obj1, class Obj2> bool compare_Object_Pt( const Obj1& obj1, const Obj2& obj2);
   template <class Obj1, class Obj2> bool compare_Pointer_Pt( const Obj1* obj1, const Obj2* obj2);
   float gettrigweight(int id1, float pt, float eta);
+
+  double getJerSF(double eta, double err_factor);
+  double getJetResolution(double pT, double eta);
 
   double GetBJetSF( double pt, double eta, TString tagger, TString wp, int match);
 
@@ -110,7 +115,10 @@ namespace desy_tools {
       }
     }
 
-    mlb = ( lepton + jetClosest->P4()).M();
+    if (jetClosest == 0)
+      mlb = -1.;
+    else
+      mlb = ( lepton + jetClosest->P4()).M();
     
     return mlb;
   };
@@ -130,7 +138,7 @@ namespace desy_tools {
     if(njets == 3){
       sum = jets->at(0)->P4() + jets->at(1)->P4() + jets->at(2)->P4();
     } else { //check which jet is closest to lepton, then take other 3
-      double dphimin = 999.;
+      double dphimin = 10.;
       int index_closest_jet = -1;
       for(int i=0; i<4; i++){
         double dphi = fabs(DeltaPhi( jets->at(i)->P4(), lepton));
