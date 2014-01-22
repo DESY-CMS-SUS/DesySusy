@@ -34,9 +34,6 @@ void BonsaiTSelector::Begin(TTree * /*tree*/)
    // The tree argument is deprecated (on PROOF 0 is passed).
 
    TString option = GetOption();
-
-   sysName.push_back("NoSystematic");
-   //sysName.push_back("..");
 }
 
 void BonsaiTSelector::SlaveBegin(TTree * /*tree*/)
@@ -56,15 +53,65 @@ void BonsaiTSelector::SlaveBegin(TTree * /*tree*/)
       return;
    }
    
+   TString dirname = gSystem->pwd();
+   dirname += "/../../packages/data/";   
+   dirname = "";
+
+   TString reshapeFile = dirname;
+   reshapeFile += "csvdiscr.root";
+   BTagShapeInterface reshape( reshapeFile.Data(),0,0);
+
+   /*
+   TSystemDirectory dir(dirname,dirname);
+   TList *files = dir.GetListOfFiles();
+   if (files) {
+      TSystemFile *file;
+      TString fname;
+      TIter next(files);
+      while ((file=(TSystemFile*)next())) {
+         fname = file->GetName();
+         if (!file->IsDirectory()) {
+            cout << fname.Data() << endl;
+         }
+      }
+   }
+   */
+
    Jet::SetWP("8TeV");    
    TH1::SetDefaultSumw2(true);
 
    Systematics::SystematicFactory sysFactory;
-   for(unsigned int isys = 0; isys < sysName.size(); isys++)
+   /*
+   int a = 0;
+   int b = 1;
+
+   bonsai.push_back( new Bonsai( outFile, sysName.at(a)));
+   bonsai.push_back( new Bonsai( outFile, sysName.at(b)));
+   sys.push_back( sysFactory.NewSystematic( sysName.at(a)));
+   sys.push_back( sysFactory.NewSystematic( sysName.at(b)));
+   
+   /*
+   Int_t isys = 0;
+
+   for( isys = 0; isys < 2; isys++)
+       bonsai.push_back( new Bonsai( outFile, sysName.at(isys)));   
+   for( isys = 0; isys < 2; isys++)
+   sys.push_back( sysFactory.NewSystematic( sysName.at(isys)));*/
+   for( int isys = 0; isys < 2; isys++)
      {
-       bonsai.push_back( new Bonsai( outFile, sysName.at(isys)));
-       sys.push_back( sysFactory.NewSystematic( sysName.at(isys)));
-     }
+       cout<<"sisname "<<sysName.size()<<endl;
+       cout<<"bonsai "<<bonsai.size()<<endl;
+       int a = 0;
+       if (isys == 0)
+	 a = 0;
+       if  (isys == 1)
+	 a = 1;
+     
+       bonsai.push_back( new Bonsai( outFile, sysName.at(a)));
+       sys.push_back( sysFactory.NewSystematic( sysName.at(a)));
+     } 
+   cout<<"sisname "<<sysName.size()<<endl;
+   cout<<"bonsai "<<bonsai.size()<<endl;
 }
 
 Bool_t BonsaiTSelector::Process(Long64_t entry)
@@ -86,9 +133,9 @@ Bool_t BonsaiTSelector::Process(Long64_t entry)
    // Use fStatus to set the return value of TTree::Process().
    //
    // The return value is currently not used.
-
-  GetEntry(entry);
   std::cout<<entry<<std::endl;
+  GetEntry(entry);
+  std::cout<<bonsai.at(0)<<" "<<bonsai.at(1)<<std::endl;
 
   event.SetInfo( *info);
   event.SetTracks( *tracks);
@@ -99,11 +146,24 @@ Bool_t BonsaiTSelector::Process(Long64_t entry)
   event.SetGenJets( *genJets);
   event.SetCaloMET( *caloMET);
   event.SetTypeIPhiCorrMET( *typeIPhiCorrMET);
-
-  for(unsigned int isys = 0; isys < sysName.size(); isys++)
+  Int_t isys = 0;
+  for( isys = 0; isys < sysName.size(); isys++)
     {
+      Printf("Here1");
       sys.at(isys)->Eval( event);
-      bonsai.at(isys)->Fill( sys.at(isys)->SysEvent());
+      Printf("Here2");
+      sys.at(isys)->SysEvent();
+      Printf("Here3");
+      if ( entry%10 == 0)
+      
+	//Event* mmm = sys.at(isys)->SysEvent();
+	//Printf("Here4");
+
+   cout<<"sisname "<<sysName.size()<<endl;
+   cout<<"bonsai "<<bonsai.size()<<endl;
+
+	bonsai.at(isys)->Fill( sys.at(isys)->SysEvent());
+      Printf("Here5");
     }
   
   return kTRUE;
@@ -125,7 +185,8 @@ void BonsaiTSelector::SlaveTerminate()
 	    Error("SlaveTerminate", "'ntuple' is undefined!");
 	    return;
 	  }
-      
+
+	  Bool_t cleanup = kFALSE;
 	  TDirectory *savedir = gDirectory;
 
 	  if (bonsaiTree->GetEntries() > 0) {
@@ -177,21 +238,25 @@ void BonsaiTSelector::Terminate()
 	  
 	  for( unsigned int isys = 0; isys < sysName.size(); isys++)
 	    {
-	      Printf("Coping Bonsai: %s", bonsai.at(isys)->GetPath());
-	      fFile->mkdir( bonsai.at(isys)->GetPath());
-	      fFile->cd( bonsai.at(isys)->GetPath());
-	      //Printf("Coping Bonsai: NoSystematic");
-	      //fFile->mkdir( "NoSystematic");
-	      //fFile->cd( "NoSystematic");
-	      
-	      bonsaiTree = (TTree *) outFile->Get("bonsai");
+	      outFile->cd();
+	      outFile->cd(sysName.at(isys).c_str());
+	      bonsaiTree = (TTree *) gDirectory->Get("bonsai");
+
+	      Printf("Coping Bonsai: %s", sysName.at(isys).c_str());
+	      fFile->mkdir(sysName.at(isys).c_str());
+	      fFile->cd(sysName.at(isys).c_str());
+	      	      
 	      bonsaiTree->CloneTree()->Write();
 	    }
 	}
+      else 
+	{
+	  Error("Terminate", "could not open file: %s", outputFile.Data());	
+	  return;
+	}
     }
-  else 
-    {
-      Error("Terminate", "could not open file: %s", outputFile.Data());	
-      return;
-    }
+  else {
+    Error("Terminate", "TProofOutputFile not found");
+    return;
+  }
 }

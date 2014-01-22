@@ -1,5 +1,5 @@
 void BonsaiProof(int iSample = 0){
-  gSystem->Load("libRA4bDict.so");
+  gSystem->Load("libsystematics.so");
 
   TString inDir = "/home/fcostanz/STOP/UserCode/DesySusy/stop_2013/";
   TString outDir = "/home/fcostanz/STOP/UserCode/DesySusy/stop_2013/Bonsai/";
@@ -26,6 +26,7 @@ void BonsaiProof(int iSample = 0){
   TChain c("skimmingTree");
   
   TString inFile = inDir; inFile += sample[iSample]; inFile += ".root";
+  inFile = "/afs/desy.de/user/f/fcost/GIT2/DesySusy/stop_2013/TTJetsPowhegv1_cfg-91_out.root";
   c.Add(inFile);
   
   Long64_t nentries = c.GetEntries();
@@ -33,11 +34,15 @@ void BonsaiProof(int iSample = 0){
   c.SetCacheSize(cachesize);
   
   TString outFile = outDir; outFile += sample[iSample]; outFile += ".root";
+  outFile = "/afs/desy.de/user/f/fcost/GIT2/DesySusy/stop_2013/Bonsai/SimpleNtuple.root";
   p->AddInput( new TNamed( TString("OUTPUTFILE"), outFile));
   
   p->SetProgressDialog(1);
-  c.SetProof(1);  
-  p->Exec( "gSystem->Load( \"libRA4bDict.so\" );" );
+  c.SetProof(1);
+
+  p->UploadPackage( "data" );
+  p->Exec( "gSystem->Load( \"libsystematics.so\" );" );
+  //p->Exec( "gSystem->Load( \"libRA4bDict.so\" );" );
     
   c.Process("BonsaiTSelector.C","");
   
