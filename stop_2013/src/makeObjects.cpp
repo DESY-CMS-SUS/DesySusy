@@ -59,12 +59,13 @@
 
 #include "TriggerStudyTree.h"
 #include "SkimmingTree.h"
+#include "Bonsai.h"
 
 #include "myBTagReshaping.h"
 #include "BTagReshaping.h"
 
-//#include "Systematic.h"
-//#include "SystematicFactory.h"
+#include "Systematics/Systematic.h"
+#include "Systematics/SystematicFactory.h"
 
 using namespace std;
 using namespace ROOT::Math::VectorUtil;
@@ -77,7 +78,7 @@ bool pcp = false; //Set to true for debugging.
 
 //myBTagReshaping    myReshaping( "myCsvdiscr.root");
 //BTagShapeInterface sh( "myCsvdiscr.root",0,0);
-//BTagShapeInterface sh2( "csvdiscr.root",0,0);
+BTagShapeInterface reshape( "csvdiscr.root",0,0);
 EventFilterFromListStandAlone badLaserFilter;
 //===================================================================
 
@@ -215,11 +216,41 @@ int main(int argc, char** argv){
   badLaserFilter = EventFilterFromListStandAlone( "badlaser_events_StdFormat.txt.gz");
   //=============================================
 
-  //SystematicFactory fac;
-  //std::vector<Systematic*> sys;
-  //sys.push_back( fac.NewSystematic("NoSystematic"));
+
+  //======================================================
+  // Systematics
+  //======================================================
+
+  std::vector<Bonsai*> bonsai;
+  std::vector<std::string> sysName;
+  sysName.push_back("NoSystematic");
+  
+  /*sysName.push_back("PUReweight_Up");
+  sysName.push_back("PUReweight_Down");
+  
+  sysName.push_back("BTagReweight_UpBC");
+  sysName.push_back("BTagReweight_DownBC");
+  sysName.push_back("BTagReweight_UpLight");
+  sysName.push_back("BTagReweight_DownLight");
+
+  sysName.push_back("JES_Up");
+  sysName.push_back("JES_Down");
+  */
+  sysName.push_back("JER_GenUp");
+  sysName.push_back("JER_GenCentral");
+  sysName.push_back("JER_GenDown");
+  sysName.push_back("JER_RecoUp");
+  sysName.push_back("JER_RecoCentral");
+  sysName.push_back("JER_RecoDown");
 
 
+  std::vector< Systematics::Systematic*> sys;
+  Systematics::SystematicFactory sysFactory;
+  for ( unsigned int isys = 0; isys < sysName.size(); isys++){
+    bonsai.push_back( new Bonsai( outfile, sysName.at(isys)));
+    sys.push_back( sysFactory.NewSystematic( sysName.at(isys)));
+  }
+  
   //=============================================================================
   //=============================================================================
   //LOOP OVER EVENTS
@@ -345,6 +376,8 @@ int main(int argc, char** argv){
     makeCleanJets( jets, cleanJets, goodMuons, goodElectrons);
     makeGoodJets( tree, jets, goodJets);
     makeSelectedJets( tree, jets, selectedJets);
+
+    LorentzM& unclusteredEnergy =tree->Get( &unclusteredEnergy, "ak5JetPFDroppedSumP4Pat");
     //============================================    
     
     //============================================    
@@ -535,10 +568,30 @@ int main(int argc, char** argv){
 
     skTree->Fill();
 
+    event.SetInfo( info);
+    event.SetTracks( tracks);
+    event.SetMuons( muons);
+    event.SetElectrons( electrons);
+    event.SetTaus( taus);
+    event.SetJets( jets);
+    event.SetUnclusteredEnergy( unclusteredEnergy);
+    event.SetGenJets( genJets);
+    event.SetCaloMET( caloMET);
+    event.SetRawMET( rawMET);
+    event.SetTypeIMET( typeIMET);
+    event.SetTypeIPhiCorrMET( typeIPhiCorrMET);
+
+    for ( unsigned int isys = 0; isys < sysName.size(); isys++){
+      sys.at(isys)->Eval( event);
+      bonsai.at(isys)->Fill( sys.at(isys)->SysEvent());  
+    }
+
     ControlPlots.MakePlots( "PreSelection", selectedMuons, selectedElectrons, selectedJets, typeIPhiCorrMET);
   }  
 
   globalFlow.dumpToHist();
   skTree->Write();
   trigTree->Write();
+  for ( unsigned int isys = 0; isys < sysName.size(); isys++)
+    bonsai.at(isys)->Write();
 }
