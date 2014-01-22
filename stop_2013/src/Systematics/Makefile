@@ -37,7 +37,7 @@ endif
 
 ROOTLIBS    = `root-config --libs` -lGenVector -lMathMore
 CXX         = g++
-CXXFLAGS    = `root-config --cflags` -I./ -I/afs/desy.de/user/f/fcost/TEST/UserCode/DesySusy/stop_2013/ -I/afs/desy.de/user/f/fcost/TEST/UserCode/DesySusy/stop_2013/src/
+CXXFLAGS    = `root-config --cflags` -I./ -I../ -I../../
 LD          = g++
 LDFLAGS     = `root-config --ldflags`
 

@@ -68,7 +68,7 @@ all: objdir MTTOOLS HADCHI2 TOPNESS SYSTEMATICS makeObjects
 
 makeObjects: $(OBJS) NtupleTools2Dict.o libRA4bDict.so makeObjects.o
 	@echo $(SOURCES)
-	$(LD) $(LDFLAGS) -o $@ $(addprefix $(OBJDIR)/, makeObjects.o $(OBJS)) -L./ -lRA4bDict $(ROOTLIBS) $(MORELIBS)
+	$(LD) $(LDFLAGS) -o $@ $(addprefix $(OBJDIR)/, makeObjects.o $(OBJS)) -L./ -lRA4bDict -L./src/Systematics -lsystematics $(ROOTLIBS) $(MORELIBS)
 	@echo "$@ done"
 
 #Rules for creating a test program
@@ -111,9 +111,12 @@ TOPNESS:
 	cd src/Topness; make	
 SYSTEMATICS: libRA4bDict.so
 	@echo "Making Systematics..."
-	cd src/Systematics; make
+	cd src/Systematics; make clean; make; cp libsystematics.so ../../Bonsai
 
-cleanAll:
+cleanAll: clean
+	cd src/Systematics; make clean
+
+clean:
 	@echo "Cleaning all compiled files, dependencies, dictionaries, etc."
 	@rm -f *Dict.* 
 	@rm -f *Dict_*
