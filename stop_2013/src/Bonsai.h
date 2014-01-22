@@ -33,10 +33,10 @@ class Bonsai: public SubTree {
   ~Bonsai(){ delete tree;};
 
 
-  void Fill() { Fill( 0, 0);};
-  void Fill( Event* event) { Fill( event, 0);};
-  void Fill( EasyChain* chain) { Fill( 0, chain);};
-  void Fill( Event* event, EasyChain* chain);
+  virtual void Fill() { this->Fill( 0, 0);};
+  virtual void Fill( Event* event) { this->Fill( event, 0);};
+  virtual void Fill( EasyChain* chain) { this->Fill( 0, chain);};
+  virtual void Fill( Event* event, EasyChain* chain);
 
  protected:
   void Reset();

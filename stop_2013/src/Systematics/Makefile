@@ -8,9 +8,9 @@
 # we compile all *.C and *.cpp defined in SOURCES
 #
 
-  SOURCES = NoSystematic.cpp
+  SOURCES = NoSystematic.cpp PUReweight.cpp BTagReweight.cpp JES.cpp JER.cpp
 
-  LIB_HEADERS =  ./NoSystematic.h ./Systematic.h ./SystematicFactory.h ../Event.h
+  LIB_HEADERS =  ./NoSystematic.h ./PUReweight.h ./BTagReweight.h ./JES.h ./JER.h ./Systematic.h ./SystematicFactory.h
 
 # and create this executable
 #

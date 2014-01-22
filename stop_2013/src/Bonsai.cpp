@@ -16,7 +16,7 @@ Bonsai::Bonsai(TDirectory* indir, TString newdir): SubTree( indir, newdir){
   if( home!= 0)
     home->cd();
 
-  tree= new TTree("bonsai", "Bonsai subTree");
+  tree= new TTree( "bonsai", "Bonsai subTree");
   
   this->Reset();
   this->SetBranches();
@@ -214,7 +214,7 @@ void Bonsai::Fill( Event* event, EasyChain* chain)
   evt = event->Info()->Event;
   run = event->Info()->Run;
   lumi = event->Info()->Lumi;
-  
+
   njets = event->nJets();
   if (njets > 0.)
     jet1 = event->Jets("Selected")->at(0)->Pt();
@@ -224,7 +224,7 @@ void Bonsai::Fill( Event* event, EasyChain* chain)
     jet3 = event->Jets("Selected")->at(2)->Pt();
   if (njets > 3.)
     jet4 = event->Jets("Selected")->at(3)->Pt();
-  
+
   nbjets = event->nBJets();
   if (nbjets > 0) {
     bjet1 = event->BJets("CSV")->at(0)->Pt();
@@ -238,7 +238,7 @@ void Bonsai::Fill( Event* event, EasyChain* chain)
     bjetHighestDisc = -1.;
     discH = -1.;
   }
-   
+
   lPt = event->FirstLepton()->Pt();
   lEta = event->FirstLepton()->Eta();
   lRelIso = event->FirstLepton()->RelIso();
@@ -246,7 +246,7 @@ void Bonsai::Fill( Event* event, EasyChain* chain)
   
   isoTrack = !isoTrackVeto::IsoTrackVetoV4( event->FirstLepton(), event->Tracks());
   tauVeto = event->Taus("Veto")->size() == 0;
-  
+
   rawmet = event->RawMET()->Pt();
   typeImet = event->TypeIMET()->Pt();
   phiCorrMet = event->TypeIPhiCorrMET()->Pt();
@@ -265,10 +265,11 @@ void Bonsai::Fill( Event* event, EasyChain* chain)
     mlb = -1;
     m3b = -1.;
   }
+
   mt2w = event->MT2W();
   hadChi2 = event->HadChi2();
   topness = event->Topness();
-  
+
   dphimin = event->DeltaPhiMinj12m();
   drlb = event->DeltaRlb1();
   

@@ -368,6 +368,15 @@ float desy_tools::Consistency( LorentzM refP4, int refCh, EasyChain* tree, const
   return desy_tools::Consistency( refP4, compP4);
 }
 
+LorentzM desy_tools::Rescale( const LorentzM& vec, const double& c){
+  LorentzM vec_out; vec_out.SetPxPyPzE( vec.Px() * c,
+					vec.Py() * c,
+					vec.Pz() * c,
+					vec.E() * c );
+  return vec_out;
+}
+
+
 bool desy_tools::CleaningByDR( LorentzM const & ref, vector<LorentzM*>& comp, float DR){
 double GetBJetSF( double pt, double eta, string tagger, string wp, int match);
   for(int icomp=0; icomp<(int)comp.size(); ++icomp){
@@ -550,4 +559,57 @@ float desy_tools::gettrigweight(int id1, float pt, float eta){
   }//end check for muons
 
   return 1.;
+}
+
+
+double desy_tools::getJerSF(double eta, double err_factor) {
+
+  double sf = 1.;
+
+  if ( fabs(eta) < 0.5 ) {
+    sf = 1.052 + err_factor * 0.065;
+  }
+  else if (fabs(eta) < 1.1) {
+    sf = 1.057 + err_factor * 0.059;
+  }
+  else if (fabs(eta) < 1.7) {
+    sf = 1.096 + err_factor * 0.070;
+  }
+  else if (fabs(eta) < 2.3 ){
+    sf = 1.134 + err_factor * 0.102;
+  }
+  else {
+    sf = 1.288 + err_factor * 0.222;
+  }
+  
+  if (sf < 0.) {
+    cout << "getJerSF >> ERROR sf is negative. Set to zero." << endl;
+    sf = 0.;
+  }
+
+  return sf;
+}
+
+double desy_tools::getJetResolution(double pT, double eta) {
+
+  double N=0., S=0., C=0., m=0.;
+
+  if     ( fabs(eta) < 0.5) {N = -0.34921; S = 0.29783; C = 0.; m = 0.47112;}
+  else if (fabs(eta) < 1.0) {N = -0.49974; S = 0.33639; C = 0.; m = 0.43069;}
+  else if (fabs(eta) < 1.5) {N = -0.56165; S = 0.42029; C = 0.; m = 0.39240;}
+  else if (fabs(eta) < 2.0) {N = -1.12329; S = 0.65789; C = 0.; m = 0.13960;}
+  else if (fabs(eta) < 2.5) {N =  1.04792; S = 0.46676; C = 0.; m = 0.19314;}
+  else if (fabs(eta) < 3.0) {N =  1.89961; S = 0.33432; C = 0.; m = 0.36541;}
+  else if (fabs(eta) < 3.5) {N =  1.66267; S = 0.33780; C = 0.; m = 0.43943;}
+  else if (fabs(eta) < 4.0) {N =  1.50961; S = 0.22757; C = 0.; m = 0.60094;}
+  else if (fabs(eta) < 4.5) {N =  0.99052; S = 0.27026; C = 0.; m = 0.46273;}
+  else                      {N =  1.37916; S = 0.28933; C = 0.; m = 0.61234;}
+
+  double sgnN = N > 0. ? 1. : -1.;
+  double sigma = sgnN * pow( N/pT , 2. ) + pow(S,2.)*pow(pT, m-1.) + pow(C,2.);
+  if (sigma < 0.) sigma = 0.;
+
+  sigma = pT * sqrt(sigma);
+
+  return sigma;    
 }

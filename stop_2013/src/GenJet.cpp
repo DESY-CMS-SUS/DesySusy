@@ -56,3 +56,42 @@ void GenJet::Set(const int maptotree_In, const LorentzM& pmomuntum_In, const str
 
   SetType( type_In);
 }
+
+//======================================================
+// match Jets and GenJets
+//======================================================
+
+void desy_tools::matchGenJets( vector<Jet>& jets, vector<GenJet>& genJets){
+  
+  vector<Jet*> jetsPointer;
+  vector<GenJet*> genJetsPointer;
+
+  for (int ijet=0; ijet<jets.size(); ++ijet)
+    jetsPointer.push_back( &jets.at(ijet));
+  
+  for (int igenjet=0; igenjet<genJets.size(); ++igenjet)
+    genJetsPointer.push_back( &genJets.at(igenjet));
+
+  matchGenJets( jetsPointer, genJetsPointer);
+}
+
+void desy_tools::matchGenJets( vector<Jet*>& jets, vector<GenJet*>& genJets){
+  for (int ijet=0; ijet<jets.size(); ++ijet){
+    int matchedGenJetIndx = jets.at(ijet)->MatchedGenJetIndex();
+
+    for ( int igenjet=0; igenjet < genJets.size(); ++igenjet){
+      int genJetIndx = genJets.at( igenjet)->IndexInTree();
+
+      if ( genJetIndx == matchedGenJetIndx ){
+
+	jets.at(ijet)->SetIsMatched( true);
+	jets.at(ijet)->SetMatchedGenJet( genJets.at( igenjet));
+
+	genJets.at( igenjet)->SetIsMatched( true);
+	genJets.at( igenjet)->SetMatchedJet( jets.at(ijet));
+
+	break;
+      }
+    }
+  }
+}

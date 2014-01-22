@@ -62,12 +62,18 @@
 #pragma link C++ class std::vector<gen_tools::SUSYGenParticle>+;
 
 #pragma link C++ namespace desy_tools+;
+#pragma link C++ function desy_tools::Rescale( const LorentzM&, const double&);
 #pragma link C++ function desy_tools::MT( const Particle*, const LorentzM*);
 #pragma link C++ function desy_tools::MT( const Muon*, const LorentzM*);
 #pragma link C++ function desy_tools::MT( const Electron*, const LorentzM*);
 #pragma link C++ function desy_tools::MT( Particle*, LorentzM*);
 #pragma link C++ function desy_tools::GetBJetSF( double, double, TString, TString, int);
 #pragma link C++ function desy_tools::gettrigweight(int, float, float);
+#pragma link C++ function desy_tools::getJerSF(double, double);
+#pragma link C++ function desy_tools::getJetResolution(double, double);
+
+#pragma link C++ function desy_tools::matchGenJets( vector<Jet>&,  vector<GenJet>&);
+#pragma link C++ function desy_tools::matchGenJets(vector<Jet*>&, vector<GenJet*>&);
 
 
 //#pragma link off all globals defined_in "makeTracks.h";

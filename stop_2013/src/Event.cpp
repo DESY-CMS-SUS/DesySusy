@@ -43,7 +43,7 @@ void Event::SetJets (const vector<Jet>& in) {
   jetsMap.clear();     
   jets     = in;   
   std::sort( jets.begin(), jets.end(), desy_tools::compare_Object_Pt< Jet, Jet>);
-  // Matching function;
+  this->MatchGenJets();
 }
 void Event::SetJets( const vector<Jet*>& in) {  SetJets( objFromPointers(in));}
 
@@ -51,8 +51,11 @@ void Event::SetGenJets (const vector<GenJet>& in) {
   genJetsMap.clear();     
   genJets     = in;   
   std::sort( genJets.begin(), genJets.end(), desy_tools::compare_Object_Pt< GenJet, GenJet>);
-  // Matching function;
+  this->MatchGenJets();
 }
+
+void Event::MatchGenJets(){ desy_tools::matchGenJets( jets, genJets);}
+
 void Event::SetGenJets( const vector<GenJet*>& in) {  SetGenJets( objFromPointers(in));}
 
 void Event::SetUnclusteredEnergy( const LorentzM& in)         { unclusteredEnergy = in;}
@@ -229,5 +232,6 @@ double Event::Topness()
 		  typeIPhiCorrMET.E());
 
   Topness::Topness top;
+  //return -1.;
   return log(top.GetTopness( selJets, bDiscs, Lep, MET));
 }

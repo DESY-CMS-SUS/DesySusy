@@ -1,1 +1,1 @@
-../../interface/EventFilterFromListStandAlone.h
+../../plugins/EventFilterFromListStandAlone.h

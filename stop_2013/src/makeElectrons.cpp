@@ -313,7 +313,7 @@ bool makeSelectedElectrons(EasyChain* tree, vector<Electron>& allElectrons,vecto
     OK=ESuperClusterOverP.at(indx) < EOverPinMAX;
     if(!flow->keepIf("ESuperClusterOverP",OK)) continue;
     //
-    OK= desy_tools::Consistency( allElectrons.at(iel).P4(), allElectrons.at(iel).Charge(), tree,"electronP4PF", "electronChargePF") < PFRECO_MAXDIFF;
+    OK= desy_tools::Consistency( allElectrons.at(iel).P4(), (int) allElectrons.at(iel).Charge(), tree,"electronP4PF", "electronChargePF") < PFRECO_MAXDIFF;
     if(!flow->keepIf("RecoPt-PFPt",OK)) continue;
 
     allElectrons.at(iel).SetID( "Selected", true);
