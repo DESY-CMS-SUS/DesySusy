@@ -202,6 +202,7 @@ int main(int argc, char** argv){
   //======================================================
   // pileUp Initialization
   //======================================================
+  float PUnumInter = 0.;
   pileUpInfo pileUp;
 
   if (!isData){ pileUp.Initialize(mySampleInfo);}
@@ -225,9 +226,9 @@ int main(int argc, char** argv){
   std::vector<std::string> sysName;
   sysName.push_back("NoSystematic");
   
-  /*sysName.push_back("PUReweight_Up");
+  sysName.push_back("PUReweight_Up");
   sysName.push_back("PUReweight_Down");
-  
+  /*
   sysName.push_back("BTagReweight_UpBC");
   sysName.push_back("BTagReweight_DownBC");
   sysName.push_back("BTagReweight_UpLight");
@@ -448,11 +449,14 @@ int main(int argc, char** argv){
     // EventInfo
     //====================================================================
     info.PUWeight = 1.;
+    info.PUWeight_up = 1.;
+    info.PUWeight_down = 1.;
     info.TriggerWeight = 1.;
+    PUnumInter = tree->Get( PUnumInter, "pileupTrueNumInteractionsBX0");
     if(!isData){
-      pileUp.RescaleWeight( tree, info.PUWeight, "central");
-      pileUp.RescaleWeight( tree, info.PUWeight_up, "up");
-      pileUp.RescaleWeight( tree, info.PUWeight_down, "down");
+      pileUp.RescaleWeight( PUnumInter, info.PUWeight, "central");
+      pileUp.RescaleWeight( PUnumInter, info.PUWeight_up, "up");
+      pileUp.RescaleWeight( PUnumInter, info.PUWeight_down, "down");
 
       info.TriggerWeight = gettrigweight( selectedLepton.PdgID(), selectedLepton.Pt(), selectedLepton.Eta());
       if(pcp) {
