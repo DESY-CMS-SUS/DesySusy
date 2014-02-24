@@ -2,32 +2,46 @@
 
 #include "ConfigReader.h"
 #include "CleaningFilters.h"
+#include "EventFilterFromListStandAlone.h"
 
 using namespace std;
 
 extern bool pcp;
-
+extern EventFilterFromListStandAlone badLaserFilter;
 bool makeCleanEvent(EasyChain* tree, CutSet* globalFlow){
-
   bool OK=false;
 
   ConfigReader config;
   bool isData=config.getBool("isData");
-  
+  bool isFSIM=config.getBool("isFSIM");
+
+  unsigned int event; tree->Get( event, "event");
+  unsigned int lumi;  tree->Get(  lumi, "lumiSection");
+  unsigned int run;   tree->Get(   run, "run");
+
+  static CutSet newFlow( "EventCleaning");
+  newFlow.autodump=true;
+  CutSet* flow = &newFlow;
+  if (globalFlow) {
+    newFlow.autodump = false;
+    flow = globalFlow;
+  }
+
   //====================================================================
   // Scraping Veto
   //====================================================================
   if(pcp)cout<<"Scraping veto!"<<endl;
   OK = cleaningFilters::scrapingVeto( tree);
-  if( !globalFlow->keepIf("Scraping_Veto", OK ) ) return false;
+  if( !flow->keepIf("Scraping_Veto", OK ) ) return false;
   //====================================================================
 
   //====================================================================    
   // check CSCHALO
   //==================================================================== 
   if(pcp)cout<<"CSC halo filter!"<<endl;
-  OK = cleaningFilters::cscHalo( tree); 
-  if( !globalFlow->keepIf("CSC_HALO", OK) ) return false;
+  OK = true;
+  if (!isFSIM) OK = cleaningFilters::cscHalo( tree); 
+  if( !flow->keepIf("CSC_HALO", OK) ) return false;
   //====================================================================
 
   //====================================================================    
@@ -35,28 +49,33 @@ bool makeCleanEvent(EasyChain* tree, CutSet* globalFlow){
   //====================================================================
   if(pcp)cout<<"HBHE Noise filter!"<<endl;
   OK = cleaningFilters::hbheNoise( tree);
-  if( !globalFlow->keepIf("HBHE", OK) ) return false;
+  if( !flow->keepIf("HBHE", OK) ) return false;
   //====================================================================
 
   //====================================================================    
   // check HCal Laser Filter
   //====================================================================
   if(pcp)cout<<"HCal laser filter!"<<endl;
-  if ( isData) {
-    OK = cleaningFilters::hcalLaser( tree);
-  }
-  else {
-    OK = true;
-  }
-  if( !globalFlow->keepIf( "hcalLaserFilter", OK ) ) return false;
+  OK = true;
+  if (isData) OK = cleaningFilters::hcalLaser( tree);
+  if( !flow->keepIf( "hcalLaserFilter", OK ) ) return false;
   //====================================================================
+
+  //====================================================================    
+  // check bad Laser Filer
+  //====================================================================
+  if(pcp)cout<<"Bad laser filter!"<<endl;
+  OK = true;
+  if (isData) OK = !badLaserFilter.filter( (int)run, (int)lumi, (int)event);
+  if( !flow->keepIf( "badLaserFilter", OK ) ) return false;
+  //==================================================================== 
 
   //====================================================================    
   // check ECal Dead Cell Filter
   //====================================================================  
   if(pcp)cout<<"ECal dead cell filter!"<<endl;
   OK = cleaningFilters::ecalDeadCellTP( tree);
-  if( !globalFlow->keepIf("ECAL_TP", OK) ) return false;
+  if( !flow->keepIf("ECAL_TP", OK) ) return false;
   //====================================================================
 
   //====================================================================    
@@ -64,7 +83,7 @@ bool makeCleanEvent(EasyChain* tree, CutSet* globalFlow){
   //====================================================================
   if(pcp)cout<<"Tracking failure filter!"<<endl;
   OK = cleaningFilters::trackingFailure( tree);
-  if( !globalFlow->keepIf( "trackingFailure", OK) ) return false;
+  if( !flow->keepIf( "trackingFailure", OK) ) return false;
   //====================================================================
 
   //====================================================================    
@@ -72,28 +91,25 @@ bool makeCleanEvent(EasyChain* tree, CutSet* globalFlow){
   //==================================================================== 
   if(pcp)cout<<"Bad EE supercluster filter!"<<endl;
   OK = cleaningFilters::badEESuperCluster( tree);
-  if( !globalFlow->keepIf( "eeBadSCFilter", OK) ) return false;
+  if( !flow->keepIf( "eeBadSCFilter", OK) ) return false;
   //====================================================================
 
   //====================================================================    
   // check ECal Xtal Laser Corr Filter FIX ME!!
   //====================================================================
   if(pcp)cout<<"ECal xtal laser corr filter!"<<endl;
-  OK= cleaningFilters::ecalXtalLargeCorr( tree);
-  //if( !globalFlow->keepIf( "ecalXtalLaserCorrFilter", OK) ) return false;  
+  OK = cleaningFilters::ecalXtalLargeCorr( tree);
+  if( !flow->keepIf( "ecalXtalLaserCorrFilter", OK) ) return false;  
   //====================================================================
 
   //====================================================================    
   // check Tracking Odd Event Filter FIX ME!!
   //====================================================================
   if(pcp)cout<<"Tracking odd event filter!"<<endl;
-  if ( isData) 
-    OK = cleaningFilters::trackingOddEvent( tree);
-  else
-    OK = true;
-  //if( !globalFlow->keepIf( "trackingOddEvent", OK) ) return false;  
+  OK = true;
+  if (!isFSIM) OK = cleaningFilters::trackingOddEvent( tree);
+  if( !flow->keepIf( "trackingOddEvent", OK) ) return false;  
   //====================================================================
 
   return true;
-
 }

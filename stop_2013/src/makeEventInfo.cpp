@@ -3,31 +3,20 @@
 #include "ConfigReader.h"
 #include "Tools.h"
 #include "CleaningFilters.h"
-#include "EventFilterFromListStandAlone.h"
+#include "ScanInfoProvider.h"
 
 using namespace std;
 
 extern bool pcp;
-extern EventFilterFromListStandAlone badLaserFilter;
+extern desy_tools::ScanInfoProvider scanInfo;
 //======================================================
 // make EventInfo
 //======================================================
 
 void makeEventInfo(EasyChain* tree, EventInfo& info)
 {
-  info.badLaserFilter = 0;
-  info.badXTalLaserCorrectionFilter = 0;
-  info.trackingPOGFilter = 0;
-  
-  if ( info.isData)
-    {
-      info.badLaserFilter = !badLaserFilter.filter( (int)info.Run, (int)info.Lumi, (int)info.Event);
-      info.badXTalLaserCorrectionFilter = !cleaningFilters::ecalXtalLargeCorr( tree);    
-      info.trackingPOGFilter = !cleaningFilters::trackingOddEvent( tree);
-    }
-  
-  info.isrWeight = gen_tools::ISRWeight( info.Sample, tree);
-  info.topPtWeight = gen_tools::TopPtWeight( info.Sample, tree);
+  info.isrWeight = 1.;
+  info.topPtWeight = 1.;
   
   info.T2ttL = 1.;
   info.T2ttR = 1.;
@@ -44,6 +33,9 @@ void makeEventInfo(EasyChain* tree, EventInfo& info)
   info.T2bWRS = 1.;
   info.T2bWRL = 1.;
 
+  info.isrWeight = gen_tools::ISRWeight( info.Sample, tree);
+  info.topPtWeight = gen_tools::TopPtWeight( info.Sample, tree);
+  
   vector<LorentzM>& p4     = tree->Get( &p4,          "genP4");
   vector<int>&      pdgId  = tree->Get( &pdgId,       "genPdgId");
   vector<int>&      status = tree->Get( &status,      "genStatus");
@@ -51,12 +43,25 @@ void makeEventInfo(EasyChain* tree, EventInfo& info)
   vector<int>& MotherPdgId = tree->Get( &MotherPdgId, "genMotherPdgId");
   
   info.LepFromTop = 0;
-  for (int igen=0; igen<status.size(); igen++) {
-    if (abs(pdgId.at(igen))==6) {
+  for (int igen=0; igen<status.size(); igen++)
+    if (abs(pdgId.at(igen))==6)
       info.LepFromTop += gen_tools::Decay(igen,&MotherIndex,&pdgId,&status,"");
-    }
+
+  info.Charginos = 0;
+  for (int igen=0; igen<status.size(); igen++)
+    if (abs(pdgId.at(igen))==1000024)
+      info.Charginos++;
+
+  if (info.isScan){
+    scanInfo.Set( info.Sample, info.SubSample, tree);
+    
+    info.mStop   = scanInfo.mStop;
+    info.mLSP    = scanInfo.mLSP;
+    info.xs      = scanInfo.xs;
+    info.NEvents = scanInfo.NEvents;
+    info.FE      = scanInfo.FE;    
   }
-        
+
   if ( info.Sample.find("T2tt") == 0 || info.Sample.find("T2bw") == 0)
     {
       gen_tools::SUSYGenParticle genParticle;

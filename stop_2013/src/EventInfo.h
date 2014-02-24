@@ -13,7 +13,7 @@ class EventInfo{
 public:
 
   EventInfo() {};
-  EventInfo(const EventInfo&);
+  //EventInfo(const EventInfo&);
   //EventInfo& operator= (const EventInfo&);
 
   // move constructor
@@ -28,18 +28,18 @@ public:
   string Estimation;
   string Tail;
   bool   isData;
+  bool   isFSIM;
+  bool   isScan;
   int    LepFromTop;
+  int    Charginos;
 
   double xs;
   int    NEvents;
   double FE;
-  double GlobalWeight;
 
   unsigned int Event;
   unsigned int Lumi;
   unsigned int Run;
-
-  double TriggerWeight;
 
   int    PUInter;
   double PUWeight;
@@ -48,16 +48,13 @@ public:
   int    NPV;
   int    NgoodPV;
 
-  double EventWeight;
-  
   double rho;
 
   double isrWeight;
   double topPtWeight;
 
-  double mY;
-  double mLsp;
-  double x;
+  double mStop;
+  double mLSP;
 
   double T2ttL;
   double T2ttR;
@@ -73,9 +70,5 @@ public:
   double T2bWRL;
   double T2bWRS;
   double T2bWRR;
-
-  bool badLaserFilter;
-  bool badXTalLaserCorrectionFilter;
-  bool trackingPOGFilter;
 };	  
 #endif

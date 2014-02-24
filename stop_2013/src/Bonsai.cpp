@@ -27,8 +27,12 @@ Bonsai::Bonsai(TDirectory* indir, TString newdir): SubTree( indir, newdir){
 void Bonsai::Reset()
 {
   sample = 0.;
+  LepFromTop = 0.;
+  Charginos  = 0.;
+
   xs = 0.;
   NEvents = 0.;
+  FE = 0.;
   GlobalWeight = 0.;
 
   TriggerWeight = 0.;
@@ -62,7 +66,6 @@ void Bonsai::Reset()
   lPt = 0.;
   lEta = 0.;
   lRelIso = 0.;
-  eoverp = 0.;
   
   isoTrack = 0.;
   tauVeto = 0.;
@@ -72,6 +75,7 @@ void Bonsai::Reset()
   phiCorrMet = 0.;
   
   ht = 0.;
+  htRatio = 0.;
   meff = 0.;
   y = 0.;
 
@@ -86,9 +90,8 @@ void Bonsai::Reset()
   dphimin = 0.;
   drlb = 0.;
 
-  mY = 0.;
-  mLsp = 0.;
-  x = 0.;
+  mStop = 0.;
+  mLSP = 0.;
   
   T2ttL = 0.;
   T2ttR = 0.;
@@ -109,10 +112,13 @@ void Bonsai::Reset()
 
 void Bonsai::SetBranches()
 {
-
   tree->Branch("sample",&sample,"sample/D");
+  tree->Branch("LepFromTop",&LepFromTop,"LepFromTop/D");
+  tree->Branch("Charginos",&Charginos,"Charginos/D");
+
   tree->Branch("xs",&xs,"xs/D");
   tree->Branch("NEvents",&NEvents,"NEvents/D");
+  tree->Branch("FE",&FE,"FE/D");
   tree->Branch("GlobalWeight",&GlobalWeight,"GlobalWeight/D");
 
   tree->Branch("TriggerWeight",&TriggerWeight,"TriggerWeight/D");
@@ -146,7 +152,6 @@ void Bonsai::SetBranches()
   tree->Branch("lPt",&lPt,"lPt/D");
   tree->Branch("lEta",&lEta,"lEta/D");
   tree->Branch("lRelIso",&lRelIso,"lRelIso/D");
-  tree->Branch("eoverp",&eoverp,"eoverp/D");
   
   tree->Branch("isoTrack",&isoTrack,"isoTrack/D");
   tree->Branch("tauVeto", &tauVeto, "tauVeto/D");
@@ -156,6 +161,7 @@ void Bonsai::SetBranches()
   tree->Branch("phiCorrMet", &phiCorrMet, "phiCorrMet/D");
   
   tree->Branch("ht",&ht,"ht/D");
+  tree->Branch("htRatio",&htRatio,"htRatio/D");
   tree->Branch("meff",&meff,"meff/D");
   tree->Branch("y",&y,"y/D");
 
@@ -168,11 +174,10 @@ void Bonsai::SetBranches()
   tree->Branch("topness",&topness,"topness/D");
 
   tree->Branch("dphimin",&dphimin,"dphimin/D");
-  tree->Branch("drlb",&drlb,"drlb/D");
-  /*
-  tree->Branch("mY",&mY,"mY/D");
-  tree->Branch("mLsp",&mLsp,"mLsp/D");
-  tree->Branch("x",&x,"x/D");
+  tree->Branch("drlb",&drlb,"drlb/D"); 
+ 
+  tree->Branch("mStop",&mStop,"mStop/D");
+  tree->Branch("mLSP",&mLSP,"mLSP/D");
 
   tree->Branch("T2ttL",&T2ttL,"T2ttL/D");
   tree->Branch("T2ttR",&T2ttR,"T2ttR/D");
@@ -187,7 +192,7 @@ void Bonsai::SetBranches()
 
   tree->Branch("T2bWRL",&T2bWRL,"T2bWRL/D");
   tree->Branch("T2bWRS",&T2bWRS,"T2bWRS/D");
-  tree->Branch("T2bWRR",&T2bWRR,"T2bWRR/D");*/
+  tree->Branch("T2bWRR",&T2bWRR,"T2bWRR/D");
 }  
 
 void Bonsai::Fill( Event* event, EasyChain* chain)
@@ -195,11 +200,15 @@ void Bonsai::Fill( Event* event, EasyChain* chain)
   this->Reset();
   
   sample = 0.;
+  LepFromTop = event->Info()->LepFromTop;
+  Charginos  = event->Info()->Charginos;
+
   xs = event->Info()->xs;
   NEvents = event->Info()->NEvents;
-  GlobalWeight = event->Info()->GlobalWeight;
+  FE = event->Info()->FE;
+  GlobalWeight = event->GlobalWeight();
 
-  TriggerWeight = event->Info()->TriggerWeight;
+  TriggerWeight = event->TriggerEfficiency();
 
   PUInter = event->Info()->PUInter;
   PUWeight = event->Info()->PUWeight;
@@ -243,15 +252,15 @@ void Bonsai::Fill( Event* event, EasyChain* chain)
   lEta = event->FirstLepton()->Eta();
   lRelIso = event->FirstLepton()->RelIso();
 
-  
-  isoTrack = !isoTrackVeto::IsoTrackVetoV4( event->FirstLepton(), event->Tracks());
-  tauVeto = event->Taus("Veto")->size() == 0;
+  isoTrack = isoTrackVeto::IsoTrackVetoV4( event->FirstLepton(), event->Tracks());
+  tauVeto = event->Taus("Veto")->size();
 
   rawmet = event->RawMET()->Pt();
   typeImet = event->TypeIMET()->Pt();
   phiCorrMet = event->TypeIPhiCorrMET()->Pt();
   
   ht = event->HT();
+  htRatio = event->HTratio();
   meff = event->Meff();
   y = event->Y();
 
@@ -273,9 +282,8 @@ void Bonsai::Fill( Event* event, EasyChain* chain)
   dphimin = event->DeltaPhiMinj12m();
   drlb = event->DeltaRlb1();
   
-  mY = event->Info()->mY;
-  mLsp = event->Info()->mLsp;
-  x = event->Info()->x;
+  mStop = event->Info()->mStop;
+  mLSP = event->Info()->mLSP;
   
   T2ttL = event->Info()->T2ttL;
   T2ttR = event->Info()->T2ttR;
@@ -291,6 +299,64 @@ void Bonsai::Fill( Event* event, EasyChain* chain)
   T2bWRL = event->Info()->T2bWRL;
   T2bWRS = event->Info()->T2bWRS;
   T2bWRR = event->Info()->T2bWRR;
+
+  if(abs(event->FirstLepton()->PdgID()) == 11)
+    Selection = 11;
+  else
+    Selection = 13;
+
+  if(event->SecondLepton() != 0)
+    Selection = 2;
+
+  if(event->FirstLepton()->Charge() < 0)
+    Selection = Selection * (-1);
+
+  bool OK = false;
+  
+  //Showing kinematic variables
+  OK = event->Muons("Selected")->size() + event->Electrons("Selected")->size() == 1;
+  OK = OK && njets >= 4;
+  OK = OK && nbjets > 0;
+  OK = OK && event->Muons("Selected")->size() + event->Electrons("Selected")->size() == 1;
+  OK = OK && phiCorrMet > 80.;
+  if(OK) Region = 0;
+  
+  // Signal Region
+  OK = event->Muons("Selected")->size() + event->Electrons("Selected")->size() == 1;
+  OK = OK && !(isoTrack > 0.);
+  OK = OK && !(tauVeto > 0.);
+  OK = OK && njets >= 4;
+  OK = OK && nbjets > 0;
+  OK = OK && phiCorrMet > 80.;
+  if (OK) Region = 99;
+
+  // CR1
+  OK = event->Muons("Selected")->size() + event->Electrons("Selected")->size() == 1;
+  OK = OK && !(isoTrack > 0.);
+  OK = OK && !(tauVeto > 0.);
+  OK = OK && njets >= 4;
+  OK = OK && nbjets == 0;
+  OK = OK && phiCorrMet > 80.;
+  if (OK) Region = 1;
+
+  // CR4
+  OK = event->Muons("Selected")->size() + event->Electrons("Selected")->size() == 2;
+  if (OK){
+    OK = event->FirstLepton()->Charge() * event->SecondLepton()->Charge() < 0;
+    OK = OK && fabs((event->FirstLepton()->P4() + event->FirstLepton()->P4()).M() -91) > 15;
+    OK = OK && njets >= 4;
+    OK = OK && nbjets > 0;
+    OK = OK && phiCorrMet > 50.;
+    if (OK) Region = 4;
+  }
+    
+  // CR5
+  OK = event->Muons("Selected")->size() + event->Electrons("Selected")->size() > 0;
+  OK = OK && ( isoTrack > 0. || tauVeto > 0.);
+  OK = OK && njets >= 4;
+  OK = OK && nbjets > 0;
+  OK = OK && phiCorrMet > 80.;
+  if (OK) Region = 5;
   
   tree->Fill();
 }

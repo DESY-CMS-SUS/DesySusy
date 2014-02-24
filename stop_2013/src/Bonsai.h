@@ -43,8 +43,12 @@ class Bonsai: public SubTree {
   void SetBranches();
 
   double sample;
+  double LepFromTop;
+  double Charginos;
+
   double xs;
   double NEvents;
+  double FE;
   double GlobalWeight;
 
   double TriggerWeight;
@@ -63,48 +67,8 @@ class Bonsai: public SubTree {
   double run;
   double lumi;
 
-  double njets;
-  double jet1;
-  double jet2;
-  double jet3;
-  double jet4;
-
-  double nbjets;
-  double bjet1;
-  double disc1;
-  double bjetHighestDisc;
-  double discH;
-  
-  double lPt;
-  double lEta;
-  double lRelIso;
-  double eoverp;
-  
-  double isoTrack;
-  double tauVeto;
-  
-  double rawmet;
-  double typeImet;
-  double phiCorrMet;
-  
-  double ht;
-  double meff;
-  double y;
-  
-  double mt;
-  double mlb1;
-  double mlb;
-  double m3b;
-  double mt2w;
-  double hadChi2;
-  double topness;
-
-  double dphimin;
-  double drlb;
-
-  double mY;
-  double mLsp;
-  double x;
+  double mStop;
+  double mLSP;
   
   double T2ttL;
   double T2ttR;
@@ -120,5 +84,47 @@ class Bonsai: public SubTree {
   double T2bWRL;
   double T2bWRS;
   double T2bWRR;
+
+  int Region;
+  int Selection; 
+
+  double njets;
+  double jet1;
+  double jet2;
+  double jet3;
+  double jet4;
+
+  double nbjets;
+  double bjet1;
+  double disc1;
+  double bjetHighestDisc;
+  double discH;
+  
+  double lPt;
+  double lEta;
+  double lRelIso;
+
+  double isoTrack;
+  double tauVeto;
+  
+  double rawmet;
+  double typeImet;
+  double phiCorrMet;
+  
+  double ht;
+  double htRatio;
+  double meff;
+  double y;
+  
+  double mt;
+  double mlb1;
+  double mlb;
+  double m3b;
+  double mt2w;
+  double hadChi2;
+  double topness;
+
+  double dphimin;
+  double drlb;
 };
 #endif

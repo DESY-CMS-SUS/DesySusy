@@ -59,7 +59,6 @@ namespace desy_tools {
   
   template <class Obj1, class Obj2> bool compare_Object_Pt( const Obj1& obj1, const Obj2& obj2);
   template <class Obj1, class Obj2> bool compare_Pointer_Pt( const Obj1* obj1, const Obj2* obj2);
-  float gettrigweight(int id1, float pt, float eta);
 
   double getJerSF(double eta, double err_factor);
   double getJetResolution(double pT, double eta);
