@@ -8,6 +8,7 @@ def SetUpSampleAndScript(Sample,SubSample,FilesDir,ConfigFile,nFiles):
     command='runOnAll'
     Executable='makeObjects'
     optclean='cleanUp'
+    optclean=''
 
     user=com.getoutput('whoami')
     

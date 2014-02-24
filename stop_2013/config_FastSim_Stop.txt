@@ -1,0 +1,15 @@
+isData      = false
+isFSIM      = true
+isScan      = false
+filename    = /pnfs/desy.de/cms/tier2/store/user/fcostanz/nTuple13_v2/TEST/T2tb_mStop100To375mLSP1To275_cfg-221.root
+quick       = true
+DoControlPlots = true
+SampleName = 
+SubSampleName = 
+Estimation = STOP-mu
+Tail = NoTail
+turntriggersoff = true
+SelectedMuons_PTMIN = 20
+SelectedMuons_ETAMAX = 2.1
+SelectedElectrons_PTMIN = 30
+SelectedElectrons_ETAMAX = 1.4442
