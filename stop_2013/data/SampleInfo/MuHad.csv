@@ -1,6 +1,4 @@
 #DS,type,StartRun,EndRun,JSON,GT,NJobs,Lumi,Sample,SubSample,Dir,NTupler,NTupleVersion,Status
-/MuHad/Run2012A-13Jul2012-v1/AOD,Data,190456,193621,Reprocessing/Cert_190456-196531_8TeV_13Jul2012ReReco_Collisions12_JSON_v2.txt,FT_53_V6C_AN3,170,808.472,MuHad,Run2012A-13Jul2012,/pnfs/desy.de/cms/tier2/store/user/fcostanz/NTuple13_v1/MuHad/Run2012A-13Jul2012-v1/,Ozgur,NTuple13_v2,DONE
+/MuHad/Run2012A-13Jul2012-v1/AOD,Data,190456,193621,Reprocessing/Cert_190456-196531_8TeV_13Jul2012ReReco_Collisions12_JSON_v2.txt,FT_53_V6C_AN3,170,808.472,MuHad,Run2012A-13Jul2012,/nfs/dust/cms/user/sahin/ntuple14_v1/CMSSW_5_3_3_patch2/src/SUSYBSMAnalysis/SusyCAF/test/naf_MuHad_Run2012A13Jul_cfg/,Ozgur,NTuple13_v2,DONE
 /MuHad/Run2012A-recover-06Aug2012-v1/AOD,Data,190782,190949,Reprocessing/Cert_190782-190949_8TeV_06Aug2012ReReco_Collisions12_JSON.txt,FT_53_V6C_AN3,30,82.136,MuHad,Run2012A-recover-06Aug2012,/nfs/dust/cms/user/fcost/store/NTuple13_v2/MuHad/Run2012A-recover-06Aug2012-v1/,Francesco,NTuple13_v2,DONE
-/MuHad/Run2012B-13Jul2012-v1/AOD,Data,193833,196531,Reprocessing/Cert_190456-196531_8TeV_13Jul2012ReReco_Collisions12_JSON_v2.txt,FT_53_V6C_AN3,600,4429,MuHad,Run2012B-13Jul2012,/nfs/dust/cms/user/fcost/store/NTuple13_v2/MuHad/Run2012B-13Jul2012-v1/,Ozgur,NTuple13_v2,DONE
-
-
+/MuHad/Run2012B-13Jul2012-v1/AOD,Data,193833,196531,Reprocessing/Cert_190456-196531_8TeV_13Jul2012ReReco_Collisions12_JSON_v2.txt,FT_53_V6C_AN3,600,4429,MuHad,Run2012B-13Jul2012,/nfs/dust/cms/user/sahin/ntuple14_v1/CMSSW_5_3_3_patch2/src/SUSYBSMAnalysis/SusyCAF/test/naf_MuHad_Run2012B13Jul_cfg/,Ozgur,NTuple13_v2,DONE
