@@ -1,11 +1,16 @@
-# prelim RA4b_config
-
 isData      = false
-filename    = /pnfs/desy.de/cms/tier2/store/user/fcostanz/TTJetsPowhegv1_cfg-91.root
-quick       = false
-SampleName    = TTJetsPOWHEG
+isFSIM      = false
+isScan      = false
+filename    = /nfs/dust/cms/user/fcost/workdir/Production/NTuple13_v3/CMSSW_5_3_3_patch2/src/SUSYBSMAnalysis/SusyCAF/test/naf_WToLNuInclusive_cfg/
+quick       = true
+DoControlPlots = true
+SampleName = TTJetsPOWHEG
 SubSampleName = DR53-v1
 Estimation = STOP-mu
-outName = TTJetsPWHG_v1.root
-Tail = histo
+Tail = NoTail
 turntriggersoff = true
+SelectedMuons_PTMIN = 20
+SelectedMuons_ETAMAX = 2.1
+SelectedElectrons_PTMIN = 30
+SelectedElectrons_ETAMAX = 1.4442
+

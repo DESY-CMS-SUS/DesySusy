@@ -20,6 +20,8 @@ batch_script = \
 #$ -l h_vmem=1500M
 ## stderr and stdout are merged together to stdout
 #$ -j y
+## Project name
+#$ -P cms
 ##(send mail on job's end and abort)
 #$ -m a
 #$ -l site=hh
@@ -34,6 +36,7 @@ cd $OUTDIR
 ##initialize glite, dctools
 ini glite
 ini dctools
+ini ROOT534
 ##pwd
 #cp ../../src/Summer12_V2_DATA_AK5PF_UncertaintySources.txt /tmp/
 ##ls -lrt /tmp
@@ -72,6 +75,8 @@ merge_script = \
 #$ -l h_vmem=700M
 ## stderr and stdout are merged together to stdout
 #$ -j y
+## Project name
+#$ -P cms
 ## define input dir,output dir,executable,config file and LD_LIBRARY_PATH
 #$ -v OUTDIR=
 #$ -v OUTNAME=
@@ -79,11 +84,13 @@ merge_script = \
 #$ -v FILELIST=
 #$ -v LD_LIBRARY_PATH=
 #$ -o
+ini ROOT534
 save=$PWD
 #
 cd $OUTDIR
+echo `pwd`
 echo start merging at `date`
-$HADD -f $OUTNAME $FILELIST 
+$HADD -f $OUTNAME `echo $FILELIST`
 echo
 #
 #
@@ -105,6 +112,8 @@ treeMerge_script = \
 #$ -l h_vmem=4000M
 ## stderr and stdout are merged together to stdout
 #$ -j y
+## Project name
+#$ -P cms
 ## define input dir,output dir,executable,config file and LD_LIBRARY_PATH
 #$ -v OUTDIR=
 #$ -v OUTNAME=
@@ -116,7 +125,7 @@ save=$PWD
 #
 cd $OUTDIR
 echo start merging at `date`
-$HADD -f $OUTNAME $FILELIST 
+$HADD -f $OUTNAME `echo $FILELIST` 
 echo "done merging, now remove"
 rm -rf $FILELIST
 #
@@ -140,6 +149,8 @@ cronos_script = \
 #$ -l h_vmem=1500M
 ## stderr and stdout are merged together to stdout
 #$ -j y
+## Project name
+#$ -P cms
 ## define input dir,output dir,executable,config file and LD_LIBRARY_PATH
 #$ -v OUTDIR=
 #$ -v RELDIR=
@@ -429,9 +440,7 @@ def readCommandLine(commandLine):
 	#now copy the config file to the output directory
 	out=commands.getoutput('cp '+config_filename+' '+outdir+'/config.txt')
 	out=commands.getoutput('cp *_config.txt '+outdir+'/')
-	out=commands.getoutput('cp data/badlaser_events_StdFormat.txt.gz '+outdir+'/')
-	out=commands.getoutput('cp data/myCsvdiscr.root '+outdir+'/')
-	out=commands.getoutput('cp data/csvdiscr.root '+outdir+'/')
+	out=commands.getoutput('cp -r data '+outdir+'/.')
 	outname=outname.replace('.root', '_'+Estimation+'_'+Tail+'.root')
 	return
 
