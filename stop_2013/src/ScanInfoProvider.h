@@ -8,7 +8,6 @@
 #include "TH2D.h"
 
 #include "NtupleTools2_h.h"
-#include "Event.h"
 
 using namespace std;
 
@@ -38,9 +37,5 @@ namespace desy_tools{
     TH1D* h_xs;
     TH2I* h_scan;    
   };
-
-  bool ScanCheck(const string&, const string&, EasyChain*);
-  bool T2tbPoints( const string& subSample_, EasyChain* tree_);
-  bool TTJetsSubSampling( const string& subSample_, EasyChain* tree_);
 }
 #endif

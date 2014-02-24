@@ -59,8 +59,9 @@
 #include "SkimmingTree.h"
 #include "Bonsai.h"
 
-#include "BTagReshaping/BTagReshaping.h" // make a BTag share lib
+#include "BTagReshaping/BTagReshaping.h"
 #include "ScanInfoProvider.h"
+#include "SubSampling.h"
 
 #include "Systematics/Systematic.h"
 #include "Systematics/SystematicFactory.h"
