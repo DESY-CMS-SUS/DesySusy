@@ -25,8 +25,8 @@ namespace Systematics
       sys.ToLower();
 
       if(sys=="nosystematic") {
-	cout<<sys<<" systematic will be evaluated."<<endl;
-	return new Systematics::NoSystematic;
+	cout<<sys<<" will be evaluated."<<endl;
+	return new Systematics::NoSystematic;	
       }
 
       //PUReweight
