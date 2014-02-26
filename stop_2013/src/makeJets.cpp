@@ -60,7 +60,7 @@ vector<Jet> makeAllJets(EasyChain* tree, CutSet* flow_in){
   //=end=variables=initialization=======================================
 
   if( jets_p4.size() != jets_corrUnc.size()){
-    cout<<"makeAlJets: jets_p4.size() != jets_corrUnc.size()"<<endl;
+    cout<<"makeAlJets: jets_p4.size() != jets_corrUnc.size(), "<<jets_p4.size()<<" != "<<jets_corrUnc.size()<<endl;
     return jets;
   }
 
