@@ -107,92 +107,112 @@ void Bonsai::Reset()
   T2bWRL = 0.;
   T2bWRS = 0.;
   T2bWRR = 0.;
+
+  pdgIdLep1 = 0;
+  pdgIdLep2 = 0;
+
+  kinRegion = false;
+  searchRegionPre = false;
+  searchRegionPost = false;
+  CR1 = false;
+  CR4 = false;
+  CR5 = false;
 }
 
 
 void Bonsai::SetBranches()
 {
-  tree->Branch("sample",&sample,"sample/D");
-  tree->Branch("LepFromTop",&LepFromTop,"LepFromTop/D");
-  tree->Branch("Charginos",&Charginos,"Charginos/D");
+  tree->Branch("sample",&sample,"sample/F");
+  tree->Branch("LepFromTop",&LepFromTop,"LepFromTop/F");
+  tree->Branch("Charginos",&Charginos,"Charginos/F");
 
-  tree->Branch("xs",&xs,"xs/D");
-  tree->Branch("NEvents",&NEvents,"NEvents/D");
-  tree->Branch("FE",&FE,"FE/D");
-  tree->Branch("GlobalWeight",&GlobalWeight,"GlobalWeight/D");
+  tree->Branch("xs",&xs,"xs/F");
+  tree->Branch("NEvents",&NEvents,"NEvents/F");
+  tree->Branch("FE",&FE,"FE/F");
+  tree->Branch("GlobalWeight",&GlobalWeight,"GlobalWeight/F");
 
-  tree->Branch("TriggerWeight",&TriggerWeight,"TriggerWeight/D");
+  tree->Branch("TriggerWeight",&TriggerWeight,"TriggerWeight/F");
 
-  tree->Branch("PUInter",&PUInter,"PUInter/D");
-  tree->Branch("PUWeight",&PUWeight,"PUWeight/D");
-  tree->Branch("PUWeight_up",&PUWeight_up,"PUWeight_up/D");
-  tree->Branch("PUWeight_down",&PUWeight_down,"PUWeight_down/D");
-  tree->Branch("NPV",&NPV,"NPV/D");
-  tree->Branch("NgoodPV",&NgoodPV,"NgoodPV/D");
+  tree->Branch("PUInter",&PUInter,"PUInter/F");
+  tree->Branch("PUWeight",&PUWeight,"PUWeight/F");
+  tree->Branch("PUWeight_up",&PUWeight_up,"PUWeight_up/F");
+  tree->Branch("PUWeight_down",&PUWeight_down,"PUWeight_down/F");
+  tree->Branch("NPV",&NPV,"NPV/F");
+  tree->Branch("NgoodPV",&NgoodPV,"NgoodPV/F");
 
-  tree->Branch("isrWeight",&isrWeight,"isrWeight/D");
-  tree->Branch("topPtWeight",&topPtWeight,"topPtWeight/D");
+  tree->Branch("isrWeight",&isrWeight,"isrWeight/F");
+  tree->Branch("topPtWeight",&topPtWeight,"topPtWeight/F");
 
-  tree->Branch("evt",&evt,"evt/D");
-  tree->Branch("run",&run,"run/D");
-  tree->Branch("lumi",&lumi,"lumi/D");
+  tree->Branch("evt",&evt,"evt/F");
+  tree->Branch("run",&run,"run/F");
+  tree->Branch("lumi",&lumi,"lumi/F");
   
-  tree->Branch("njets",&njets,"njets/D");
-  tree->Branch("jet1", &jet1, "jet1/D");
-  tree->Branch("jet2", &jet2, "jet2/D");
-  tree->Branch("jet3", &jet3, "jet3/D");
-  tree->Branch("jet4", &jet4, "jet4/D");
+  tree->Branch("njets",&njets,"njets/F");
+  tree->Branch("jet1", &jet1, "jet1/F");
+  tree->Branch("jet2", &jet2, "jet2/F");
+  tree->Branch("jet3", &jet3, "jet3/F");
+  tree->Branch("jet4", &jet4, "jet4/F");
   
-  tree->Branch("nbjets",&nbjets,"nbjets/D");
-  tree->Branch("bjet1", &bjet1, "bjet1/D");
-  tree->Branch("disc1", &disc1, "disc1/D");
-  tree->Branch("bjetHighestDisc", &bjetHighestDisc, "bjetHighestDisc/D");
-  tree->Branch("discH", &discH, "discH/D");
+  tree->Branch("nbjets",&nbjets,"nbjets/F");
+  tree->Branch("bjet1", &bjet1, "bjet1/F");
+  tree->Branch("disc1", &disc1, "disc1/F");
+  tree->Branch("bjetHighestDisc", &bjetHighestDisc, "bjetHighestDisc/F");
+  tree->Branch("discH", &discH, "discH/F");
   
-  tree->Branch("lPt",&lPt,"lPt/D");
-  tree->Branch("lEta",&lEta,"lEta/D");
-  tree->Branch("lRelIso",&lRelIso,"lRelIso/D");
+  tree->Branch("lPt",&lPt,"lPt/F");
+  tree->Branch("lEta",&lEta,"lEta/F");
+  tree->Branch("lRelIso",&lRelIso,"lRelIso/F");
   
-  tree->Branch("isoTrack",&isoTrack,"isoTrack/D");
-  tree->Branch("tauVeto", &tauVeto, "tauVeto/D");
+  tree->Branch("isoTrack",&isoTrack,"isoTrack/F");
+  tree->Branch("tauVeto", &tauVeto, "tauVeto/F");
 
-  tree->Branch("rawmet",&rawmet,"rawmet/D");
-  tree->Branch("typeImet", &typeImet, "typeImet/D");
-  tree->Branch("phiCorrMet", &phiCorrMet, "phiCorrMet/D");
+  tree->Branch("rawmet",&rawmet,"rawmet/F");
+  tree->Branch("typeImet", &typeImet, "typeImet/F");
+  tree->Branch("phiCorrMet", &phiCorrMet, "phiCorrMet/F");
   
-  tree->Branch("ht",&ht,"ht/D");
-  tree->Branch("htRatio",&htRatio,"htRatio/D");
-  tree->Branch("meff",&meff,"meff/D");
-  tree->Branch("y",&y,"y/D");
+  tree->Branch("ht",&ht,"ht/F");
+  tree->Branch("htRatio",&htRatio,"htRatio/F");
+  tree->Branch("meff",&meff,"meff/F");
+  tree->Branch("y",&y,"y/F");
 
-  tree->Branch("mt",&mt,"mt/D");
-  tree->Branch("mlb1",&mlb1,"mlb1/D");
-  tree->Branch("mlb",&mlb,"mlb/D");
-  tree->Branch("m3b",&m3b,"m3b/D");
-  tree->Branch("mt2w",&mt2w,"mt2w/D");
-  tree->Branch("hadChi2",&hadChi2,"hadChi2/D");
-  tree->Branch("topness",&topness,"topness/D");
+  tree->Branch("mt",&mt,"mt/F");
+  tree->Branch("mlb1",&mlb1,"mlb1/F");
+  tree->Branch("mlb",&mlb,"mlb/F");
+  tree->Branch("m3b",&m3b,"m3b/F");
+  tree->Branch("mt2w",&mt2w,"mt2w/F");
+  tree->Branch("hadChi2",&hadChi2,"hadChi2/F");
+  tree->Branch("topness",&topness,"topness/F");
 
-  tree->Branch("dphimin",&dphimin,"dphimin/D");
-  tree->Branch("drlb",&drlb,"drlb/D"); 
+  tree->Branch("dphimin",&dphimin,"dphimin/F");
+  tree->Branch("drlb",&drlb,"drlb/F"); 
  
-  tree->Branch("mStop",&mStop,"mStop/D");
-  tree->Branch("mLSP",&mLSP,"mLSP/D");
+  tree->Branch("mStop",&mStop,"mStop/F");
+  tree->Branch("mLSP",&mLSP,"mLSP/F");
 
-  tree->Branch("T2ttL",&T2ttL,"T2ttL/D");
-  tree->Branch("T2ttR",&T2ttR,"T2ttR/D");
+  tree->Branch("T2ttL",&T2ttL,"T2ttL/F");
+  tree->Branch("T2ttR",&T2ttR,"T2ttR/F");
 
-  tree->Branch("T2bWLL",&T2bWLL,"T2bWLL/D");
-  tree->Branch("T2bWLS",&T2bWLS,"T2bWLS/D");
-  tree->Branch("T2bWLR",&T2bWLR,"T2bWLR/D");
+  tree->Branch("T2bWLL",&T2bWLL,"T2bWLL/F");
+  tree->Branch("T2bWLS",&T2bWLS,"T2bWLS/F");
+  tree->Branch("T2bWLR",&T2bWLR,"T2bWLR/F");
 
-  tree->Branch("T2bWSL",&T2bWSL,"T2bWSL/D");
-  tree->Branch("T2bWSS",&T2bWSS,"T2bWSS/D");
-  tree->Branch("T2bWSR",&T2bWSR,"T2bWSR/D");
+  tree->Branch("T2bWSL",&T2bWSL,"T2bWSL/F");
+  tree->Branch("T2bWSS",&T2bWSS,"T2bWSS/F");
+  tree->Branch("T2bWSR",&T2bWSR,"T2bWSR/F");
 
-  tree->Branch("T2bWRL",&T2bWRL,"T2bWRL/D");
-  tree->Branch("T2bWRS",&T2bWRS,"T2bWRS/D");
-  tree->Branch("T2bWRR",&T2bWRR,"T2bWRR/D");
+  tree->Branch("T2bWRL",&T2bWRL,"T2bWRL/F");
+  tree->Branch("T2bWRS",&T2bWRS,"T2bWRS/F");
+  tree->Branch("T2bWRR",&T2bWRR,"T2bWRR/F");
+
+  tree->Branch("pdgIdLep1",&pdgIdLep1,"pdgIdLep1/I");
+  tree->Branch("pdgIdLep2",&pdgIdLep2,"pdgIdLep2/I");
+
+  tree->Branch("kinRegion",&kinRegion,"kinRegion/B");
+  tree->Branch("searchRegionPre",&searchRegionPre,"searchRegionPre/B");
+  tree->Branch("searchRegionPost",&searchRegionPost,"searchRegionPost/B");
+  tree->Branch("CR1",&CR1,"CR1/B");
+  tree->Branch("CR4",&CR4,"CR4/B");
+  tree->Branch("CR5",&CR5,"CR5/B");
 }  
 
 void Bonsai::Fill( Event* event, EasyChain* chain)
@@ -300,63 +320,65 @@ void Bonsai::Fill( Event* event, EasyChain* chain)
   T2bWRS = event->Info()->T2bWRS;
   T2bWRR = event->Info()->T2bWRR;
 
-  if(abs(event->FirstLepton()->PdgID()) == 11)
-    Selection = 11;
-  else
-    Selection = 13;
+  pdgIdLep1 = 0;
+  if(event->FirstLepton() != 0)
+    pdgIdLep1 = event->FirstLepton()->PdgID();
 
+  pdgIdLep2 = 0;
   if(event->SecondLepton() != 0)
-    Selection = 2;
+    pdgIdLep2 = event->SecondLepton()->PdgID();
 
-  if(event->FirstLepton()->Charge() < 0)
-    Selection = Selection * (-1);
-
-  bool OK = false;
-  
+  bool OK = false;  
   //Showing kinematic variables
   OK = event->Muons("Selected")->size() + event->Electrons("Selected")->size() == 1;
-  OK = OK && njets >= 4;
+  OK = OK && njets >= 3;
   OK = OK && nbjets > 0;
-  OK = OK && event->Muons("Selected")->size() + event->Electrons("Selected")->size() == 1;
   OK = OK && phiCorrMet > 80.;
-  if(OK) Region = 0;
+  kinRegion = OK;
+
+  // Search Region Pre IsoTrack Veto
+  OK = event->Muons("Selected")->size() + event->Electrons("Selected")->size() == 1;
+  OK = OK && njets >= 3;
+  OK = OK && nbjets > 0;
+  OK = OK && phiCorrMet > 80.;
+  searchRegionPre = OK;
   
-  // Signal Region
+  // Search Region Post IsoTrack Veto
   OK = event->Muons("Selected")->size() + event->Electrons("Selected")->size() == 1;
   OK = OK && !(isoTrack > 0.);
   OK = OK && !(tauVeto > 0.);
-  OK = OK && njets >= 4;
+  OK = OK && njets >= 3;
   OK = OK && nbjets > 0;
   OK = OK && phiCorrMet > 80.;
-  if (OK) Region = 99;
+  searchRegionPost = OK;
 
   // CR1
   OK = event->Muons("Selected")->size() + event->Electrons("Selected")->size() == 1;
   OK = OK && !(isoTrack > 0.);
   OK = OK && !(tauVeto > 0.);
-  OK = OK && njets >= 4;
+  OK = OK && njets >= 3;
   OK = OK && nbjets == 0;
   OK = OK && phiCorrMet > 80.;
-  if (OK) Region = 1;
+  CR1 = OK;
 
   // CR4
   OK = event->Muons("Selected")->size() + event->Electrons("Selected")->size() == 2;
   if (OK){
     OK = event->FirstLepton()->Charge() * event->SecondLepton()->Charge() < 0;
     OK = OK && fabs((event->FirstLepton()->P4() + event->FirstLepton()->P4()).M() -91) > 15;
-    OK = OK && njets >= 4;
+    OK = OK && njets >= 3;
     OK = OK && nbjets > 0;
     OK = OK && phiCorrMet > 50.;
-    if (OK) Region = 4;
   }
-    
+  CR4 = OK;
+  
   // CR5
   OK = event->Muons("Selected")->size() + event->Electrons("Selected")->size() > 0;
   OK = OK && ( isoTrack > 0. || tauVeto > 0.);
-  OK = OK && njets >= 4;
+  OK = OK && njets >= 3;
   OK = OK && nbjets > 0;
   OK = OK && phiCorrMet > 80.;
-  if (OK) Region = 5;
+  CR5 = OK;
   
   tree->Fill();
 }

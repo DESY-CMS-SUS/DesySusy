@@ -35,7 +35,12 @@ void makeEventInfo(EasyChain* tree, EventInfo& info)
 
   info.isrWeight = gen_tools::ISRWeight( info.Sample, tree);
   info.topPtWeight = gen_tools::TopPtWeight( info.Sample, tree);
+
+  float rho = tree->Get( rho, "rho");
+  info.rho = rho;
   
+  if ( info.isData) return;
+
   vector<LorentzM>& p4     = tree->Get( &p4,          "genP4");
   vector<int>&      pdgId  = tree->Get( &pdgId,       "genPdgId");
   vector<int>&      status = tree->Get( &status,      "genStatus");
@@ -46,12 +51,12 @@ void makeEventInfo(EasyChain* tree, EventInfo& info)
   for (int igen=0; igen<status.size(); igen++)
     if (abs(pdgId.at(igen))==6)
       info.LepFromTop += gen_tools::Decay(igen,&MotherIndex,&pdgId,&status,"");
-
+  
   info.Charginos = 0;
   for (int igen=0; igen<status.size(); igen++)
     if (abs(pdgId.at(igen))==1000024)
       info.Charginos++;
-
+   
   if (info.isScan){
     scanInfo.Set( info.Sample, info.SubSample, tree);
     
@@ -103,7 +108,4 @@ void makeEventInfo(EasyChain* tree, EventInfo& info)
 	  info.T2bWRL = gen_tools::Reweight_T2bW( pi/2.0 , pi/2.0 , genParticles );
 	}
     }
-  
-  float rho = tree->Get( rho, "rho");
-  info.rho = rho;
 }

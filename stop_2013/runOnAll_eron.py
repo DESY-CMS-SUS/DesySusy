@@ -14,10 +14,10 @@ batch_script = \
 #!/bin/zsh
 ## make sure the right shell will be used
 #$ -S /bin/zsh
-## the cpu time for this job
-#$ -l h_cpu=8:00:00
+## the real time for this job
+#$ -l h_rt=2:20:00
 ## the maximum memory usage of this job
-#$ -l h_vmem=1500M
+#$ -l h_vmem=1950M
 ## stderr and stdout are merged together to stdout
 #$ -j y
 ## Project name
@@ -69,8 +69,8 @@ merge_script = \
 #!/bin/zsh
 ## make sure the right shell will be used
 #$ -S /bin/zsh
-## the cpu time for this job
-#$ -l h_cpu=00:03:00
+## the real time for this job
+#$ -l h_rt=00:10:00
 ## the maximum memory usage of this job
 #$ -l h_vmem=700M
 ## stderr and stdout are merged together to stdout
@@ -106,8 +106,8 @@ treeMerge_script = \
 #!/bin/zsh
 ## make sure the right shell will be used
 #$ -S /bin/zsh
-## the cpu time for this job
-#$ -l h_cpu=00:03:00
+## the real time for this job
+#$ -l h_rt=00:10:00
 ## the maximum memory usage of this job
 #$ -l h_vmem=4000M
 ## stderr and stdout are merged together to stdout
@@ -143,8 +143,8 @@ cronos_script = \
 #!/bin/zsh
 ## make sure the right shell will be used
 #$ -S /bin/zsh
-## the cpu time for this job
-#$ -l h_cpu=00:05:00
+## the real time for this job
+#$ -l h_rt=00:05:00
 ## the maximum memory usage of this job
 #$ -l h_vmem=1500M
 ## stderr and stdout are merged together to stdout
@@ -197,7 +197,7 @@ def UsageAndExit():
 	print \
 	"""
 	Usage:
-	runOnAll indir [outdir] executable [config] [script] [cleanUp] [noJoin] [noDupRemoval] [nFiles=n] [outName=afile.root]
+	runOnAll indir [outdir] executable [config] [script] [cleanUp] [noJoin] [noDupRemoval] [nJobs=n] [outName=afile.root]
 	
 	indir   : input  dir - where the data is
 	outdir  : output dir - where the individual output files and the final root file goes
@@ -208,7 +208,7 @@ def UsageAndExit():
 	cleanUp   : keyword - if given erase all single root files
 	noJoin    : keyword - if given do not run the file merging step
 	noDupRemoval  : keyword - if given then do not ignore duplicate files
-	nFiles=   : if given do create jobs with n files each - default is n=1
+	nJobs=    : if given do create n jobs - default is n=1
 	outName=  : Name for the merged output file - default is out.root
 
 	Example: ./runOnAll /scratch/hh/current/cms/user/kruecker/ntuples/data2011/Run2011A/DoubleMu/ myAnalysis myConfig.txt
@@ -287,13 +287,13 @@ def InfoToConfig(config_filename):
 def readCommandLine(commandLine):
 	""" read the command line input"""
 
-	global	indir,outdir,executable,batch_filename,config_filename,cleanUp,noJoin,dupRemoval,nfiles,outname,reloutdir,Estimation,Tail
+	global	indir,outdir,executable,batch_filename,config_filename,cleanUp,noJoin,dupRemoval,njobs,outname,reloutdir,Estimation,Tail
 	global Sample,SubSample
 
 	cleanUp        = False
 	noJoin         = False
 	dupRemoval     = True
-	nfiles         = 1
+	njobs          = 1
 	outname        = 'out.root'
 	
 	if len(commandLine) < 3 or len(commandLine) > 11: 
@@ -378,16 +378,16 @@ def readCommandLine(commandLine):
 		if word.find('outName')==0:
 			outname=word[word.find('=')+1:]
 			continue
-		if word.find('nFiles')==0:
+		if word.find('nJobs')==0:
 			nstr=word[word.find('=')+1:]
 			if not nstr.isdigit():
 				print 'what do you mean by '+word
-				print 'Syntax is nFiles=n (no spaces!) where n=1,2,...'
+				print 'Syntax is nJobs=n (no spaces!) where n=1,2,...'
 				sys.exit(0)
-			nfiles=int(nstr)
-			if nfiles==0:
+			njobs=int(nstr)
+			if njobs==0:
 				print 'what do you mean by '+word
-				print 'Syntax is nFiles=n (no spaces!) where n=1,2,...'
+				print 'Syntax is nJobs=n (no spaces!) where n=1,2,...'
 				sys.exit(0)
 			continue
 		try:
@@ -900,6 +900,12 @@ if __name__ == "__main__":
 
 	# total number of files
 	totfiles = len(rootfiles)
+
+	global nfiles;
+	nfiles = int (totfiles / njobs)
+
+	if (nfiles == 0):
+		nfiles = 1
 		
 	# pack rootfiles to nFile blocks
 	if nfiles>1: pack() 
