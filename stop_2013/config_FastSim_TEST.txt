@@ -1,6 +1,6 @@
 isData      = false
 isFSIM      = true
-isScan      = true
+isScan      = false
 filename    = /nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tb_2J_mStop-100to375_mLSP-1to275_TuneZ2star_8TeV-madgraph-tauola/Summer12-START53_V19_FSIM_PU_S12-v2/
 quick       = true
 DoControlPlots = true
