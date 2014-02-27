@@ -116,7 +116,7 @@ int main(int argc, char** argv){
   //=====================================================
   // Set Output Files, Control Plots, Cut flow  and Tree
   //=====================================================
-  int doSystematics = config.getInt("doSystematics",1);
+  int doSystematics = config.getInt("doSystematics",0);
   int doSkimmingTree = config.getInt("doSkimmingTree",0);
   int doTriggerStudyTree = config.getInt("doTriggerStudyTree",0);
   int doBonsaiTree = config.getInt("doBonsaiTree",1);
@@ -565,9 +565,9 @@ int main(int argc, char** argv){
     globalFlow.keepIf( "TauVeto", OK);
     flow->keepIf( "TauVeto", OK);
 
-    OK = OK && event.nJets()>= 4;
-    globalFlow.keepIf( "4+ Jets", OK);
-    flow->keepIf( "4+ Jets", OK);
+    OK = OK && event.nJets()>= 3;
+    globalFlow.keepIf( "3+ Jets", OK);
+    flow->keepIf( "3+ Jets", OK);
 
     OK = OK && event.nBJets()>= 1;
     globalFlow.keepIf( "1+ b Jets", OK);
