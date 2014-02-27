@@ -217,12 +217,12 @@ int main(int argc, char** argv){
   sysName.push_back("NoSystematic");
   if(doSystematics){
     if(info.isScan ||
-       info.sample.compare("TTJetsPOWHEG") == 0 ||
-       info.sample.compare("WJetsToLNu") == 0 ||
-       info.sample.compare("SingleTop") == 0 ||
-       info.sample.compare("DiBoson") == 0 ||
-       info.sample.compare("TTV") == 0 ||
-       info.sample.compare("TriBoson") == 0) {      
+       info.Sample.compare("TTJetsPOWHEG") == 0 ||
+       info.Sample.compare("WJetsToLNu") == 0 ||
+       info.Sample.compare("SingleTop") == 0 ||
+       info.Sample.compare("DiBoson") == 0 ||
+       info.Sample.compare("TTV") == 0 ||
+       info.Sample.compare("TriBoson") == 0) {      
       /*sysName.push_back("PUReweight_Up");
 	sysName.push_back("PUReweight_Down");*/
 
