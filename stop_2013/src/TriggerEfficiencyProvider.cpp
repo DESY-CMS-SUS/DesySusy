@@ -27,7 +27,7 @@ double trigger::GetTriggerEfficiency( Event& event){
       }
   }
   else if (abs(event.FirstLepton()->PdgID()) == 13){
-    if (event.FirstLepton()->Pt() > 26.){
+    if (event.FirstLepton()->Pt() > 25.){
       triggerWeight = IsoMu24( event.FirstLepton()->Pt(), 
 			       event.FirstLepton()->Eta());
       if (event.SecondLepton() != 0)

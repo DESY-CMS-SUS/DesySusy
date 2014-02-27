@@ -15,7 +15,7 @@ const std::vector<const char*>* Trigger_Stop2012::TriggerNames( const string& sa
     }
   }
   else if (abs(lep->PdgID())== 13){
-    if (lep->pt() > 26){
+    if (lep->pt() > 25.){
       if (sample.compare("SingleMu") == 0){
 	triggerNames.push_back("HLT_IsoMu24");
 	triggerNames.push_back("HLT_IsoMu24_eta2p1");

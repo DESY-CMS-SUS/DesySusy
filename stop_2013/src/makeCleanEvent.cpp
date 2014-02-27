@@ -66,7 +66,7 @@ bool makeCleanEvent(EasyChain* tree, CutSet* globalFlow){
   //====================================================================
   if(pcp)cout<<"Bad laser filter!"<<endl;
   OK = true;
-  if (isData) OK = !badLaserFilter.filter( (int)run, (int)lumi, (int)event);
+  if (isData) OK = badLaserFilter.filter( (int)run, (int)lumi, (int)event);
   if( !flow->keepIf( "badLaserFilter", OK ) ) return false;
   //==================================================================== 
 
