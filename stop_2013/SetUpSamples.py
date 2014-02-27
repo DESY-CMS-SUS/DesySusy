@@ -161,12 +161,12 @@ def TTJetsPOWHEG():
     #
     SubSample='FullyHadv1'    
     FilesDir='/pnfs/desy.de/cms/tier2/store/user/msahin/nTuple13_v2/mc/TT_CT10_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/'
-    nJobs=25
+    nJobs=30
     #InfoPack.append((SubSample,FilesDir,nJobs))
     #
     SubSample='SemiLeptv1'
     FilesDir='/pnfs/desy.de/cms/tier2/store/user/msahin/nTuple13_v2/mc/TT_CT10_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/'
-    nJobs=25
+    nJobs=30
     InfoPack.append((SubSample,FilesDir,nJobs))
     #
     SubSample='DiLeptv1'    
@@ -177,7 +177,7 @@ def TTJetsPOWHEG():
     #
     SubSample='FullyHadv2'
     FilesDir='/pnfs/desy.de/cms/tier2/store/user/fcostanz/nTuple13_v2/TT_CT10_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v2/'
-    nJobs=60
+    nJobs=100
     #InfoPack.append((SubSample,FilesDir,nJobs))
     #
     SubSample='SemiLeptv2'
@@ -249,7 +249,7 @@ def TTJetsMCatNLO():
 def TTJetsSys():
     Sample='TTJetsSys'
     Config='config_FullSim_Stop.txt'
-    nJobs=25
+    nJobs=15
     InfoPack=[]
     
     SubSample='ScaleUpSemiLept'
@@ -329,27 +329,27 @@ def WJetsToLNu():
     
     SubSample='Inclusive'
     FilesDir='/pnfs/desy.de/cms/tier2/store/user/fcostanz/nTuple13_v2/mc/WJetsToLNu_TuneZ2Star_8TeV-madgraph-tarball/Summer12_DR53X-PU_S10_START53_V7A-v1/'
-    nJobs=50
-    InfoPack.append((SubSample,FilesDir,nJobs))
+    nJobs=80
+    #InfoPack.append((SubSample,FilesDir,nJobs))
     #
     SubSample='1Jet'
     FilesDir='/nfs/dust/cms/user/kruecker/desysusy/francesco/NTuple13_v2/W1JetsToLNu_TuneZ2Star_8TeV-madgraph/Summer12_DR53X-PU_S10_START53_V7A-v1/'
-    nJobs=60
+    nJobs=80
     InfoPack.append((SubSample,FilesDir,nJobs))
     #
     SubSample='2Jets'
     FilesDir='/nfs/dust/cms/user/kruecker/desysusy/francesco/NTuple13_v2/W2JetsToLNu_TuneZ2Star_8TeV-madgraph/Summer12_DR53X-PU_S10_START53_V7A-v1/'
-    nJobs=100
+    nJobs=80
     InfoPack.append((SubSample,FilesDir,nJobs))
     #
     SubSample='3Jets'
     FilesDir='/nfs/dust/cms/user/kruecker/desysusy/francesco/NTuple13_v2/W3JetsToLNu_TuneZ2Star_8TeV-madgraph/Summer12_DR53X-PU_S10_START53_V7A-v1/'
-    nJobs=50
+    nJobs=80
     InfoPack.append((SubSample,FilesDir,nJobs))
     #
     SubSample='4Jets'
     FilesDir='/nfs/dust/cms/user/kruecker/desysusy/francesco/NTuple13_v2/W4JetsToLNu_TuneZ2Star_8TeV-madgraph/Summer12_DR53X-PU_S10_START53_V7A-v1/'
-    nJobs=60
+    nJobs=80
     InfoPack.append((SubSample,FilesDir,nJobs))
     #
     #
@@ -360,7 +360,7 @@ def WJetsToLNu():
 def SingleTop():
     Sample='SingleTop'
     Config='config_FullSim_Stop.txt'
-    nJobs=25
+    nJobs=40
     InfoPack=[]
     
     SubSample='TBarToDilepton-tW'
@@ -411,7 +411,7 @@ def SingleTop():
 def DiBoson():
     Sample='DiBoson'
     Config='config_FullSim_Stop.txt'
-    nJobs=10
+    nJobs=5
     InfoPack=[]
     #
     SubSample='ZZJetsTo4'
@@ -458,7 +458,7 @@ def DiBoson():
 def TriBoson():
     Sample='TriBoson'
     Config='config_FullSim_Stop.txt'
-    nJobs=10
+    nJobs=5
     InfoPack=[]
     #
     SubSample='ZZZNoGstarJets'
@@ -489,7 +489,7 @@ def TriBoson():
 def TTV():
     Sample='TTV'
     Config='config_FullSim_Stop.txt'
-    nJobs=10
+    nJobs=5
     InfoPack=[]
     #    
     SubSample='TTZJets'
@@ -827,9 +827,9 @@ def T2bw():
 
     
 if __name__=='__main__':
-    MuHad()
-    SingleMu()
-    SingleElectron()
+    #MuHad()
+    #SingleMu()
+    #SingleElectron()
     TTJetsPOWHEG() 
     #TTJetsMG()
     #DYJetsToLL()
@@ -838,7 +838,7 @@ if __name__=='__main__':
     DiBoson()
     TriBoson()
     TTV()
-    QCD()
+    #QCD()
     #T2tb()
     T2tbPoints()
     #T2ttPoints()

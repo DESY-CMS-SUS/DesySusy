@@ -88,7 +88,8 @@ void Bonsai::Reset()
   topness = 0.;
 
   dphimin = 0.;
-  drlb = 0.;
+  drlb1 = 0.;
+  drlbmin = 0.;
 
   mStop = 0.;
   mLSP = 0.;
@@ -184,7 +185,8 @@ void Bonsai::SetBranches()
   tree->Branch("topness",&topness,"topness/F");
 
   tree->Branch("dphimin",&dphimin,"dphimin/F");
-  tree->Branch("drlb",&drlb,"drlb/F"); 
+  tree->Branch("drlb1",&drlb1,"drlb1/F"); 
+  tree->Branch("drlbmin",&drlbmin,"drlbmin/F"); 
  
   tree->Branch("mStop",&mStop,"mStop/F");
   tree->Branch("mLSP",&mLSP,"mLSP/F");
@@ -300,7 +302,8 @@ void Bonsai::Fill( Event* event, EasyChain* chain)
   topness = event->Topness();
 
   dphimin = event->DeltaPhiMinj12m();
-  drlb = event->DeltaRlb1();
+  drlb1 = event->DeltaRlb1();
+  drlbmin = event->DeltaRlbmin();
   
   mStop = event->Info()->mStop;
   mLSP = event->Info()->mLSP;

@@ -15,7 +15,7 @@ batch_script = \
 ## make sure the right shell will be used
 #$ -S /bin/zsh
 ## the real time for this job
-#$ -l h_rt=2:20:00
+#$ -l h_rt=3:00:00
 ## the maximum memory usage of this job
 #$ -l h_vmem=1950M
 ## stderr and stdout are merged together to stdout
@@ -1064,8 +1064,9 @@ if __name__ == "__main__":
 		#print 'going to create the tree merger with ',listoftreefiles
 		#print 'and merge it to ',outmergetreefile
 		createTreeMergeScript(listoftreefiles,outmergetreefile)
-		if not noJoin:
-			out=commands.getoutput('qsub -l site=hh -m a -hold_jid '+listofjobids[idx]+' treeMerge_script')
+		#FRANCESCO NO TREE COMMENT
+		#if not noJoin:
+		#	out=commands.getoutput('qsub -l site=hh -m a -hold_jid '+listofjobids[idx]+' treeMerge_script')
 		#
 
 		if out.find('Your job ') == 0:

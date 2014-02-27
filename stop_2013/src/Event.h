@@ -197,6 +197,7 @@ class Event{
 
   double DeltaPhiMinj12m();
   double DeltaRlb1();
+  double DeltaRlbmin();
 
   double DeltaPhiCaloTypeI();
   double HadChi2();

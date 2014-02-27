@@ -186,6 +186,20 @@ double Event::DeltaRlb1(){
   }
   return -1.;
 }
+double Event::DeltaRlbmin(){ 
+  double drlb = 99.;
+  double drlb_new= 99.;
+  const vector< const Jet*>* bJets = BJetsBDiscOrdered( "CSV");
+
+  if ( bJets->size() == 0 ) return -1;
+
+  for (int ibjet = 0; ibjet < bJets->size(); ibjet++ ){
+    drlb_new = ROOT::Math::VectorUtil::DeltaR( firstLepton->P4(), bJets->at(ibjet)->P4());
+    if (drlb_new < drlb) drlb = drlb_new;
+  }
+  return drlb;
+}
+
 
 double Event::DeltaPhiCaloTypeI(){ 
   return ROOT::Math::VectorUtil::DeltaPhi( caloMET, typeIPhiCorrMET);

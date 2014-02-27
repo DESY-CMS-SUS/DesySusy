@@ -122,7 +122,8 @@ class Bonsai: public SubTree {
   Float_t topness;
 
   Float_t dphimin;
-  Float_t drlb;
+  Float_t drlb1;
+  Float_t drlbmin;
 
   Int_t pdgIdLep1;
   Int_t pdgIdLep2;

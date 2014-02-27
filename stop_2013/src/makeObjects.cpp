@@ -103,7 +103,7 @@ int main(int argc, char** argv){
   TString filename = config.getTString("filename");
 
   EasyChain* tree = new EasyChain("/susyTree/tree");
-  int f = tree->AddSmart(filename);
+  int f = tree->AddSmart(filename,10000,false);
   if(pcp) cout<<tree->GetNtrees()<<" Files read"<<endl;
 
   if(pcp) cout<<"check point before tree->GetEntries"<<endl;
@@ -116,6 +116,7 @@ int main(int argc, char** argv){
   //=====================================================
   // Set Output Files, Control Plots, Cut flow  and Tree
   //=====================================================
+  int doSystematics = config.getInt("doSystematics",1);
   int doSkimmingTree = config.getInt("doSkimmingTree",0);
   int doTriggerStudyTree = config.getInt("doTriggerStudyTree",0);
   int doBonsaiTree = config.getInt("doBonsaiTree",1);
@@ -214,25 +215,34 @@ int main(int argc, char** argv){
   std::vector<std::string> sysName;
 
   sysName.push_back("NoSystematic");
-  
-  /*sysName.push_back("PUReweight_Up");
-  sysName.push_back("PUReweight_Down");
-  
-  sysName.push_back("BTagReweight_UpBC");
-  sysName.push_back("BTagReweight_DownBC");
-  sysName.push_back("BTagReweight_UpLight");
-  sysName.push_back("BTagReweight_DownLight");
+  if(doSystematics){
+    if(info.isScan ||
+       info.sample.compare("TTJetsPOWHEG") == 0 ||
+       info.sample.compare("WJetsToLNu") == 0 ||
+       info.sample.compare("SingleTop") == 0 ||
+       info.sample.compare("DiBoson") == 0 ||
+       info.sample.compare("TTV") == 0 ||
+       info.sample.compare("TriBoson") == 0) {      
+      /*sysName.push_back("PUReweight_Up");
+	sysName.push_back("PUReweight_Down");*/
 
-  sysName.push_back("JES_Up");
-  sysName.push_back("JES_Down");
-  
-  sysName.push_back("JER_GenUp");
-  sysName.push_back("JER_GenCentral");
-  sysName.push_back("JER_GenDown");
-  sysName.push_back("JER_RecoUp");
-  sysName.push_back("JER_RecoCentral");
-  sysName.push_back("JER_RecoDown");*/
-  
+      sysName.push_back("BTagReweight_UpBC");
+      sysName.push_back("BTagReweight_DownBC");
+      sysName.push_back("BTagReweight_UpLight");
+      sysName.push_back("BTagReweight_DownLight");
+      
+      sysName.push_back("JES_Up");
+      sysName.push_back("JES_Down");
+      
+      sysName.push_back("JER_GenUp");
+      sysName.push_back("JER_GenCentral");
+      sysName.push_back("JER_GenDown");
+      sysName.push_back("JER_RecoUp");
+      sysName.push_back("JER_RecoCentral");
+      sysName.push_back("JER_RecoDown");
+    }
+  }
+      
   std::vector< Systematics::Systematic*> sys;
   Systematics::SystematicFactory sysFactory;
   for ( unsigned int isys = 0; isys < sysName.size(); isys++){
@@ -568,13 +578,6 @@ int main(int argc, char** argv){
     flow->keepIf( "MET>80GeV", OK);
 
     if (OK) ControlPlots.MakePlots( "PreSelection", selectedMuons, selectedElectrons, selectedJets, typeIPhiCorrMET);
-
-    //============================================    
-    // Jet cuts.
-    //============================================
-    int njets = (int) selectedJets.size();
-    //OK = njets >= 2;
-    //if ( !OK) continue;
     //============================================
 
 
@@ -612,12 +615,14 @@ int main(int argc, char** argv){
     if ( doBonsaiTree){
       for ( unsigned int isys = 0; isys < sysName.size(); isys++){
 	sys.at(isys)->Eval( event);
-
-	//if (sys.at(isys)->SysEvent()->nJets() < 2)
-	//  continue;
 	
-	if (sys.at(isys)->SysEvent()->TypeIPhiCorrMET()->Pt() < 50.)
-	  continue;
+	if (isys != 0){
+	  if (sys.at(isys)->SysEvent()->nJets() < 3)
+	    continue;	
+	  if (sys.at(isys)->SysEvent()->TypeIPhiCorrMET()->Pt() < 50.)
+	    continue;
+	}
+	
 	bonsai.at(isys)->Fill( sys.at(isys)->SysEvent());  
       }
     }

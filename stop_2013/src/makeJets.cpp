@@ -9,6 +9,8 @@
 #include "makeJets.h"
 #include "BTagReshaping/BTagReshaping.h"
 
+#include "CleaningFilters.h"
+
 #include "Math/VectorUtil.h"
 
 #ifndef CUTFLOW
@@ -60,7 +62,10 @@ vector<Jet> makeAllJets(EasyChain* tree, CutSet* flow_in){
   //=end=variables=initialization=======================================
 
   if( jets_p4.size() != jets_corrUnc.size()){
-    cout<<"makeAlJets: jets_p4.size() != jets_corrUnc.size(), "<<jets_p4.size()<<" != "<<jets_corrUnc.size()<<endl;
+    vector<int> goodVert;
+    cleaningFilters::goodVertices(tree,goodVert);
+    cout<<"makeAlJets: jets_p4.size() != jets_corrUnc.size(), "<<jets_p4.size()<<" != "<<jets_corrUnc.size();
+    cout<<"; goodVert.size() = "<<goodVert.size()<<endl;
     return jets;
   }
 
