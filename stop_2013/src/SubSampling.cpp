@@ -4,15 +4,27 @@
 bool desy_tools::ScanCheck( const string& sample_,
 			    const string& subSample_,
 			    EasyChain* tree_){
-  if (sample_.compare("T2tb") == 0)
-    return true;
-  
+  if (sample_.compare("T2tb") == 0){
+    vector<int>&      pdgId  = tree->Get( &pdgId,       "genPdgId");
+
+    int charginos = 0;
+    for (int igen=0; igen<status.size(); igen++)
+      if (abs(pdgId.at(igen))==1000024)
+        charginos++;
+	
+    if (charginos == 0)
+      return false;
+    else 
+      return true;
+  }  
   float mStop, mLSP;
   
   tree_->Get( mStop,"susyScanmStop");
   tree_->Get( mLSP, "susyScanmLSP");
 
   if (mLSP < 0.1) return false;
+
+  if (mLSP > 351) return false;
 
   if (sample_.compare("T2tt") == 0){
     if (subSample_.compare("mStop150To350mLSP0To250") == 0){

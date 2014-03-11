@@ -644,8 +644,44 @@ def T2tbPoints():
     makeScriptFromInfoPack(Sample,Config,InfoPack,True)        
     #=======================================
 
-
 def T2ttPoints():
+    Sample='T2ttPoints'
+    Config='config_FastSim_Stop.txt'
+    nJobs=5
+    InfoPack=[]
+
+    SubSample='mStop175-mLSP50'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tt_2J_mStop-100to200_mLSP-1to100_LeptonFilter_TuneZ2star_8TeV-madgraph-tauola/Summer12-START52_V9_FSIM-v1/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #
+    SubSample='mStop200-mLSP25'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tt_2J_mStop-100to200_mLSP-1to100_LeptonFilter_TuneZ2star_8TeV-madgraph-tauola/Summer12-START52_V9_FSIM-v1/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #   
+    SubSample='mStop375-mLSP50'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tt_mStop-375to475_mLSP-0to375_8TeV-Pythia6Z/Summer12-START52_V9_FSIM-v1/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #
+    SubSample='mStop250-mLSP25'
+    FilesDir='/pnfs/desy.de/cms/tier2/store/user/fcostanz/nTuple13_v2/mc/SMS-T2tt_mStop-150to350_mLSP-0to250_8TeV-Pythia6Z/Summer12-START52_V9_FSIM-v1/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #
+    SubSample='mStop325-mLSP100'
+    FilesDir='/pnfs/desy.de/cms/tier2/store/user/fcostanz/nTuple13_v2/mc/SMS-T2tt_mStop-150to350_mLSP-0to250_8TeV-Pythia6Z/Summer12-START52_V9_FSIM-v1/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #    
+    SubSample='mStop450-mLSP150'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tt_mStop-375to475_mLSP-0to375_8TeV-Pythia6Z/Summer12-START52_V9_FSIM-v1/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #
+    SubSample='mStop550-mLSP1'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-8TeV-Pythia6Z_T2tt_mStop-500to800_mLSP-1/Summer12-START52_V9_FSIM-v1/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #
+    #
+    makeScriptFromInfoPack(Sample,Config,InfoPack,True)        
+    #=======================================
+
     Sample='T2ttPoints'
     Config='config_FullSim_Stop.txt'
     nJobs=1
@@ -653,22 +689,22 @@ def T2ttPoints():
     
     SubSample='Stop400-LSP150'
     FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tt_2J_mStop-400_mLSP-150_TuneZ2star_8TeV-madgraph-tauola/Summer12_DR53X-PU_S10_START53_V7C-v1/'
-    InfoPack.append((SubSample,FilesDir,nJobs))
+    #InfoPack.append((SubSample,FilesDir,nJobs))
     #
     SubSample='Stop500-LSP300'
     FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tt_2J_mStop-500_mLSP-300_TuneZ2star_8TeV-madgraph-tauola/Summer12_DR53X-PU_S10_START53_V7C-v1/'
-    InfoPack.append((SubSample,FilesDir,nJobs))
+    #InfoPack.append((SubSample,FilesDir,nJobs))
     #
     SubSample='Stop600-LSP50'
     FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tt_2J_mStop-600_mLSP-50_TuneZ2star_8TeV-madgraph-tauola/Summer12_DR53X-PU_S10_START53_V7C-v1/'
-    InfoPack.append((SubSample,FilesDir,nJobs))
+    #InfoPack.append((SubSample,FilesDir,nJobs))
     #    
     SubSample='Stop750-LSP25'
     FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tt_2J_mStop-750_mLSP-25_TuneZ2star_8TeV-madgraph-tauola/Summer12_DR53X-PU_S10_START53_V7C-v1/'
-    InfoPack.append((SubSample,FilesDir,nJobs))
+   # InfoPack.append((SubSample,FilesDir,nJobs))
     #
     #
-    makeScriptFromInfoPack(Sample,Config,InfoPack,True)        
+    #makeScriptFromInfoPack(Sample,Config,InfoPack,True)        
     #=======================================
 
 def T2tt():
@@ -828,20 +864,20 @@ def T2bw():
     
 if __name__=='__main__':
     #MuHad()
-    SingleMu()
-    SingleElectron()
+    #SingleMu()
+    #SingleElectron()
     TTJetsPOWHEG() 
     #TTJetsMG()
-    DYJetsToLL()
+    #DYJetsToLL()
     WJetsToLNu()
     SingleTop()
     DiBoson()
     TriBoson()
     TTV()
-    QCD()
+    #QCD()
     #T2tb()
     T2tbPoints()
-    #T2ttPoints()
-    #T2tt()
+    T2ttPoints()
+    T2tt()
     #T2bw()
-    #T2tb()
+    T2tb()
