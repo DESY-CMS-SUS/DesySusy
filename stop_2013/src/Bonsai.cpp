@@ -369,7 +369,6 @@ void Bonsai::Fill( Event* event, EasyChain* chain)
   if (OK){
     OK = event->FirstLepton()->Charge() * event->SecondLepton()->Charge() < 0;
     OK = OK && fabs((event->FirstLepton()->P4() + event->FirstLepton()->P4()).M() -91) > 15;
-    OK = OK && njets >= 3;
     OK = OK && nbjets > 0;
     OK = OK && phiCorrMet > 50.;
   }

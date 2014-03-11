@@ -616,12 +616,17 @@ int main(int argc, char** argv){
       for ( unsigned int isys = 0; isys < sysName.size(); isys++){
 	sys.at(isys)->Eval( event);
 	
-	if (isys != 0){
+	if (isys == 0){
+	  if (sys.at(isys)->SysEvent()->nJets() < 3 && sys.at(isys)->SysEvent()->SecondLepton() == 0)
+	    continue;
+	}
+	else if (isys > 0){
 	  if (sys.at(isys)->SysEvent()->nJets() < 3)
 	    continue;	
 	  if (sys.at(isys)->SysEvent()->TypeIPhiCorrMET()->Pt() < 50.)
 	    continue;
 	}
+
 	
 	bonsai.at(isys)->Fill( sys.at(isys)->SysEvent());  
       }

@@ -55,10 +55,10 @@ if [ -e "$OUTDIR/out/$2" ]; then
    cp $OUTDIR/out/$treeFile $OUTDIR/$treeFile
 else
    time $EXECUTABLE filename="$1" outname=$2 Estimation=$3 Tail=$4 isBatchJob=true
-   cp $2 $OUTDIR/out/
-   cp $treeFile $OUTDIR/out/
+   cp $2 ${OUTDIR}/out/
+   #cp $treeFile $OUTDIR/out/
 fi
-echo cp $2 $OUTDIR
+echo cp $2 ${OUTDIR}/out
 echo
 echo done at time date `date`
 """
