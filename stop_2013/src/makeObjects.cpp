@@ -281,11 +281,11 @@ int main(int argc, char** argv){
       if (!desy_tools::TTJetsSubSampling( info.SubSample, tree))
 	continue;
 
-    if(info.isScan)
+    if(info.isScan || info.Sample.compare("T2tbPoints") == 0 || info.Sample.compare("T2ttPoints") == 0)
       if(!desy_tools::ScanCheck(info.Sample, info.SubSample, tree))
 	continue;
     
-    if(info.Sample.compare("T2tbPoints") == 0)
+    if(info.Sample.compare("T2tbPoints") == 0 || info.Sample.compare("T2ttPoints") == 0)
       if (!desy_tools::T2tbPoints( info.SubSample, tree))
 	continue;
 
@@ -617,8 +617,9 @@ int main(int argc, char** argv){
 	sys.at(isys)->Eval( event);
 	
 	if (isys == 0){
-	  if (sys.at(isys)->SysEvent()->nJets() < 3 && sys.at(isys)->SysEvent()->SecondLepton() == 0)
-	    continue;
+	  if (sys.at(isys)->SysEvent()->nJets() < 3) continue;
+	  if (sys.at(isys)->SysEvent()->SecondLepton() != 0) continue;
+	  if (sys.at(isys)->SysEvent()->nBJets() < .99) continue;
 	}
 	else if (isys > 0){
 	  if (sys.at(isys)->SysEvent()->nJets() < 3)

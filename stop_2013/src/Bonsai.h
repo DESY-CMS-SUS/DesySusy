@@ -109,6 +109,9 @@ class Bonsai: public SubTree {
   Float_t phiCorrMet;
   
   Float_t ht;
+  Float_t ht3;
+  Float_t ht4;
+  Float_t ht5;
   Float_t htRatio;
   Float_t meff;
   Float_t y;
@@ -117,6 +120,8 @@ class Bonsai: public SubTree {
   Float_t mlb1;
   Float_t mlb;
   Float_t m3b;
+  Float_t m3;
+  Float_t centrality;
   Float_t mt2w;
   Float_t hadChi2;
   Float_t topness;

@@ -1,7 +1,7 @@
 isData      = false
 isFSIM      = false
 isScan      = false
-filename    = /nfs/dust/cms/user/fcost/workdir/Production/NTuple13_v3/CMSSW_5_3_3_patch2/src/SUSYBSMAnalysis/SusyCAF/test/naf_WToLNuInclusive_cfg/
+filename    = /pnfs/desy.de/cms/tier2/store/user/fcostanz/nTuple13_v2/TEST/TTJetsPowhegv1_cfg-91.root
 quick       = true
 DoControlPlots = true
 SampleName = TTJetsPOWHEG

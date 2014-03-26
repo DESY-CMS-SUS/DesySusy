@@ -127,6 +127,9 @@ const vector< const Jet*>* Event::BJetsBDiscOrdered( const string& key, const do
 }
 
 double Event::HT() { return desy_tools::HT( Jets("Selected")); }
+double Event::HT3() { return desy_tools::HT3( Jets("Selected")); }
+double Event::HT4() { return desy_tools::HT4( Jets("Selected")); }
+double Event::HT5() { return desy_tools::HT5( Jets("Selected")); }
 double Event::HTratio() { return desy_tools::HTratio( Jets("Selected"), &typeIPhiCorrMET );}
 double Event::Meff() { return desy_tools::Meff( HT(), firstLepton->Pt(), typeIPhiCorrMET.Pt()); }
 
@@ -164,6 +167,8 @@ double Event::Mlb1(){
 }
 double Event::Mlb(){ return desy_tools::Mlb( firstLepton->P4(), this->BJets());}
 double Event::M3b(){ return desy_tools::M3b( firstLepton->P4(), Jets("Selected"));}
+double Event::M3(){ return desy_tools::M3( Jets("Selected"));}
+double Event::Centrality(){ return desy_tools::Centrality( firstLepton->P4(), Jets("Selected"));}
 double Event::MT2W(){ 
   mt2w_bisect::mt2w_interface mt2w_calc; 
   LorentzM tmpV = LorentzM( typeIPhiCorrMET.Pt(), typeIPhiCorrMET.Eta(), typeIPhiCorrMET.Phi(), typeIPhiCorrMET.M());

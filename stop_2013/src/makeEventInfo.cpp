@@ -57,7 +57,7 @@ void makeEventInfo(EasyChain* tree, EventInfo& info)
     if (abs(pdgId.at(igen))==1000024)
       info.Charginos++;
    
-  if (info.isScan){
+  if (info.isScan || info.Sample.compare("T2tbPoints") == 0 || info.Sample.compare("T2ttPoints") == 0){
     scanInfo.Set( info.Sample, info.SubSample, tree);
     
     info.mStop   = scanInfo.mStop;

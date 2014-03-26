@@ -64,4 +64,6 @@ void desy_tools::ScanInfoProvider::Set( const string& sample_,
   NEvents = (int) h_scan->GetBinContent( h_scan->FindBin( mStop, mLSP ));
   FE = 1.;
   if (subSample.find("LepFilter") != std::string::npos) FE = 0.543;
+  if (sample.find("T2tt") != std::string::npos) FE *= 0.25;
+
 };

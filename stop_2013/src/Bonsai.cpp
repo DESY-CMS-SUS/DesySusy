@@ -75,6 +75,9 @@ void Bonsai::Reset()
   phiCorrMet = 0.;
   
   ht = 0.;
+  ht3 = 0.;
+  ht4 = 0.;
+  ht5 = 0.;
   htRatio = 0.;
   meff = 0.;
   y = 0.;
@@ -83,6 +86,8 @@ void Bonsai::Reset()
   mlb1 = 0.;
   mlb = 0.;
   m3b = 0.;
+  m3 = 0.;
+  centrality = 0.;
   mt2w = 0.;
   hadChi2 = 0.;
   topness = 0.;
@@ -172,6 +177,9 @@ void Bonsai::SetBranches()
   tree->Branch("phiCorrMet", &phiCorrMet, "phiCorrMet/F");
   
   tree->Branch("ht",&ht,"ht/F");
+  tree->Branch("ht3",&ht3,"ht3/F");
+  tree->Branch("ht4",&ht4,"ht4/F");
+  tree->Branch("ht5",&ht5,"ht5/F");
   tree->Branch("htRatio",&htRatio,"htRatio/F");
   tree->Branch("meff",&meff,"meff/F");
   tree->Branch("y",&y,"y/F");
@@ -180,6 +188,8 @@ void Bonsai::SetBranches()
   tree->Branch("mlb1",&mlb1,"mlb1/F");
   tree->Branch("mlb",&mlb,"mlb/F");
   tree->Branch("m3b",&m3b,"m3b/F");
+  tree->Branch("m3",&m3,"m3/F");
+  tree->Branch("centrality",&centrality,"centrality/F");
   tree->Branch("mt2w",&mt2w,"mt2w/F");
   tree->Branch("hadChi2",&hadChi2,"hadChi2/F");
   tree->Branch("topness",&topness,"topness/F");
@@ -282,6 +292,9 @@ void Bonsai::Fill( Event* event, EasyChain* chain)
   phiCorrMet = event->TypeIPhiCorrMET()->Pt();
   
   ht = event->HT();
+  ht3 = event->HT3();
+  ht4 = event->HT4();
+  ht5 = event->HT5();
   htRatio = event->HTratio();
   meff = event->Meff();
   y = event->Y();
@@ -291,12 +304,15 @@ void Bonsai::Fill( Event* event, EasyChain* chain)
   if (njets > 2){
     mlb = event->Mlb();
     m3b = event->M3b();
+    m3 = event->M3();
   }
   else{
     mlb = -1;
     m3b = -1.;
+    m3 = -1;
   }
-
+  centrality = event->Centrality();
+  
   mt2w = event->MT2W();
   hadChi2 = event->HadChi2();
   topness = event->Topness();

@@ -176,6 +176,9 @@ class Event{
  public:
   
   double HT();
+  double HT3();
+  double HT4();
+  double HT5();
   double HTratio();
   double Meff();
 
@@ -193,6 +196,8 @@ class Event{
   double Mlb1();
   double Mlb();
   double M3b();
+  double M3();
+  double Centrality();
   double MT2W();
 
   double DeltaPhiMinj12m();

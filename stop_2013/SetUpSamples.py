@@ -152,12 +152,12 @@ def TTJetsPOWHEG():
     SubSample='DR53-v1'    
     FilesDir='/pnfs/desy.de/cms/tier2/store/user/msahin/nTuple13_v2/mc/TT_CT10_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/'
     nJobs=40
-    InfoPack.append((SubSample,FilesDir,nJobs))    
+    #InfoPack.append((SubSample,FilesDir,nJobs))    
     #
     SubSample='DR53-v2'
     FilesDir='/pnfs/desy.de/cms/tier2/store/user/fcostanz/nTuple13_v2/TT_CT10_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v2/'
     nJobs=100
-    InfoPack.append((SubSample,FilesDir,nJobs))
+    #InfoPack.append((SubSample,FilesDir,nJobs))
     #
     SubSample='FullyHadv1'    
     FilesDir='/pnfs/desy.de/cms/tier2/store/user/msahin/nTuple13_v2/mc/TT_CT10_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/'
@@ -606,49 +606,146 @@ def T2tb():
     makeScriptFromInfoPack(Sample,Config,InfoPack,True)        
     #=======================================
 
-def T2tbPoints():
+def T2tbPointes():
     Sample='T2tbPoints'
     Config='config_FastSim_Stop.txt'
-    nJobs=5
+    nJobs=3
     InfoPack=[]
 
-    SubSample='mStop175-mLSP50'
+
+    SubSample='mStop250-mLSP100'
     FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tb_2J_mStop-100to375_mLSP-1to275_TuneZ2star_8TeV-madgraph-tauola/Summer12-START53_V19_FSIM_PU_S12-v2/'
     InfoPack.append((SubSample,FilesDir,nJobs))
     #
-    SubSample='mStop200-mLSP25'
+    SubSample='mStop325-mLSP175'
     FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tb_2J_mStop-100to375_mLSP-1to275_TuneZ2star_8TeV-madgraph-tauola/Summer12-START53_V19_FSIM_PU_S12-v2/'
     InfoPack.append((SubSample,FilesDir,nJobs))
-    #   
+    #
+    SubSample='mStop175-mLSP1'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tb_2J_mStop-100to375_mLSP-1to275_TuneZ2star_8TeV-madgraph-tauola/Summer12-START53_V19_FSIM_PU_S12-v2/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #
+    SubSample='mStop250-mLSP75'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tb_2J_mStop-100to375_mLSP-1to275_TuneZ2star_8TeV-madgraph-tauola/Summer12-START53_V19_FSIM_PU_S12-v2/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #
+    SubSample='mStop325-mLSP150'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tb_2J_mStop-100to375_mLSP-1to275_TuneZ2star_8TeV-madgraph-tauola/Summer12-START53_V19_FSIM_PU_S12-v2/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #
     SubSample='mStop375-mLSP50'
     FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tb_2J_mStop-100to375_mLSP-1to275_TuneZ2star_8TeV-madgraph-tauola/Summer12-START53_V19_FSIM_PU_S12-v2/'
     InfoPack.append((SubSample,FilesDir,nJobs))
     #
-    SubSample='mStop250-mLSP25'
+    SubSample='mStop225-mLSP1'
     FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tb_2J_mStop-100to375_mLSP-1to275_TuneZ2star_8TeV-madgraph-tauola/Summer12-START53_V19_FSIM_PU_S12-v2/'
     InfoPack.append((SubSample,FilesDir,nJobs))
     #
-    SubSample='mStop325-mLSP100'
+    SubSample='mStop300-mLSP100'
     FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tb_2J_mStop-100to375_mLSP-1to275_TuneZ2star_8TeV-madgraph-tauola/Summer12-START53_V19_FSIM_PU_S12-v2/'
     InfoPack.append((SubSample,FilesDir,nJobs))
-    #    
+    #
     SubSample='mStop450-mLSP150'
     FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tb_2J_mStop-400to475_mLSP-1to375_TuneZ2star_8TeV-madgraph-tauola/Summer12-START53_V19_FSIM_PU_S12-v2/'
     InfoPack.append((SubSample,FilesDir,nJobs))
     #
-    SubSample='mStop550-mLSP1'
+    SubSample='mStop550-mLSP50'
     FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tb_2J_mStop-500to575_mLSP-1to475_TuneZ2star_8TeV-madgraph-tauola/Summer12-START53_V19_FSIM_PU_S12-v2/'
     InfoPack.append((SubSample,FilesDir,nJobs))
     #
+    SubSample='mStop200-mLSP1'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tb_2J_mStop-100to375_mLSP-1to275_TuneZ2star_8TeV-madgraph-tauola/Summer12-START53_V19_FSIM_PU_S12-v2/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
     #
-    makeScriptFromInfoPack(Sample,Config,InfoPack,True)        
+    SubSample='mStop400-mLSP200'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tb_2J_mStop-400to475_mLSP-1to375_TuneZ2star_8TeV-madgraph-tauola/Summer12-START53_V19_FSIM_PU_S12-v2/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #
+    SubSample='mStop600-mLSP250'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tb_2J_mStop-600to675_mLSP-1to575_TuneZ2star_8TeV-madgraph-tauola/Summer12-START53_V19_FSIM_PU_S12-v2/'    
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #
+    SubSample='mStop650-mLSP1'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tb_2J_mStop-600to675_mLSP-1to575_TuneZ2star_8TeV-madgraph-tauola/Summer12-START53_V19_FSIM_PU_S12-v2/'    
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #
+    #
+    #makeScriptFromInfoPack(Sample,Config,InfoPack,True)        
     #=======================================
 
 def T2ttPoints():
     Sample='T2ttPoints'
     Config='config_FastSim_Stop.txt'
-    nJobs=5
+    nJobs=3
     InfoPack=[]
+
+    SubSample='mStop150-mLSP1-LepFilter'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tt_2J_mStop-100to200_mLSP-1to100_LeptonFilter_TuneZ2star_8TeV-madgraph-tauola/Summer12-START52_V9_FSIM-v1/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #
+    SubSample='mStop250-mLSP100-LepFilter'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tt_2J_mStop-225to350_mLSP-25to250_LeptonFilter_TuneZ2star_8TeV-madgraph-tauola/Summer12-START52_V9_FSIM-v1/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #
+    SubSample='mStop325-mLSP175-LepFilter'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tt_2J_mStop-225to350_mLSP-25to250_LeptonFilter_TuneZ2star_8TeV-madgraph-tauola/Summer12-START52_V9_FSIM-v1/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #
+    SubSample='mStop175-mLSP50'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tt_2J_mStop-100to200_mLSP-1to100_LeptonFilter_TuneZ2star_8TeV-madgraph-tauola/Summer12-START52_V9_FSIM-v1/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #
+    SubSample='mStop250-mLSP75-LepFilter'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tt_2J_mStop-225to350_mLSP-25to250_LeptonFilter_TuneZ2star_8TeV-madgraph-tauola/Summer12-START52_V9_FSIM-v1/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #
+    SubSample='mStop325-mLSP150-LepFilter'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tt_2J_mStop-225to350_mLSP-25to250_LeptonFilter_TuneZ2star_8TeV-madgraph-tauola/Summer12-START52_V9_FSIM-v1/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #
+    SubSample='mStop375-mLSP50'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tt_mStop-375to475_mLSP-0to375_8TeV-Pythia6Z/Summer12-START52_V9_FSIM-v1/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #
+    SubSample='mStop225-mLSP1'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-8TeV-Pythia6Z_T2tt_mStop-150to475_mLSP-1/Summer12-START52_V9_FSIM-v1/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #
+    SubSample='mStop300-mLSP100'
+    FilesDir='/pnfs/desy.de/cms/tier2/store/user/fcostanz/nTuple13_v2/mc/SMS-T2tt_mStop-150to350_mLSP-0to250_8TeV-Pythia6Z/Summer12-START52_V9_FSIM-v1/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    # 
+    SubSample='mStop450-mLSP150'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tt_mStop-375to475_mLSP-0to375_8TeV-Pythia6Z/Summer12-START52_V9_FSIM-v1/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #
+    SubSample='mStop550-mLSP50'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tt_mStop-500to650_mLSP-0to225_8TeV-Pythia6Z/Summer12-START52_V9_FSIM-v1/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #   
+    SubSample='mStop200-mLSP1-LepFilter'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tt_2J_mStop-100to200_mLSP-1to100_LeptonFilter_TuneZ2star_8TeV-madgraph-tauola/Summer12-START52_V9_FSIM-v1/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #
+    SubSample='mStop400-mLSP200'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tt_mStop-375to475_mLSP-0to375_8TeV-Pythia6Z/Summer12-START52_V9_FSIM-v1/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #
+    SubSample='mStop600-mLSP250'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-8TeV-Pythia6Z_T2tt_mStop-500to800_mLSP-1/Summer12-START52_V9_FSIM-v1/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #
+    SubSample='mStop650-mLSP1'
+    FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-8TeV-Pythia6Z_T2tt_mStop-500to800_mLSP-1/Summer12-START52_V9_FSIM-v1/'
+    InfoPack.append((SubSample,FilesDir,nJobs))
+    #
+
+
+
+
+
+
+
 
     SubSample='mStop175-mLSP50'
     FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SMS-T2tt_2J_mStop-100to200_mLSP-1to100_LeptonFilter_TuneZ2star_8TeV-madgraph-tauola/Summer12-START52_V9_FSIM-v1/'
@@ -679,7 +776,7 @@ def T2ttPoints():
     InfoPack.append((SubSample,FilesDir,nJobs))
     #
     #
-    makeScriptFromInfoPack(Sample,Config,InfoPack,True)        
+    #makeScriptFromInfoPack(Sample,Config,InfoPack,True)        
     #=======================================
 
     Sample='T2ttPoints'
@@ -733,7 +830,7 @@ def T2tt():
     FilesDir='/pnfs/desy.de/cms/tier2/store/user/fcostanz/nTuple13_v2/mc/SMS-T2tt_mStop-675to800_mLSP-0to275_8TeV-Pythia6Z/Summer12-START52_V9_FSIM-v1/'
     InfoPack.append((SubSample,FilesDir,nJobs))
     #
-    SubSample='T2tt_mStop675To800mLSP300To700'
+    SubSample='mStop675To800mLSP300To700'
     FilesDir='/pnfs/desy.de/cms/tier2/store/user/fcostanz/nTuple13_v2/SMS-T2tt_mStop-675to800_mLSP-300to700_8TeV-Pythia6Z/Summer12-START52_V9_FSIM-v1/'
     InfoPack.append((SubSample,FilesDir,nJobs))
     #
@@ -867,7 +964,7 @@ if __name__=='__main__':
     #SingleMu()
     #SingleElectron()
     TTJetsPOWHEG() 
-    #TTJetsMG()
+    TTJetsMG()
     #DYJetsToLL()
     WJetsToLNu()
     SingleTop()
@@ -876,8 +973,8 @@ if __name__=='__main__':
     TTV()
     #QCD()
     #T2tb()
-    T2tbPoints()
-    T2ttPoints()
+    #T2tbPoints()
+    #T2ttPoints()
     T2tt()
     #T2bw()
     T2tb()
