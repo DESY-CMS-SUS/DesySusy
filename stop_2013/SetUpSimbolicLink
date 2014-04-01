@@ -3,6 +3,9 @@ ln -fs ../examples/NtupleTools2_h.h NtupleTools2_h.h
 
 eval "topdir=`pwd`"
 
+rm -rf obj
+mkdir obj
+
 ln -fs ../../examples/compiled/tools/ConfigReader.h  ./src/ConfigReader.h
 ln -fs ../../examples/compiled/tools/THTools.h ./src/THTools.h
 ln -fs ../../examples/compiled/tools/CutFlow.cpp ./src/CutFlow.cpp
