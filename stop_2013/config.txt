@@ -1,7 +1,7 @@
 isData      = false
 isFSIM      = false
 isScan      = false
-filename    = /pnfs/desy.de/cms/tier2/store/user/fcostanz/nTuple13_v2/TEST/TTJetsPowhegv1_cfg-91.root
+filename    = /nfs/dust/cms/user/fcost/store/NTuple13_v2/TT_CT10_TuneZ2star_8TeV-powheg-tauola/Summer12_DR53X-PU_S10_START53_V7A-v2/TTJetsPowhegv2_cfg-1.root
 quick       = true
 DoControlPlots = true
 SampleName = TTJetsPOWHEG
