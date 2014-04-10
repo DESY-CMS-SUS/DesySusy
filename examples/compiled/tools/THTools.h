@@ -4,6 +4,7 @@
 #ifndef THTools_h
 #define THTools_h
 
+#include <stdlib.h>
 #include <iostream>
 #include "TString.h"
 #include "TDirectory.h"
