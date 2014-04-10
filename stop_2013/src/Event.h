@@ -36,6 +36,7 @@ class Event{
   LorentzM         caloMET;       
   
   Particle*        firstLepton;
+  Particle*        secondLepton;
 
   map< TString, vector< const Particle* > > tracksMap;
   map< TString, vector< const Muon* > >     muonsMap;
@@ -66,6 +67,25 @@ class Event{
     SetCaloMET          ( *copy.CaloMET());
   };
 
+  Event& operator= (const Event& copy){
+    SetInfo             ( *copy.Info());
+    SetTracks           (  copy.CopyTracks());
+    SetMuons            (  copy.CopyMuons());
+    SetElectrons        (  copy.CopyElectrons());
+    SetTaus             (  copy.CopyTaus());
+    SetJets             (  copy.CopyJets());
+    SetGenJets          (  copy.CopyGenJets());
+    MatchGenJets();
+    SetUnclusteredEnergy( *copy.UnclusteredEnergy());
+    SetRawMET           ( *copy.RawMET());
+    SetTypeIMET         ( *copy.TypeIMET());
+    SetTypeIPhiCorrMET  ( *copy.TypeIPhiCorrMET());
+    SetMvaMET           ( *copy.MvaMET()); 
+    SetCaloMET          ( *copy.CaloMET());
+    
+    return *this;
+  }
+
   void SetInfo             ( const EventInfo& in);
   void SetTracks           ( const vector<Particle>& in);
   void SetMuons            ( const vector<Muon>& in);
@@ -86,7 +106,7 @@ class Event{
   void SetTaus             ( const vector<Tau*>& in);
   void SetJets             ( const vector<Jet*>& in);
   void SetGenJets          ( const vector<GenJet*>& in);
-  void SetFirstLepton();
+  void SetLeptonPair();
 
   void MatchGenJets();
 
@@ -111,10 +131,15 @@ class Event{
   vector< Jet >      CopyJets()      const { return jets;};
   vector< GenJet >   CopyGenJets()   const { return genJets;};
 
-  const Particle*           FirstLepton(); 
+  const Particle*           FirstLepton();
+  const Particle*           SecondLepton();
   const vector< const Jet*>* BJets( const string& key="CSV", const double& disc_cut=0.679);
   const vector< const Jet*>* BJetsPtOrdered( const string& key="CSV", const double& disc_cut=0.679);
   const vector< const Jet*>* BJetsBDiscOrdered( const string& key="CSV", const double& disc_cut=0.679);
+
+  double GlobalWeight(); 
+  double TriggerEfficiency();
+  double EventWeight();
 
  protected:
   template <class T> vector< const T*> selectObjects( vector<T>& objs, map< TString, vector< const T* > >& objsMap, const string& key){
@@ -151,6 +176,9 @@ class Event{
  public:
   
   double HT();
+  double HT3();
+  double HT4();
+  double HT5();
   double HTratio();
   double Meff();
 
@@ -168,10 +196,14 @@ class Event{
   double Mlb1();
   double Mlb();
   double M3b();
+  double M3();
+  double Centrality();
+  double CentralityNoLep();
   double MT2W();
 
   double DeltaPhiMinj12m();
   double DeltaRlb1();
+  double DeltaRlbmin();
 
   double DeltaPhiCaloTypeI();
   double HadChi2();

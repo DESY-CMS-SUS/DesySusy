@@ -140,7 +140,7 @@ void makeCleanTaus(vector<Tau>& allTaus, vector<Tau*>& cleanTaus, vector<Muon*>&
 // make Veto Taus
 //======================================================
 
-bool makeVetoTaus( EasyChain* tree, vector<Tau>& allTaus,vector<Tau*>& vetoTaus, Particle& selectedLepton, CutSet* flow_in){
+bool makeVetoTaus( EasyChain* tree, vector<Tau>& allTaus,vector<Tau*>& vetoTaus, const Particle* selectedLepton, CutSet* flow_in){
 
   if(pcp)cout<<"inside makeVetoTaus"<<endl;
 
@@ -186,8 +186,10 @@ bool makeVetoTaus( EasyChain* tree, vector<Tau>& allTaus,vector<Tau*>& vetoTaus,
     OK=allTaus.at(itau).Is("MediumIsolationMVA2");
     if (!flow->keepIf("tau_Veto_MediumIsolationMVA2",OK)) continue;
     //
-    OK=allTaus.at(itau).Charge() != selectedLepton.Charge();
-    if(!flow->keepIf("tau_Veto_OppositeChargeWrtSelectedLepton",OK)) continue;
+    if ( selectedLepton != 0){
+      OK=allTaus.at(itau).Charge() != selectedLepton->Charge();
+      if(!flow->keepIf("tau_Veto_OppositeChargeWrtSelectedLepton",OK)) continue;
+    }
 
     allTaus.at(itau).SetID( "Veto", true);
     vetoTaus.push_back(&allTaus.at(itau));

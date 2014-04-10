@@ -1,11 +1,11 @@
 #include "Event.h"
 #include "Tools.h"
+#include "TriggerEfficiencyProvider.cpp"
 
 #include "HadChi2/hadChi2.h"
 #include "Topness/topness.h"
 
 #include <iostream>
-//ClassImp( Event);
 
 void Event::SetInfo ( const EventInfo& in) { info = in;}
 
@@ -20,7 +20,7 @@ void Event::SetMuons( const vector<Muon>& in) {
   muonsMap.clear();     
   muons     = in;   
   std::sort( muons.begin(), muons.end(), desy_tools::compare_Object_Pt< Muon, Muon>);
-  SetFirstLepton();
+  SetLeptonPair();
 }
 void Event::SetMuons( const vector<Muon*>& in) {  SetMuons( objFromPointers(in));}
 
@@ -28,7 +28,7 @@ void Event::SetElectrons( const vector<Electron>& in) {
   electronsMap.clear();     
   electrons     = in;   
   std::sort( electrons.begin(), electrons.end(), desy_tools::compare_Object_Pt< Electron, Electron>);
-  SetFirstLepton();
+  SetLeptonPair();
 }
 void Event::SetElectrons( const vector<Electron*>& in) {  SetElectrons( objFromPointers(in));}
 
@@ -80,24 +80,31 @@ const LorentzM*    Event::TypeIPhiCorrMET()   const { return &typeIPhiCorrMET;}
 const LorentzM*    Event::MvaMET()            const { return &mvaMET;}
 const LorentzM*    Event::CaloMET()           const { return &caloMET;}
 
-void Event::SetFirstLepton() {
+void Event::SetLeptonPair() {
   firstLepton = 0;
+  secondLepton = 0;
 
   const vector< const Muon*>* selectedMuons = Event::Muons("Selected");
   const vector< const Electron*>* selectedElectrons = Event::Electrons("Selected");
-
-  if (selectedMuons->size() > 0)
-    firstLepton = (Particle*) selectedMuons->at(0);
   
-  if ( selectedElectrons->size() > 0){
-    if (firstLepton == 0){
-      firstLepton = (Particle*) selectedElectrons->at(0);
-    } else if( firstLepton->pt() < selectedElectrons->at(0)->pt()){      
-      firstLepton = (Particle*) selectedElectrons->at(0);
-    }
-  }
+  vector<const Particle*> selectedLeptons;
+  selectedLeptons.clear();
+
+  for ( int imu = 0; imu < selectedMuons->size() && imu < 2; imu++)
+    selectedLeptons.push_back(selectedMuons->at(imu));
+  for ( int iele = 0; iele < selectedElectrons->size() && iele < 2; iele++)
+    selectedLeptons.push_back(selectedElectrons->at(iele));
+
+  std::sort( selectedLeptons.begin(), selectedLeptons.end(), desy_tools::compare_Pointer_Pt< const Particle, const Particle>);
+
+  if (selectedLeptons.size() > 0)
+    firstLepton = (Particle*) selectedLeptons.at(0);
+  if (selectedLeptons.size() > 1)
+    secondLepton = (Particle*) selectedLeptons.at(1); 
 }
+
 const Particle* Event::FirstLepton() { return firstLepton;}
+const Particle* Event::SecondLepton() { return secondLepton;}
 
 const vector< const Jet*>* Event::BJets( const string& key, const double& disc_cut) { return BJetsPtOrdered( key, disc_cut);}
 const vector< const Jet*>* Event::BJetsPtOrdered( const string& key, const double& disc_cut) {
@@ -120,6 +127,9 @@ const vector< const Jet*>* Event::BJetsBDiscOrdered( const string& key, const do
 }
 
 double Event::HT() { return desy_tools::HT( Jets("Selected")); }
+double Event::HT3() { return desy_tools::HT3( Jets("Selected")); }
+double Event::HT4() { return desy_tools::HT4( Jets("Selected")); }
+double Event::HT5() { return desy_tools::HT5( Jets("Selected")); }
 double Event::HTratio() { return desy_tools::HTratio( Jets("Selected"), &typeIPhiCorrMET );}
 double Event::Meff() { return desy_tools::Meff( HT(), firstLepton->Pt(), typeIPhiCorrMET.Pt()); }
 
@@ -157,6 +167,9 @@ double Event::Mlb1(){
 }
 double Event::Mlb(){ return desy_tools::Mlb( firstLepton->P4(), this->BJets());}
 double Event::M3b(){ return desy_tools::M3b( firstLepton->P4(), Jets("Selected"));}
+double Event::M3(){ return desy_tools::M3( Jets("Selected"));}
+double Event::Centrality(){ return desy_tools::Centrality( firstLepton->P4(), Jets("Selected"));}
+double Event::CentralityNoLep(){ return desy_tools::Centrality( Jets("Selected"));}
 double Event::MT2W(){ 
   mt2w_bisect::mt2w_interface mt2w_calc; 
   LorentzM tmpV = LorentzM( typeIPhiCorrMET.Pt(), typeIPhiCorrMET.Eta(), typeIPhiCorrMET.Phi(), typeIPhiCorrMET.M());
@@ -179,6 +192,20 @@ double Event::DeltaRlb1(){
   }
   return -1.;
 }
+double Event::DeltaRlbmin(){ 
+  double drlb = 99.;
+  double drlb_new= 99.;
+  const vector< const Jet*>* bJets = BJetsBDiscOrdered( "CSV");
+
+  if ( bJets->size() == 0 ) return -1;
+
+  for (int ibjet = 0; ibjet < bJets->size(); ibjet++ ){
+    drlb_new = ROOT::Math::VectorUtil::DeltaR( firstLepton->P4(), bJets->at(ibjet)->P4());
+    if (drlb_new < drlb) drlb = drlb_new;
+  }
+  return drlb;
+}
+
 
 double Event::DeltaPhiCaloTypeI(){ 
   return ROOT::Math::VectorUtil::DeltaPhi( caloMET, typeIPhiCorrMET);
@@ -234,4 +261,28 @@ double Event::Topness()
   Topness::Topness top;
   //return -1.;
   return log(top.GetTopness( selJets, bDiscs, Lep, MET));
+}
+
+double Event::GlobalWeight(){
+  if (info.isData) return 1.;
+  else return info.xs * info.FE / (double) info.NEvents;
+}
+
+double Event::TriggerEfficiency(){
+  if (info.isData) return 1.;
+  else return trigger::GetTriggerEfficiency(*this);
+}
+
+double Event::EventWeight(){
+  if (info.isData) return 1.;
+
+  double weight =  GlobalWeight() * TriggerEfficiency() * info.PUWeight;
+
+  if ( info.Sample.find("T2t") == 0 || info.Sample.find("T2bw") == 0 )
+    return weight * info.isrWeight;
+  
+  if ( info.Sample.find("TTJets") == 0)
+    return weight * info.topPtWeight;
+
+  return weight;
 }

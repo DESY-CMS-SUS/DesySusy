@@ -1,10 +1,7 @@
 #include "EventInfo.h"
 
-
+/*
 EventInfo::EventInfo(const EventInfo& copy){
-
-  //std::cout<<"EventInfo_Copy"<<std::endl;
-
   Sample     = copy.Sample;      
   SubSample  = copy.SubSample; 
   Estimation = copy.Estimation;
@@ -14,13 +11,10 @@ EventInfo::EventInfo(const EventInfo& copy){
   xs           = copy.xs;
   NEvents      = copy.NEvents;
   FE  	       = copy.FE;    
-  GlobalWeight = copy.GlobalWeight;
 
   Event = copy.Event;
   Lumi  = copy.Lumi;
   Run   = copy.Run; 
-
-  TriggerWeight = copy.TriggerWeight;
 
   PUInter       = copy.PUInter;                      
   PUWeight	= copy.PUWeight;                     
@@ -29,15 +23,8 @@ EventInfo::EventInfo(const EventInfo& copy){
   NPV 		= copy.NPV;                          
   NgoodPV 	= copy.NgoodPV;     
 		   
-  EventWeight = copy.EventWeight;                  
-				                                 
-  mY   = copy.mY;                           
-  mLsp = copy.mLsp;                         
-  x    = copy.x;                            
-
-  badLaserFilter         	= copy.badLaserFilter;               
-  badXTalLaserCorrectionFilter  = copy.badXTalLaserCorrectionFilter; 
-  trackingPOGFilter		= copy.trackingPOGFilter;
+  mStop = copy.mStop;                           
+  mLsp  = copy.mLsp;                         
 }
 
 /*

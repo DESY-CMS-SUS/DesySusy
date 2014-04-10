@@ -15,13 +15,13 @@
   ALL          = $(wildcard $(SRCDIR)/*.cpp)
   ALL         := $(notdir $(ALL))
   MAINS        = main_RA4b.cpp makeObjects.cpp main_example.cpp
-  SOURCES_LIB  = AnalysisObject.cpp Particle.cpp Electron.cpp Muon.cpp Tau.cpp Jet.cpp GenJet.cpp EventInfo.cpp Event.cpp Tools.cpp SubTree.cpp Bonsai.cpp mt2w_bisect.cpp mt2w_interface.cpp IsoTrackVeto.cpp BTagReshaping.cpp myBTagReshaping.cpp btag_payload_b.cpp btag_payload_light.cpp
+  SOURCES_LIB  = AnalysisObject.cpp Particle.cpp Electron.cpp Muon.cpp Tau.cpp Jet.cpp GenJet.cpp EventInfo.cpp Event.cpp Tools.cpp SubTree.cpp Bonsai.cpp mt2w_bisect.cpp mt2w_interface.cpp IsoTrackVeto.cpp  myBTagReshaping.cpp
 
   SOURCES     := $(filter-out $(SOURCES_LIB) $(MAINS),$(ALL))
 
 # with additional libs and includes
 # e.g. MORELIBS = -L/path -lblub
-  MORELIBS = -L/usr/lib64 -lz -L./src/HadChi2 -lhadchi2 -L./src/Topness -ltopness
+  MORELIBS = -L/usr/lib64 -lz -L./src/HadChi2 -lhadchi2 -L./src/Topness -ltopness -L./src/BTagReshaping -lBTagReshaping
 # e.g. -I/path
   MOREINCS = -I/usr/include
 
@@ -64,11 +64,11 @@ endif
 
 #------------------------------------------------------------------------------
 
-all: objdir MTTOOLS HADCHI2 TOPNESS SYSTEMATICS makeObjects
+all: objdir MTTOOLS HADCHI2 TOPNESS BTAGRESHAPE makeObjects
 
-makeObjects: $(OBJS) NtupleTools2Dict.o libRA4bDict.so makeObjects.o
+makeObjects: $(OBJS) NtupleTools2Dict.o libRA4bDict.so SYSTEMATICS makeObjects.o
 	@echo $(SOURCES)
-	$(LD) $(LDFLAGS) -o $@ $(addprefix $(OBJDIR)/, makeObjects.o $(OBJS)) -L./ -lRA4bDict $(ROOTLIBS) $(MORELIBS)
+	$(LD) $(LDFLAGS) -o $@ $(addprefix $(OBJDIR)/, makeObjects.o $(OBJS)) -L./ -lRA4bDict -L./src/Systematics -lsystematics $(ROOTLIBS) $(MORELIBS)
 	@echo "$@ done"
 
 #Rules for creating a test program
@@ -108,12 +108,18 @@ HADCHI2:
 	cd src/HadChi2; make
 TOPNESS:
 	@echo "Making Topness..."
-	cd src/Topness; make	
+	cd src/Topness; make
+BTAGRESHAPE:
+	@echo "Making BTagReshape..."
+	cd src/BTagReshaping; make	
 SYSTEMATICS: libRA4bDict.so
 	@echo "Making Systematics..."
-	cd src/Systematics; make
+	cd src/Systematics; make; cp libsystematics.so ../../Bonsai
 
-cleanAll:
+cleanAll: clean
+	cd src/Systematics; make clean
+
+clean:
 	@echo "Cleaning all compiled files, dependencies, dictionaries, etc."
 	@rm -f *Dict.* 
 	@rm -f *Dict_*
@@ -128,6 +134,11 @@ cleanAll:
 	$(CXX) $(CXXFLAGS) $(MOREINCS) -MM -MF $(DEPDIR)/$@ $<
 %.d: %.C
 	$(CXX) $(CXXFLAGS) $(MOREINCS) -MM -MF $(DEPDIR)/$@ $<
+
+%_sl.o: %.cpp %.d
+	$(CXX) $(CXXFLAGS) $(MOREINCS) -c $< -o $(OBJDIR)/$@
+%_sl.o: %.C %.d
+	$(CXX) $(CXXFLAGS) $(MOREINCS) -c $< -o  $(OBJDIR)/$@
 
 %.o: %.cpp %.d
 	$(CXX) $(CXXFLAGS) $(MOREINCS) -c $< -o $(OBJDIR)/$@

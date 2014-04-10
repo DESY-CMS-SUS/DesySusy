@@ -22,6 +22,7 @@ public:
   bool Is(const string& id) const;
   map< string, bool> IDMap() const;
 
+  double P() const;
   double Pt() const;
   double pt() const;
   double Eta() const;

@@ -111,7 +111,7 @@ void TriggerStudyTree::Fill( Event* event, EasyChain* chain) {
     run      = event->Info()->Run;
     PUInter  = event->Info()->PUInter;
     PUWeight = event->Info()->PUWeight;
-    weight   = event->Info()->GlobalWeight * PUWeight;
+    weight   = event->GlobalWeight() * PUWeight;
 
     for(Int_t i=0,N=event->Muons()->size(); i<N; ++i){
       imu = event->Muons()->at(i);

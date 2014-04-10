@@ -59,7 +59,6 @@ namespace desy_tools {
   
   template <class Obj1, class Obj2> bool compare_Object_Pt( const Obj1& obj1, const Obj2& obj2);
   template <class Obj1, class Obj2> bool compare_Pointer_Pt( const Obj1* obj1, const Obj2* obj2);
-  float gettrigweight(int id1, float pt, float eta);
 
   double getJerSF(double eta, double err_factor);
   double getJetResolution(double pT, double eta);
@@ -81,6 +80,13 @@ namespace desy_tools {
 
   template <class J> double HT( const vector< J*>& jets);
   template <class J> double HT( const vector< J*>* jets);
+
+  template <class J> double HT3( const vector< J*>& jets);
+  template <class J> double HT3( const vector< J*>* jets);
+  template <class J> double HT4( const vector< J*>& jets);
+  template <class J> double HT4( const vector< J*>* jets);
+  template <class J> double HT5( const vector< J*>& jets);
+  template <class J> double HT5( const vector< J*>* jets);
 
   template <class J, class M> double HTratio( const vector< J*>& jets, const M& met);
   template <class J, class M> double HTratio( const vector< J*>* jets, const M* met);
@@ -158,6 +164,59 @@ namespace desy_tools {
     return M3b( lepton, &jets);
   }
 
+  template <class J> double M3( const vector< const J*>* jets){
+    int njets = jets->size();
+    // need at least 3 jets
+    if(njets < 3){
+      cout << "M3b cannot be calculated for events with less than three jets!!" << endl;
+      return -1;
+    }
+
+    LorentzM sum;
+    sum = jets->at(0)->P4() + jets->at(1)->P4() + jets->at(2)->P4();
+
+    return sum.M();    
+  }
+  template <class J> double M3( const vector< const J*>& jets){
+    return M3(&jets);
+  }
+  
+  template <class J> double Centrality( const LorentzM& lepton, const vector< const J*>* jets){
+    int njets = jets->size();
+
+    Float_t num = lepton.Pt();
+    Float_t den = lepton.P();
+
+    for ( int ijet = 0; ijet < njets; ijet++){
+      num += jets->at(ijet)->Pt();
+      den += jets->at(ijet)->P();
+    }
+
+    if (den > 0) return (num / den);
+    else return -1.;    
+  }
+  template <class J> double Centrality( const LorentzM& lepton, const vector< const J*>& jets){
+    return Centrality( lepton, &jets);
+  }
+  
+  template <class J> double Centrality( const vector< const J*>* jets){
+    int njets = jets->size();
+
+    Float_t num = 0.;
+    Float_t den = 0.;
+
+    for ( int ijet = 0; ijet < njets; ijet++){
+      num += jets->at(ijet)->Pt();
+      den += jets->at(ijet)->P();
+    }
+
+    if (den > 0) return (num / den);
+    else return -1.;    
+  }
+  template <class J> double Centrality( const vector< const J*>& jets){
+    return Centrality( &jets);
+  }
+
   template <class M, class J> double DeltaPhiMinj12m( const M* met, const vector< const J*>* jets){
     double dphimin = 999.;
     
@@ -218,6 +277,42 @@ template <class J> double desy_tools::HT( const vector< J*>& jets){
 template <class J> double desy_tools::HT( const vector< J*>* jets){
   return HT( *jets);
 };
+
+
+template <class J> double desy_tools::HT3( const vector< J*>& jets){
+  double ht=0;
+  for (int ijet = 0; ijet<jets.size() && ijet < 3; ijet++){
+    ht += jets.at(ijet)->Pt();
+  }
+  return ht;
+};
+template <class J> double desy_tools::HT3( const vector< J*>* jets){
+  return HT3( *jets);
+};
+
+
+template <class J> double desy_tools::HT4( const vector< J*>& jets){
+  double ht=0;
+  for (int ijet = 0; ijet<jets.size() && ijet < 4; ijet++){
+    ht += jets.at(ijet)->Pt();
+  }
+  return ht;
+};
+template <class J> double desy_tools::HT4( const vector< J*>* jets){
+  return HT4( *jets);
+};
+
+template <class J> double desy_tools::HT5( const vector< J*>& jets){
+  double ht=0;
+  for (int ijet = 0; ijet<jets.size() && ijet < 5; ijet++){
+    ht += jets.at(ijet)->Pt();
+  }
+  return ht;
+};
+template <class J> double desy_tools::HT5( const vector< J*>* jets){
+  return HT5( *jets);
+};
+
 
 template <class J, class M> double desy_tools::HTratio( const vector< J*>& jets, const M& met){
   double htssm_ = 0.;

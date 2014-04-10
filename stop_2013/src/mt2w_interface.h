@@ -56,7 +56,8 @@ double mt2w_bisect::mt2w_interface::get_mt2w(vector<T*>& lepton, vector<Jet*>& j
 template <class T>
 double mt2w_bisect::mt2w_interface::get_mt2w(T* lepton, vector< Jet*>& jets, LorentzM& met){
 
-  if (jets.size() < 3) return 0;
+  if (jets.size() < 2) 
+    return 0;
 
   this->set_momenta( lepton, jets[0], jets[1], met);
 
@@ -77,7 +78,32 @@ double mt2w_bisect::mt2w_interface::get_mt2w(T* lepton, vector< Jet*>& jets, Lor
     }
   }
 
-  if (nbjets == 0 || nbjets >= 3) {
+
+  if ( jets.size() == 2){
+    this->set_momentum(pb1, jets.at(0));
+    this->set_momentum(pb2, jets.at(1));
+    mt2w_bisect::momenta tmp;
+	
+    tmp.pb1[0]=pb1[0];
+    tmp.pb1[1]=pb1[1];
+    tmp.pb1[2]=pb1[2];
+    tmp.pb1[3]=pb1[3];
+    tmp.pb2[0]=pb2[0];
+    tmp.pb2[1]=pb2[1];
+    tmp.pb2[2]=pb2[2];
+    tmp.pb2[3]=pb2[3];
+    momenta4mt2w.push_back(tmp);
+    tmp.pb1[0]=pb2[0];
+    tmp.pb1[1]=pb2[1];
+    tmp.pb1[2]=pb2[2];
+    tmp.pb1[3]=pb2[3];
+    tmp.pb2[0]=pb1[0];
+    tmp.pb2[1]=pb1[1];
+    tmp.pb2[2]=pb1[2];
+    tmp.pb2[3]=pb1[3];
+    momenta4mt2w.push_back(tmp); 
+  }
+  else if (nbjets == 0 || nbjets >= 3) {
 
     for (int i=0; i<3; i++) {
       for (int j=i+1; j<3; j++) {
@@ -106,7 +132,7 @@ double mt2w_bisect::mt2w_interface::get_mt2w(T* lepton, vector< Jet*>& jets, Lor
     }
   }
   
-  if (nbjets == 1 ) {
+  else if (nbjets == 1 ) {
     for (int i=0; i<2; i++) {
       if ( noBjets.at(i)->IndexInTree() == bJets.at(0)->IndexInTree()) continue;
       	this->set_momentum(pb1, bJets.at(0));
@@ -133,7 +159,7 @@ double mt2w_bisect::mt2w_interface::get_mt2w(T* lepton, vector< Jet*>& jets, Lor
     }  
   }
   
-  if (nbjets == 2 ) {
+  else if (nbjets == 2 ) {
     this->set_momentum(pb1, bJets.at(0));
     this->set_momentum(pb2, bJets.at(1));
     mt2w_bisect::momenta tmp;

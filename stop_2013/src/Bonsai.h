@@ -42,83 +42,104 @@ class Bonsai: public SubTree {
   void Reset();
   void SetBranches();
 
-  double sample;
-  double xs;
-  double NEvents;
-  double GlobalWeight;
+  Float_t sample;
+  Float_t LepFromTop;
+  Float_t Charginos;
 
-  double TriggerWeight;
-  
-  double PUInter;
-  double PUWeight;
-  double PUWeight_up;
-  double PUWeight_down;
-  double NPV;
-  double NgoodPV;
+  Float_t xs;
+  Float_t NEvents;
+  Float_t FE;
+  Float_t GlobalWeight;
 
-  double isrWeight;
-  double topPtWeight;
+  Float_t TriggerWeight;
+  
+  Float_t PUInter;
+  Float_t PUWeight;
+  Float_t PUWeight_up;
+  Float_t PUWeight_down;
+  Float_t NPV;
+  Float_t NgoodPV;
 
-  double evt;
-  double run;
-  double lumi;
+  Float_t isrWeight;
+  Float_t topPtWeight;
 
-  double njets;
-  double jet1;
-  double jet2;
-  double jet3;
-  double jet4;
+  Float_t evt;
+  Float_t run;
+  Float_t lumi;
 
-  double nbjets;
-  double bjet1;
-  double disc1;
-  double bjetHighestDisc;
-  double discH;
+  Float_t mStop;
+  Float_t mLSP;
   
-  double lPt;
-  double lEta;
-  double lRelIso;
-  double eoverp;
+  Float_t T2ttL;
+  Float_t T2ttR;
   
-  double isoTrack;
-  double tauVeto;
+  Float_t T2bWLL;
+  Float_t T2bWLS;
+  Float_t T2bWLR;
   
-  double rawmet;
-  double typeImet;
-  double phiCorrMet;
+  Float_t T2bWSL;
+  Float_t T2bWSS;
+  Float_t T2bWSR;
   
-  double ht;
-  double meff;
-  double y;
-  
-  double mt;
-  double mlb1;
-  double mlb;
-  double m3b;
-  double mt2w;
-  double hadChi2;
-  double topness;
+  Float_t T2bWRL;
+  Float_t T2bWRS;
+  Float_t T2bWRR;
 
-  double dphimin;
-  double drlb;
+  Float_t njets;
+  Float_t jet1;
+  Float_t jet2;
+  Float_t jet3;
+  Float_t jet4;
 
-  double mY;
-  double mLsp;
-  double x;
+  Float_t nbjets;
+  vector<Float_t>* bdisc;
+  vector<Float_t>* bdiscNoReshape;
+  Float_t bjet1;
+  Float_t bjetHighestDisc;
+  Float_t discH;
   
-  double T2ttL;
-  double T2ttR;
+  Float_t lPt;
+  Float_t lEta;
+  Float_t lRelIso;
+
+  Float_t isoTrack;
+  Float_t tauVeto;
   
-  double T2bWLL;
-  double T2bWLS;
-  double T2bWLR;
+  Float_t rawmet;
+  Float_t typeImet;
+  Float_t phiCorrMet;
   
-  double T2bWSL;
-  double T2bWSS;
-  double T2bWSR;
+  Float_t ht;
+  Float_t ht3;
+  Float_t ht4;
+  Float_t ht5;
+  Float_t htRatio;
+  Float_t meff;
+  Float_t y;
   
-  double T2bWRL;
-  double T2bWRS;
-  double T2bWRR;
+  Float_t mt;
+  Float_t mlb1;
+  Float_t mlb;
+  Float_t m3b;
+  Float_t m3;
+  Float_t centrality;
+  Float_t centralityNoLep;
+  Float_t mt2w;
+  Float_t hadChi2;
+  Float_t topness;
+
+  Float_t dphimin;
+  Float_t drlb1;
+  Float_t drlbmin;
+
+  Int_t pdgIdLep1;
+  Int_t pdgIdLep2;
+
+  Bool_t kinRegion;
+  Bool_t searchRegionPre;
+  Bool_t searchRegionPost;
+  Bool_t CR1;
+  Bool_t CR4;
+  Bool_t CR5;
 };
 #endif

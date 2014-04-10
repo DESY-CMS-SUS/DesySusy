@@ -68,7 +68,6 @@
 #pragma link C++ function desy_tools::MT( const Electron*, const LorentzM*);
 #pragma link C++ function desy_tools::MT( Particle*, LorentzM*);
 #pragma link C++ function desy_tools::GetBJetSF( double, double, TString, TString, int);
-#pragma link C++ function desy_tools::gettrigweight(int, float, float);
 #pragma link C++ function desy_tools::getJerSF(double, double);
 #pragma link C++ function desy_tools::getJetResolution(double, double);
 
@@ -83,8 +82,6 @@
 #pragma link C++ function isoTrackVeto::IsoTrackVetoV4 ( const Particle*, const vector< const Particle*>*);
 #pragma link C++ defined_in "myBTagReshaping.h";
 #pragma link C++ class myBTagReshaping+;
-#pragma link C++ defined_in "BTagReshaping.h";
-#pragma link C++ class BTagShapeInterface+;
 
 #pragma link C++ defined_in "SubTree.h";
 #pragma link C++ class SubTree+;

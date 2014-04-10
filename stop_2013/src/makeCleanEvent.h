@@ -4,5 +4,5 @@
 #include "NtupleTools2_h.h"
 #include "CutFlow.h"
 
-bool makeCleanEvent(EasyChain*, CutSet*);
+bool makeCleanEvent(EasyChain*, CutSet* = 0);
 #endif

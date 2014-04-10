@@ -36,7 +36,7 @@ bool AnalysisObject::Is(const string& key) const {
 }
 
 map< string, bool> AnalysisObject::IDMap() const {return id;}
-
+double AnalysisObject::P() const {return p4.P();}
 double AnalysisObject::Pt() const {return p4.Pt();}
 double AnalysisObject::pt() const {return p4.Pt();}
 double AnalysisObject::Eta() const {return p4.Eta();}

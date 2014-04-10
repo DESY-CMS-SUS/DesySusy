@@ -14,12 +14,14 @@ batch_script = \
 #!/bin/zsh
 ## make sure the right shell will be used
 #$ -S /bin/zsh
-## the cpu time for this job
-#$ -l h_cpu=8:00:00
+## the real time for this job
+#$ -l h_rt=3:00:00
 ## the maximum memory usage of this job
-#$ -l h_vmem=1500M
+#$ -l h_vmem=1950M
 ## stderr and stdout are merged together to stdout
 #$ -j y
+## Project name
+#$ -P cms
 ##(send mail on job's end and abort)
 #$ -m a
 #$ -l site=hh
@@ -34,6 +36,7 @@ cd $OUTDIR
 ##initialize glite, dctools
 ini glite
 ini dctools
+ini ROOT534
 ##pwd
 #cp ../../src/Summer12_V2_DATA_AK5PF_UncertaintySources.txt /tmp/
 ##ls -lrt /tmp
@@ -52,10 +55,10 @@ if [ -e "$OUTDIR/out/$2" ]; then
    cp $OUTDIR/out/$treeFile $OUTDIR/$treeFile
 else
    time $EXECUTABLE filename="$1" outname=$2 Estimation=$3 Tail=$4 isBatchJob=true
-   cp $2 $OUTDIR/out/
-   cp $treeFile $OUTDIR/out/
+   cp $2 ${OUTDIR}/out/
+   #cp $treeFile $OUTDIR/out/
 fi
-echo cp $2 $OUTDIR
+echo cp $2 ${OUTDIR}/out
 echo
 echo done at time date `date`
 """
@@ -66,12 +69,14 @@ merge_script = \
 #!/bin/zsh
 ## make sure the right shell will be used
 #$ -S /bin/zsh
-## the cpu time for this job
-#$ -l h_cpu=00:03:00
+## the real time for this job
+#$ -l h_rt=00:10:00
 ## the maximum memory usage of this job
 #$ -l h_vmem=700M
 ## stderr and stdout are merged together to stdout
 #$ -j y
+## Project name
+#$ -P cms
 ## define input dir,output dir,executable,config file and LD_LIBRARY_PATH
 #$ -v OUTDIR=
 #$ -v OUTNAME=
@@ -79,11 +84,13 @@ merge_script = \
 #$ -v FILELIST=
 #$ -v LD_LIBRARY_PATH=
 #$ -o
+ini ROOT534
 save=$PWD
 #
 cd $OUTDIR
+echo `pwd`
 echo start merging at `date`
-$HADD -f $OUTNAME $FILELIST 
+$HADD -f $OUTNAME `echo $FILELIST`
 echo
 #
 #
@@ -99,12 +106,14 @@ treeMerge_script = \
 #!/bin/zsh
 ## make sure the right shell will be used
 #$ -S /bin/zsh
-## the cpu time for this job
-#$ -l h_cpu=00:03:00
+## the real time for this job
+#$ -l h_rt=00:10:00
 ## the maximum memory usage of this job
 #$ -l h_vmem=4000M
 ## stderr and stdout are merged together to stdout
 #$ -j y
+## Project name
+#$ -P cms
 ## define input dir,output dir,executable,config file and LD_LIBRARY_PATH
 #$ -v OUTDIR=
 #$ -v OUTNAME=
@@ -116,7 +125,7 @@ save=$PWD
 #
 cd $OUTDIR
 echo start merging at `date`
-$HADD -f $OUTNAME $FILELIST 
+$HADD -f $OUTNAME `echo $FILELIST` 
 echo "done merging, now remove"
 rm -rf $FILELIST
 #
@@ -134,12 +143,14 @@ cronos_script = \
 #!/bin/zsh
 ## make sure the right shell will be used
 #$ -S /bin/zsh
-## the cpu time for this job
-#$ -l h_cpu=00:05:00
+## the real time for this job
+#$ -l h_rt=00:05:00
 ## the maximum memory usage of this job
 #$ -l h_vmem=1500M
 ## stderr and stdout are merged together to stdout
 #$ -j y
+## Project name
+#$ -P cms
 ## define input dir,output dir,executable,config file and LD_LIBRARY_PATH
 #$ -v OUTDIR=
 #$ -v RELDIR=
@@ -186,7 +197,7 @@ def UsageAndExit():
 	print \
 	"""
 	Usage:
-	runOnAll indir [outdir] executable [config] [script] [cleanUp] [noJoin] [noDupRemoval] [nFiles=n] [outName=afile.root]
+	runOnAll indir [outdir] executable [config] [script] [cleanUp] [noJoin] [noDupRemoval] [nJobs=n] [outName=afile.root]
 	
 	indir   : input  dir - where the data is
 	outdir  : output dir - where the individual output files and the final root file goes
@@ -197,7 +208,7 @@ def UsageAndExit():
 	cleanUp   : keyword - if given erase all single root files
 	noJoin    : keyword - if given do not run the file merging step
 	noDupRemoval  : keyword - if given then do not ignore duplicate files
-	nFiles=   : if given do create jobs with n files each - default is n=1
+	nJobs=    : if given do create n jobs - default is n=1
 	outName=  : Name for the merged output file - default is out.root
 
 	Example: ./runOnAll /scratch/hh/current/cms/user/kruecker/ntuples/data2011/Run2011A/DoubleMu/ myAnalysis myConfig.txt
@@ -276,13 +287,13 @@ def InfoToConfig(config_filename):
 def readCommandLine(commandLine):
 	""" read the command line input"""
 
-	global	indir,outdir,executable,batch_filename,config_filename,cleanUp,noJoin,dupRemoval,nfiles,outname,reloutdir,Estimation,Tail
+	global	indir,outdir,executable,batch_filename,config_filename,cleanUp,noJoin,dupRemoval,njobs,outname,reloutdir,Estimation,Tail
 	global Sample,SubSample
 
 	cleanUp        = False
 	noJoin         = False
 	dupRemoval     = True
-	nfiles         = 1
+	njobs          = 1
 	outname        = 'out.root'
 	
 	if len(commandLine) < 3 or len(commandLine) > 11: 
@@ -367,16 +378,16 @@ def readCommandLine(commandLine):
 		if word.find('outName')==0:
 			outname=word[word.find('=')+1:]
 			continue
-		if word.find('nFiles')==0:
+		if word.find('nJobs')==0:
 			nstr=word[word.find('=')+1:]
 			if not nstr.isdigit():
 				print 'what do you mean by '+word
-				print 'Syntax is nFiles=n (no spaces!) where n=1,2,...'
+				print 'Syntax is nJobs=n (no spaces!) where n=1,2,...'
 				sys.exit(0)
-			nfiles=int(nstr)
-			if nfiles==0:
+			njobs=int(nstr)
+			if njobs==0:
 				print 'what do you mean by '+word
-				print 'Syntax is nFiles=n (no spaces!) where n=1,2,...'
+				print 'Syntax is nJobs=n (no spaces!) where n=1,2,...'
 				sys.exit(0)
 			continue
 		try:
@@ -429,9 +440,7 @@ def readCommandLine(commandLine):
 	#now copy the config file to the output directory
 	out=commands.getoutput('cp '+config_filename+' '+outdir+'/config.txt')
 	out=commands.getoutput('cp *_config.txt '+outdir+'/')
-	out=commands.getoutput('cp data/badlaser_events_StdFormat.txt.gz '+outdir+'/')
-	out=commands.getoutput('cp data/myCsvdiscr.root '+outdir+'/')
-	out=commands.getoutput('cp data/csvdiscr.root '+outdir+'/')
+	out=commands.getoutput('cp -r data '+outdir+'/.')
 	outname=outname.replace('.root', '_'+Estimation+'_'+Tail+'.root')
 	return
 
@@ -891,6 +900,12 @@ if __name__ == "__main__":
 
 	# total number of files
 	totfiles = len(rootfiles)
+
+	global nfiles;
+	nfiles = int (totfiles / njobs)
+
+	if (nfiles == 0):
+		nfiles = 1
 		
 	# pack rootfiles to nFile blocks
 	if nfiles>1: pack() 
@@ -1049,8 +1064,9 @@ if __name__ == "__main__":
 		#print 'going to create the tree merger with ',listoftreefiles
 		#print 'and merge it to ',outmergetreefile
 		createTreeMergeScript(listoftreefiles,outmergetreefile)
-		if not noJoin:
-			out=commands.getoutput('qsub -l site=hh -m a -hold_jid '+listofjobids[idx]+' treeMerge_script')
+		#FRANCESCO NO TREE COMMENT
+		#if not noJoin:
+		#	out=commands.getoutput('qsub -l site=hh -m a -hold_jid '+listofjobids[idx]+' treeMerge_script')
 		#
 
 		if out.find('Your job ') == 0:

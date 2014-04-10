@@ -21,7 +21,7 @@
 
 BTagShapeInterface& sh()
 {
-  static BTagShapeInterface sh_local("csvdiscr.root",0,0);
+  static BTagShapeInterface sh_local("data/csvdiscr.root",0,0);
   return sh_local;
 }
 

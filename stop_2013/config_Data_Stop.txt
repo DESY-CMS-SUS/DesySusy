@@ -1,0 +1,15 @@
+isData      = true
+isFSIM      = false
+isScan      = false
+filename    = /pnfs/desy.de/cms/tier2/store/user/fcostanz/nTuple13_v2/TEST/SingleMu_Run2012B13Jul_cfg-365.root
+quick       = true
+DoControlPlots = true
+SampleName = SingleElectron
+SubSampleName = Run2012D-PromptReco-v1
+Estimation = Stop
+Tail = NoTail
+turntriggersoff = false
+SelectedMuons_PTMIN = 25
+SelectedMuons_ETAMAX = 2.1
+SelectedElectrons_PTMIN = 30
+SelectedElectrons_ETAMAX = 1.4442

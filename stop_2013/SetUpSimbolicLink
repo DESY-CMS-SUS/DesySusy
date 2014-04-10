@@ -3,6 +3,9 @@ ln -fs ../examples/NtupleTools2_h.h NtupleTools2_h.h
 
 eval "topdir=`pwd`"
 
+rm -rf obj
+mkdir obj
+
 ln -fs ../../examples/compiled/tools/ConfigReader.h  ./src/ConfigReader.h
 ln -fs ../../examples/compiled/tools/THTools.h ./src/THTools.h
 ln -fs ../../examples/compiled/tools/CutFlow.cpp ./src/CutFlow.cpp
@@ -10,6 +13,9 @@ ln -fs ../../examples/compiled/tools/CutFlow.h ./src/CutFlow.h
 ln -fs ../../examples/compiled/tools/ConfigReader.cpp ./src/ConfigReader.cpp
 ln -fs ../../examples/compiled/Linkdef.h ./src/Linkdef.h
 ln -fs ./runOnAll_eron.py runOnAll
+
+ln -fs ../../plugins/EventFilterFromListStandAlone.cc  ./src/EventFilterFromListStandAlone.cpp
+ln -fs ../../plugins/EventFilterFromListStandAlone.h  ./src/EventFilterFromListStandAlone.h
 #
 
 

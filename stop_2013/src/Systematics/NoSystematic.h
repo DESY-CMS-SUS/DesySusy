@@ -4,7 +4,6 @@
 #include "NtupleTools2_h.h"
 
 #include "Event.h"
-#include "BTagReshaping.h"
 #include "Systematic.h"
 
 #include <vector>
@@ -24,7 +23,6 @@ namespace Systematics{
     
   protected:
     Event  OutEvent;
-    BTagShapeInterface* BTagReshape_nominal;
   };
 };
 #endif

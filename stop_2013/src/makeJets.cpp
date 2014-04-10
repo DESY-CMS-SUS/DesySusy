@@ -3,11 +3,13 @@
 #include "CutFlow.h"
 #include "TDirectory.h"
 #include "THTools.h"
-#include "eventselection.h"
 #include "Electron.h"
 #include "Muon.h"
 #include "Jet.h"
 #include "makeJets.h"
+#include "BTagReshaping/BTagReshaping.h"
+
+#include "CleaningFilters.h"
 
 #include "Math/VectorUtil.h"
 
@@ -25,13 +27,13 @@
 using namespace std;
 
 extern bool pcp;
-
+extern BTagShapeInterface reshape;
 //======================================================
 // make All Jets
 //======================================================
 
 vector<Jet> makeAllJets(EasyChain* tree, CutSet* flow_in){
-  
+
   if(pcp) cout<<endl<<"inside makeAllJets "<<endl<<endl;
 
   //====================================================================
@@ -46,7 +48,7 @@ vector<Jet> makeAllJets(EasyChain* tree, CutSet* flow_in){
   ConfigReader config;
   bool isData=config.getBool("isData");
 
-  vector<Jet>        jets;
+  vector<Jet>        jets; jets.clear();
   Jet                dummyJet;
   vector<LorentzM>&  jets_p4         = tree->Get( &jets_p4,         "ak5JetPFCorrectedP4Pat");
   vector<float>&     jets_corrFactor = tree->Get( &jets_corrFactor, "ak5JetPFCorrFactorPat");
@@ -59,6 +61,14 @@ vector<Jet> makeAllJets(EasyChain* tree, CutSet* flow_in){
   vector<int>&       jets_PUTight    = tree->Get( &jets_PUTight,    "DESYak5JetPFPileUpIdfull5xTightPat");
   //=end=variables=initialization=======================================
 
+  if( jets_p4.size() != jets_corrUnc.size()){
+    vector<int> goodVert;
+    cleaningFilters::goodVertices(tree,goodVert);
+    cout<<"makeAlJets: jets_p4.size() != jets_corrUnc.size(), "<<jets_p4.size()<<" != "<<jets_corrUnc.size();
+    cout<<"; goodVert.size() = "<<goodVert.size()<<endl;
+    return jets;
+  }
+
   //=============================================
   // LOOP OVER THE JETS
   //=============================================
@@ -68,12 +78,10 @@ vector<Jet> makeAllJets(EasyChain* tree, CutSet* flow_in){
       cout<<"Jet "<<ijet<<": ";
       cout<<"Pt = "<<jets_p4.at(ijet).Pt()<<";";
       cout<<"Eta = "<<jets_p4.at(ijet).Eta()<<";";
-      cout<<"Phi = "<<jets_p4.at(ijet).Phi()<<".";
+      cout<<"Phi = "<<jets_p4.at(ijet).Phi()<<"."<<endl;;
     }
-
     dummyJet.Set( ijet, jets_p4.at(ijet), jets_corrFactor.at(ijet), "AK5");
     dummyJet.SetJECorrUncertainty( "JES", jets_corrUnc.at(ijet));
-
     dummyJet.SetBJetDisc("CSV", jets_CSV.at(ijet));
 
     dummyJet.SetID("Loose", jets_IDLoose.at(ijet));
@@ -90,11 +98,21 @@ vector<Jet> makeAllJets(EasyChain* tree, CutSet* flow_in){
   if (!isData) {
     vector<int>& jets_genIndx    = tree->Get( &jets_genIndx,    "ak5JetPFGenJetMatchIndexPat");
     vector<int>& jets_genFlavor  = tree->Get( &jets_genFlavor,  "ak5JetPFgenJetFlavourPat");
-    
+  
+    double bdisc_old, bdisc_new;
     for(int ijet = 0; ijet<jets.size(); ijet++){
       int indx = jets.at(ijet).IndexInTree();
       jets.at(ijet).SetMatchedGenJetIndex( jets_genIndx.at(indx)); 
       jets.at(ijet).SetPartonFlavor( jets_genFlavor.at(indx));
+
+      bdisc_old = jets.at(ijet).BJetDisc("CSV");
+      bdisc_new = reshape.reshape( jets.at(ijet).Eta(),
+				   jets.at(ijet).Pt(),
+				   bdisc_old,
+				   jets.at(ijet).PartonFlavor());
+      jets.at(ijet).SetBJetDisc("CSV", bdisc_new);
+      jets.at(ijet).SetBJetDisc("CSV_Reshape", bdisc_new);
+      jets.at(ijet).SetBJetDisc("CSV_NoReshape", bdisc_old);
     }
   }
   

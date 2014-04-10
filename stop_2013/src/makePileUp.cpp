@@ -1,10 +1,6 @@
 #include "makePileUp.h"
 
-
-
 using namespace std;
-
-
 
 void pileUpInfo::RescaleWeight( float PUNum, double& weight, string type=""){
   

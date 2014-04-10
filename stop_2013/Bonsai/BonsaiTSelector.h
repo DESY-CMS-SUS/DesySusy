@@ -43,7 +43,7 @@ public :
   TFile* outFile;
   std::vector<Bonsai*> bonsai;
 
-  std::vector<string> sysName;
+  std::vector<std::string> sysName;
   std::vector< Systematics::Systematic*> sys;
 
   TProofOutputFile *fProofFile;
@@ -62,7 +62,19 @@ public :
   LorentzM*               mvaMET;
   LorentzM*               caloMET;
   
-  BonsaiTSelector(TTree * /*tree*/ =0) : fChain(0) { }
+  BonsaiTSelector(TTree * /*tree*/ =0) : fChain(0) {
+    sysName.push_back("NoSystematic");
+    //sysName.push_back("NoSystematic");
+
+    sysName.push_back("PUReweight_Up");
+    /*sysName.push_back("PUReweight_Down");
+    
+    sysName.push_back("BTagReweight_UpBC");
+    sysName.push_back("BTagReweight_DownBC");
+    sysName.push_back("BTagReweight_UpLight");
+    sysName.push_back("BTagReweight_DownLight");*/
+  }
+
   virtual ~BonsaiTSelector() { }
   virtual Int_t   Version() const { return 2; }
   virtual void    Begin(TTree *tree);

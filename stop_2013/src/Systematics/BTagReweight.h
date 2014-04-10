@@ -4,7 +4,7 @@
 #include "NtupleTools2_h.h"
 
 #include "Event.h"
-#include "BTagReshaping.h"
+#include "BTagReshaping/BTagReshaping.h"
 #include "Systematic.h"
 
 #include <vector>

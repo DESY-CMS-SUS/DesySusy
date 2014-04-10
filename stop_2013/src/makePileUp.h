@@ -2,12 +2,9 @@
 #define makePileUp_h
 
 #include "ConfigReader.h"
-#include "SampleInformation.h"
-
+#include "TString.h"
 
 class mySampleInfo; //forward declaration
-
-
 
 class pileUpInfo{
 private:
@@ -30,9 +27,9 @@ public:
   vector<double> PUdata_up;
   vector<double> PUdata_down;
 
-  pileUpInfo(SampleInformation& mySampleInfo){
+  pileUpInfo(const TString& WhatSample, const TString& WhatSubSample){
     this->Constructor();
-    this->Initialize(mySampleInfo);
+    this->Initialize( WhatSample, WhatSubSample);
   }
   pileUpInfo(){
     this->Constructor();
@@ -50,13 +47,11 @@ public:
     relevantNumPU=0;
   }
 
-  int Initialize(SampleInformation& mySampleInfo){
+  int Initialize( const TString& WhatSample, const TString& WhatSubSample){
     //PU
     
     ConfigReader config;
-    string WhatSample=mySampleInfo.GetSample();
-    string WhatSubSample=mySampleInfo.GetSubSample();
-    
+
     if(!oldpuw){
       nobinsmc = config.getDouble("PU_"+WhatSample+"_"+WhatSubSample+"_mc",PUmc," ");
       nobinsdata = config.getDouble("PU_data",PUdata," ");

@@ -1,0 +1,16 @@
+isData      = false
+isFSIM      = false
+isScan      = false
+filename    = /pnfs/desy.de/cms/tier2/store/user/fcostanz/nTuple13_v2/TEST/TTJetsPowhegv1_cfg-91.root
+quick       = true
+DoControlPlots = true
+SampleName = QCD
+SubSampleName = EMEnriched-350ToInf
+Estimation = Stop
+Tail = NoTail
+turntriggersoff = true
+SelectedMuons_PTMIN = 25
+SelectedMuons_ETAMAX = 2.1
+SelectedElectrons_PTMIN = 30
+SelectedElectrons_ETAMAX = 1.4442
+

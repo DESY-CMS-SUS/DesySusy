@@ -3,11 +3,12 @@ import commands as com
 
 
 
-def SetUpSampleAndScript(Sample,SubSample,FilesDir,ConfigFile,nFiles):
+def SetUpSampleAndScript(Sample,SubSample,FilesDir,ConfigFile,nJobs):
     """Sets up the directory and the runall_ scripts to run a sample"""
     command='runOnAll'
     Executable='makeObjects'
     optclean='cleanUp'
+    optclean=''
 
     user=com.getoutput('whoami')
     
@@ -59,7 +60,7 @@ def SetUpSampleAndScript(Sample,SubSample,FilesDir,ConfigFile,nFiles):
     line+=ConfigFile   +SP
     line+=optclean     +SP
     line+='outName='+TargetName +SP
-    line+='nFiles='+str(nFiles) +SP
+    line+='nJobs='+str(nJobs) +SP
     line+='$1'         +SP
     line+='$2'        +'\n'
     

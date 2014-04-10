@@ -18,6 +18,8 @@ Bonsai::Bonsai(TDirectory* indir, TString newdir): SubTree( indir, newdir){
 
   tree= new TTree( "bonsai", "Bonsai subTree");
   
+  bdisc = new vector<Float_t>();
+  bdiscNoReshape = new vector<Float_t>();
   this->Reset();
   this->SetBranches();
   
@@ -27,8 +29,12 @@ Bonsai::Bonsai(TDirectory* indir, TString newdir): SubTree( indir, newdir){
 void Bonsai::Reset()
 {
   sample = 0.;
+  LepFromTop = 0.;
+  Charginos  = 0.;
+
   xs = 0.;
   NEvents = 0.;
+  FE = 0.;
   GlobalWeight = 0.;
 
   TriggerWeight = 0.;
@@ -54,15 +60,15 @@ void Bonsai::Reset()
   jet4 = 0.;
   
   nbjets = 0.;
+  bdisc->clear();
+  bdiscNoReshape->clear();
   bjet1 = 0.;
-  disc1 = 0.;
   bjetHighestDisc = 0.;
   discH = 0.;
   
   lPt = 0.;
   lEta = 0.;
   lRelIso = 0.;
-  eoverp = 0.;
   
   isoTrack = 0.;
   tauVeto = 0.;
@@ -72,6 +78,10 @@ void Bonsai::Reset()
   phiCorrMet = 0.;
   
   ht = 0.;
+  ht3 = 0.;
+  ht4 = 0.;
+  ht5 = 0.;
+  htRatio = 0.;
   meff = 0.;
   y = 0.;
 
@@ -79,16 +89,19 @@ void Bonsai::Reset()
   mlb1 = 0.;
   mlb = 0.;
   m3b = 0.;
+  m3 = 0.;
+  centrality = 0.;
+  centralityNoLep = 0.;
   mt2w = 0.;
   hadChi2 = 0.;
   topness = 0.;
 
   dphimin = 0.;
-  drlb = 0.;
+  drlb1 = 0.;
+  drlbmin = 0.;
 
-  mY = 0.;
-  mLsp = 0.;
-  x = 0.;
+  mStop = 0.;
+  mLSP = 0.;
   
   T2ttL = 0.;
   T2ttR = 0.;
@@ -104,90 +117,120 @@ void Bonsai::Reset()
   T2bWRL = 0.;
   T2bWRS = 0.;
   T2bWRR = 0.;
+
+  pdgIdLep1 = 0;
+  pdgIdLep2 = 0;
+
+  kinRegion = false;
+  searchRegionPre = false;
+  searchRegionPost = false;
+  CR1 = false;
+  CR4 = false;
+  CR5 = false;
 }
 
 
 void Bonsai::SetBranches()
 {
+  tree->Branch("sample",&sample,"sample/F");
+  tree->Branch("LepFromTop",&LepFromTop,"LepFromTop/F");
+  tree->Branch("Charginos",&Charginos,"Charginos/F");
 
-  tree->Branch("sample",&sample,"sample/D");
-  tree->Branch("xs",&xs,"xs/D");
-  tree->Branch("NEvents",&NEvents,"NEvents/D");
-  tree->Branch("GlobalWeight",&GlobalWeight,"GlobalWeight/D");
+  tree->Branch("xs",&xs,"xs/F");
+  tree->Branch("NEvents",&NEvents,"NEvents/F");
+  tree->Branch("FE",&FE,"FE/F");
+  tree->Branch("GlobalWeight",&GlobalWeight,"GlobalWeight/F");
 
-  tree->Branch("TriggerWeight",&TriggerWeight,"TriggerWeight/D");
+  tree->Branch("TriggerWeight",&TriggerWeight,"TriggerWeight/F");
 
-  tree->Branch("PUInter",&PUInter,"PUInter/D");
-  tree->Branch("PUWeight",&PUWeight,"PUWeight/D");
-  tree->Branch("PUWeight_up",&PUWeight_up,"PUWeight_up/D");
-  tree->Branch("PUWeight_down",&PUWeight_down,"PUWeight_down/D");
-  tree->Branch("NPV",&NPV,"NPV/D");
-  tree->Branch("NgoodPV",&NgoodPV,"NgoodPV/D");
+  tree->Branch("PUInter",&PUInter,"PUInter/F");
+  tree->Branch("PUWeight",&PUWeight,"PUWeight/F");
+  tree->Branch("PUWeight_up",&PUWeight_up,"PUWeight_up/F");
+  tree->Branch("PUWeight_down",&PUWeight_down,"PUWeight_down/F");
+  tree->Branch("NPV",&NPV,"NPV/F");
+  tree->Branch("NgoodPV",&NgoodPV,"NgoodPV/F");
 
-  tree->Branch("isrWeight",&isrWeight,"isrWeight/D");
-  tree->Branch("topPtWeight",&topPtWeight,"topPtWeight/D");
+  tree->Branch("isrWeight",&isrWeight,"isrWeight/F");
+  tree->Branch("topPtWeight",&topPtWeight,"topPtWeight/F");
 
-  tree->Branch("evt",&evt,"evt/D");
-  tree->Branch("run",&run,"run/D");
-  tree->Branch("lumi",&lumi,"lumi/D");
+  tree->Branch("evt",&evt,"evt/F");
+  tree->Branch("run",&run,"run/F");
+  tree->Branch("lumi",&lumi,"lumi/F");
   
-  tree->Branch("njets",&njets,"njets/D");
-  tree->Branch("jet1", &jet1, "jet1/D");
-  tree->Branch("jet2", &jet2, "jet2/D");
-  tree->Branch("jet3", &jet3, "jet3/D");
-  tree->Branch("jet4", &jet4, "jet4/D");
+  tree->Branch("njets",&njets,"njets/F");
+  tree->Branch("jet1", &jet1, "jet1/F");
+  tree->Branch("jet2", &jet2, "jet2/F");
+  tree->Branch("jet3", &jet3, "jet3/F");
+  tree->Branch("jet4", &jet4, "jet4/F");
   
-  tree->Branch("nbjets",&nbjets,"nbjets/D");
-  tree->Branch("bjet1", &bjet1, "bjet1/D");
-  tree->Branch("disc1", &disc1, "disc1/D");
-  tree->Branch("bjetHighestDisc", &bjetHighestDisc, "bjetHighestDisc/D");
-  tree->Branch("discH", &discH, "discH/D");
+  tree->Branch("nbjets",&nbjets,"nbjets/F");
+  tree->Branch("bdisc", "std::vector<Float_t>", &bdisc);
+  tree->Branch("bdiscNoReshape", "std::vector<Float_t>", &bdiscNoReshape);
+  tree->Branch("bjet1", &bjet1, "bjet1/F");
+  tree->Branch("bjetHighestDisc", &bjetHighestDisc, "bjetHighestDisc/F");
+  tree->Branch("discH", &discH, "discH/F");
   
-  tree->Branch("lPt",&lPt,"lPt/D");
-  tree->Branch("lEta",&lEta,"lEta/D");
-  tree->Branch("lRelIso",&lRelIso,"lRelIso/D");
-  tree->Branch("eoverp",&eoverp,"eoverp/D");
+  tree->Branch("lPt",&lPt,"lPt/F");
+  tree->Branch("lEta",&lEta,"lEta/F");
+  tree->Branch("lRelIso",&lRelIso,"lRelIso/F");
   
-  tree->Branch("isoTrack",&isoTrack,"isoTrack/D");
-  tree->Branch("tauVeto", &tauVeto, "tauVeto/D");
+  tree->Branch("isoTrack",&isoTrack,"isoTrack/F");
+  tree->Branch("tauVeto", &tauVeto, "tauVeto/F");
 
-  tree->Branch("rawmet",&rawmet,"rawmet/D");
-  tree->Branch("typeImet", &typeImet, "typeImet/D");
-  tree->Branch("phiCorrMet", &phiCorrMet, "phiCorrMet/D");
+  tree->Branch("rawmet",&rawmet,"rawmet/F");
+  tree->Branch("typeImet", &typeImet, "typeImet/F");
+  tree->Branch("phiCorrMet", &phiCorrMet, "phiCorrMet/F");
   
-  tree->Branch("ht",&ht,"ht/D");
-  tree->Branch("meff",&meff,"meff/D");
-  tree->Branch("y",&y,"y/D");
+  tree->Branch("ht",&ht,"ht/F");
+  tree->Branch("ht3",&ht3,"ht3/F");
+  tree->Branch("ht4",&ht4,"ht4/F");
+  tree->Branch("ht5",&ht5,"ht5/F");
+  tree->Branch("htRatio",&htRatio,"htRatio/F");
+  tree->Branch("meff",&meff,"meff/F");
+  tree->Branch("y",&y,"y/F");
 
-  tree->Branch("mt",&mt,"mt/D");
-  tree->Branch("mlb1",&mlb1,"mlb1/D");
-  tree->Branch("mlb",&mlb,"mlb/D");
-  tree->Branch("m3b",&m3b,"m3b/D");
-  tree->Branch("mt2w",&mt2w,"mt2w/D");
-  tree->Branch("hadChi2",&hadChi2,"hadChi2/D");
-  tree->Branch("topness",&topness,"topness/D");
+  tree->Branch("mt",&mt,"mt/F");
+  tree->Branch("mlb1",&mlb1,"mlb1/F");
+  tree->Branch("mlb",&mlb,"mlb/F");
+  tree->Branch("m3b",&m3b,"m3b/F");
+  tree->Branch("m3",&m3,"m3/F");
+  tree->Branch("centrality",&centrality,"centrality/F");
+  tree->Branch("centralityNoLep",&centralityNoLep,"centralityNoLep/F");
+  tree->Branch("mt2w",&mt2w,"mt2w/F");
+  tree->Branch("hadChi2",&hadChi2,"hadChi2/F");
+  tree->Branch("topness",&topness,"topness/F");
 
-  tree->Branch("dphimin",&dphimin,"dphimin/D");
-  tree->Branch("drlb",&drlb,"drlb/D");
-  /*
-  tree->Branch("mY",&mY,"mY/D");
-  tree->Branch("mLsp",&mLsp,"mLsp/D");
-  tree->Branch("x",&x,"x/D");
+  tree->Branch("dphimin",&dphimin,"dphimin/F");
+  tree->Branch("drlb1",&drlb1,"drlb1/F"); 
+  tree->Branch("drlbmin",&drlbmin,"drlbmin/F"); 
+ 
+  tree->Branch("mStop",&mStop,"mStop/F");
+  tree->Branch("mLSP",&mLSP,"mLSP/F");
 
-  tree->Branch("T2ttL",&T2ttL,"T2ttL/D");
-  tree->Branch("T2ttR",&T2ttR,"T2ttR/D");
+  tree->Branch("T2ttL",&T2ttL,"T2ttL/F");
+  tree->Branch("T2ttR",&T2ttR,"T2ttR/F");
 
-  tree->Branch("T2bWLL",&T2bWLL,"T2bWLL/D");
-  tree->Branch("T2bWLS",&T2bWLS,"T2bWLS/D");
-  tree->Branch("T2bWLR",&T2bWLR,"T2bWLR/D");
+  tree->Branch("T2bWLL",&T2bWLL,"T2bWLL/F");
+  tree->Branch("T2bWLS",&T2bWLS,"T2bWLS/F");
+  tree->Branch("T2bWLR",&T2bWLR,"T2bWLR/F");
 
-  tree->Branch("T2bWSL",&T2bWSL,"T2bWSL/D");
-  tree->Branch("T2bWSS",&T2bWSS,"T2bWSS/D");
-  tree->Branch("T2bWSR",&T2bWSR,"T2bWSR/D");
+  tree->Branch("T2bWSL",&T2bWSL,"T2bWSL/F");
+  tree->Branch("T2bWSS",&T2bWSS,"T2bWSS/F");
+  tree->Branch("T2bWSR",&T2bWSR,"T2bWSR/F");
 
-  tree->Branch("T2bWRL",&T2bWRL,"T2bWRL/D");
-  tree->Branch("T2bWRS",&T2bWRS,"T2bWRS/D");
-  tree->Branch("T2bWRR",&T2bWRR,"T2bWRR/D");*/
+  tree->Branch("T2bWRL",&T2bWRL,"T2bWRL/F");
+  tree->Branch("T2bWRS",&T2bWRS,"T2bWRS/F");
+  tree->Branch("T2bWRR",&T2bWRR,"T2bWRR/F");
+
+  tree->Branch("pdgIdLep1",&pdgIdLep1,"pdgIdLep1/I");
+  tree->Branch("pdgIdLep2",&pdgIdLep2,"pdgIdLep2/I");
+
+  tree->Branch("kinRegion",&kinRegion,"kinRegion/B");
+  tree->Branch("searchRegionPre",&searchRegionPre,"searchRegionPre/B");
+  tree->Branch("searchRegionPost",&searchRegionPost,"searchRegionPost/B");
+  tree->Branch("CR1",&CR1,"CR1/B");
+  tree->Branch("CR4",&CR4,"CR4/B");
+  tree->Branch("CR5",&CR5,"CR5/B");
 }  
 
 void Bonsai::Fill( Event* event, EasyChain* chain)
@@ -195,11 +238,15 @@ void Bonsai::Fill( Event* event, EasyChain* chain)
   this->Reset();
   
   sample = 0.;
+  LepFromTop = event->Info()->LepFromTop;
+  Charginos  = event->Info()->Charginos;
+
   xs = event->Info()->xs;
   NEvents = event->Info()->NEvents;
-  GlobalWeight = event->Info()->GlobalWeight;
+  FE = event->Info()->FE;
+  GlobalWeight = event->GlobalWeight();
 
-  TriggerWeight = event->Info()->TriggerWeight;
+  TriggerWeight = event->TriggerEfficiency();
 
   PUInter = event->Info()->PUInter;
   PUWeight = event->Info()->PUWeight;
@@ -225,16 +272,25 @@ void Bonsai::Fill( Event* event, EasyChain* chain)
   if (njets > 3.)
     jet4 = event->Jets("Selected")->at(3)->Pt();
 
+  for ( int ijet = 0; ijet < njets; ijet++){
+    if( !event->Info()->isData){
+      bdisc->push_back(event->Jets("Selected")->at(ijet)->BJetDisc("CSV_Reshape"));  
+      bdiscNoReshape->push_back(event->Jets("Selected")->at(ijet)->BJetDisc("CSV_NoReshape"));
+    }
+    else {
+      bdisc->push_back(event->Jets("Selected")->at(ijet)->BJetDisc("CSV"));  
+      bdiscNoReshape->push_back(event->Jets("Selected")->at(ijet)->BJetDisc("CSV"));
+    }
+  }
+
   nbjets = event->nBJets();
   if (nbjets > 0) {
     bjet1 = event->BJets("CSV")->at(0)->Pt();
-    disc1 = event->BJets("CSV")->at(0)->BJetDisc("CSV");
     bjetHighestDisc = event->BJetsBDiscOrdered("CSV")->at(0)->Pt();
     discH = event->BJetsBDiscOrdered("CSV")->at(0)->BJetDisc("CSV");
   }
   else{
     bjet1 = -1.;
-    disc1 = -1.;
     bjetHighestDisc = -1.;
     discH = -1.;
   }
@@ -243,15 +299,18 @@ void Bonsai::Fill( Event* event, EasyChain* chain)
   lEta = event->FirstLepton()->Eta();
   lRelIso = event->FirstLepton()->RelIso();
 
-  
-  isoTrack = !isoTrackVeto::IsoTrackVetoV4( event->FirstLepton(), event->Tracks());
-  tauVeto = event->Taus("Veto")->size() == 0;
+  isoTrack = isoTrackVeto::IsoTrackVetoV4( event->FirstLepton(), event->Tracks());
+  tauVeto = event->Taus("Veto")->size();
 
   rawmet = event->RawMET()->Pt();
   typeImet = event->TypeIMET()->Pt();
   phiCorrMet = event->TypeIPhiCorrMET()->Pt();
   
   ht = event->HT();
+  ht3 = event->HT3();
+  ht4 = event->HT4();
+  ht5 = event->HT5();
+  htRatio = event->HTratio();
   meff = event->Meff();
   y = event->Y();
 
@@ -260,22 +319,26 @@ void Bonsai::Fill( Event* event, EasyChain* chain)
   if (njets > 2){
     mlb = event->Mlb();
     m3b = event->M3b();
+    m3 = event->M3();
   }
   else{
     mlb = -1;
     m3b = -1.;
+    m3 = -1;
   }
+  centrality = event->Centrality();
+  centralityNoLep = event->CentralityNoLep();
 
   mt2w = event->MT2W();
   hadChi2 = event->HadChi2();
-  topness = event->Topness();
+  //topness = event->Topness();
 
   dphimin = event->DeltaPhiMinj12m();
-  drlb = event->DeltaRlb1();
+  drlb1 = event->DeltaRlb1();
+  drlbmin = event->DeltaRlbmin();
   
-  mY = event->Info()->mY;
-  mLsp = event->Info()->mLsp;
-  x = event->Info()->x;
+  mStop = event->Info()->mStop;
+  mLSP = event->Info()->mLSP;
   
   T2ttL = event->Info()->T2ttL;
   T2ttR = event->Info()->T2ttR;
@@ -291,6 +354,65 @@ void Bonsai::Fill( Event* event, EasyChain* chain)
   T2bWRL = event->Info()->T2bWRL;
   T2bWRS = event->Info()->T2bWRS;
   T2bWRR = event->Info()->T2bWRR;
+
+  pdgIdLep1 = 0;
+  if(event->FirstLepton() != 0)
+    pdgIdLep1 = event->FirstLepton()->PdgID();
+
+  pdgIdLep2 = 0;
+  if(event->SecondLepton() != 0)
+    pdgIdLep2 = event->SecondLepton()->PdgID();
+
+  bool OK = false;  
+  //Showing kinematic variables
+  OK = event->Muons("Selected")->size() + event->Electrons("Selected")->size() == 1;
+  OK = OK && njets >= 3;
+  OK = OK && nbjets > 0;
+  OK = OK && phiCorrMet > 80.;
+  kinRegion = OK;
+
+  // Search Region Pre IsoTrack Veto
+  OK = event->Muons("Selected")->size() + event->Electrons("Selected")->size() > 0.001;
+  OK = OK && njets >= 3;
+  OK = OK && nbjets > 0;
+  OK = OK && phiCorrMet > 80.;
+  searchRegionPre = OK;
+  
+  // Search Region Post IsoTrack Veto
+  OK = event->Muons("Selected")->size() + event->Electrons("Selected")->size() == 1;
+  OK = OK && !(isoTrack > 0.);
+  OK = OK && !(tauVeto > 0.);
+  OK = OK && njets >= 3;
+  OK = OK && nbjets > 0;
+  OK = OK && phiCorrMet > 80.;
+  searchRegionPost = OK;
+
+  // CR1
+  OK = event->Muons("Selected")->size() + event->Electrons("Selected")->size() == 1;
+  OK = OK && !(isoTrack > 0.);
+  OK = OK && !(tauVeto > 0.);
+  OK = OK && njets >= 3;
+  OK = OK && nbjets == 0;
+  OK = OK && phiCorrMet > 80.;
+  CR1 = OK;
+
+  // CR4
+  OK = event->Muons("Selected")->size() + event->Electrons("Selected")->size() == 2;
+  if (OK){
+    OK = event->FirstLepton()->Charge() * event->SecondLepton()->Charge() < 0;
+    OK = OK && fabs((event->FirstLepton()->P4() + event->FirstLepton()->P4()).M() -91) > 15;
+    OK = OK && nbjets > 0;
+    OK = OK && phiCorrMet > 50.;
+  }
+  CR4 = OK;
+  
+  // CR5
+  OK = event->Muons("Selected")->size() + event->Electrons("Selected")->size() > 0;
+  OK = OK && ( isoTrack > 0. || tauVeto > 0.);
+  OK = OK && njets >= 3;
+  OK = OK && nbjets > 0;
+  OK = OK && phiCorrMet > 80.;
+  CR5 = OK;
   
   tree->Fill();
 }
