@@ -198,6 +198,7 @@ class Event{
   double M3b();
   double M3();
   double Centrality();
+  double CentralityNoLep();
   double MT2W();
 
   double DeltaPhiMinj12m();

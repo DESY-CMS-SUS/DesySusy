@@ -92,8 +92,9 @@ class Bonsai: public SubTree {
   Float_t jet4;
 
   Float_t nbjets;
+  vector<Float_t>* bdisc;
+  vector<Float_t>* bdiscNoReshape;
   Float_t bjet1;
-  Float_t disc1;
   Float_t bjetHighestDisc;
   Float_t discH;
   
@@ -122,6 +123,7 @@ class Bonsai: public SubTree {
   Float_t m3b;
   Float_t m3;
   Float_t centrality;
+  Float_t centralityNoLep;
   Float_t mt2w;
   Float_t hadChi2;
   Float_t topness;

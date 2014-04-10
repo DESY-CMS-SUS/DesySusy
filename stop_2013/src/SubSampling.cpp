@@ -9,6 +9,13 @@ bool desy_tools::ScanCheck( const string& sample_,
   tree_->Get( mStop,"susyScanmStop");
   tree_->Get( mLSP, "susyScanmLSP");
 
+  if (sample_.compare("T2tb") == 0){
+    if (mStop == 0){
+      mLSP = 1.;
+      mStop = 100.;
+    }
+  }
+
   if (mLSP < 0.1) return false;
 
   if (mLSP > 351) return false;

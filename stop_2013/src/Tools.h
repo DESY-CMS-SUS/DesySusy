@@ -183,7 +183,6 @@ namespace desy_tools {
   
   template <class J> double Centrality( const LorentzM& lepton, const vector< const J*>* jets){
     int njets = jets->size();
-    // need at least 3 jets
 
     Float_t num = lepton.Pt();
     Float_t den = lepton.P();
@@ -200,7 +199,23 @@ namespace desy_tools {
     return Centrality( lepton, &jets);
   }
   
+  template <class J> double Centrality( const vector< const J*>* jets){
+    int njets = jets->size();
 
+    Float_t num = 0.;
+    Float_t den = 0.;
+
+    for ( int ijet = 0; ijet < njets; ijet++){
+      num += jets->at(ijet)->Pt();
+      den += jets->at(ijet)->P();
+    }
+
+    if (den > 0) return (num / den);
+    else return -1.;    
+  }
+  template <class J> double Centrality( const vector< const J*>& jets){
+    return Centrality( &jets);
+  }
 
   template <class M, class J> double DeltaPhiMinj12m( const M* met, const vector< const J*>* jets){
     double dphimin = 999.;

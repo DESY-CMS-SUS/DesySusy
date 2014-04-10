@@ -169,6 +169,7 @@ double Event::Mlb(){ return desy_tools::Mlb( firstLepton->P4(), this->BJets());}
 double Event::M3b(){ return desy_tools::M3b( firstLepton->P4(), Jets("Selected"));}
 double Event::M3(){ return desy_tools::M3( Jets("Selected"));}
 double Event::Centrality(){ return desy_tools::Centrality( firstLepton->P4(), Jets("Selected"));}
+double Event::CentralityNoLep(){ return desy_tools::Centrality( Jets("Selected"));}
 double Event::MT2W(){ 
   mt2w_bisect::mt2w_interface mt2w_calc; 
   LorentzM tmpV = LorentzM( typeIPhiCorrMET.Pt(), typeIPhiCorrMET.Eta(), typeIPhiCorrMET.Phi(), typeIPhiCorrMET.M());

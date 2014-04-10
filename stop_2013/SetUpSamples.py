@@ -72,17 +72,17 @@ def SingleMu():
     
     SubSample='Run2012A-13JulReReco'
     FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SingleMu/Run2012A-13Jul2012-v1/'
-    nJobs=50
+    nJobs=25
     InfoPack.append((SubSample,FilesDir,nJobs))
     #
     SubSample='Run2012A-06AugReReco'
     FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SingleMu/Run2012A-recover-06Aug2012-v1/'
-    nJobs=20
+    nJobs=10
     InfoPack.append((SubSample,FilesDir,nJobs))
     #
     SubSample='Run2012B-13JulReReco'
     FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/SingleMu/Run2012B-13Jul2012-v1/'
-    nJobs=150
+    nJobs=60
     InfoPack.append((SubSample,FilesDir,nJobs))    
     #
     SubSample='Run2012C-24Aug2012-v1'
@@ -92,7 +92,7 @@ def SingleMu():
     #
     SubSample='Run2012C-PromptReco-v2'
     FilesDir='/pnfs/desy.de/cms/tier2/store/user/fcostanz/NTuple13_v1/SingleMu/Run2012C-PromptReco-v2/'
-    nJobs=150
+    nJobs=200
     InfoPack.append((SubSample,FilesDir,nJobs))    
     #    
     SubSample='Run2012D-PromptReco-v1'
@@ -112,17 +112,17 @@ def SingleElectron():
     
     SubSample='Run2012A-13JulReReco'
     FilesDir='/nfs/dust/cms/user/lobanov/SUSY/nTupler13/data/SingleElectron/Run2012A-13Jul2012-v1/'
-    nJobs=50
+    nJobs=25
     InfoPack.append((SubSample,FilesDir,nJobs))
     #
     SubSample='Run2012A-06AugReReco'
     FilesDir='/nfs/dust/cms/user/lobanov/SUSY/nTupler13/data/SingleElectron/Run2012A-recover-06Aug2012-v1/'
-    nJobs=20
+    nJobs=10
     InfoPack.append((SubSample,FilesDir,nJobs))
     #
     SubSample='Run2012B-13JulReReco'
     FilesDir='/nfs/dust/cms/user/lobanov/SUSY/nTupler13/data/SingleElectron/Run2012B-13Jul2012-v1/'
-    nJobs=150
+    nJobs=60
     InfoPack.append((SubSample,FilesDir,nJobs))    
     #
     SubSample='Run2012C-24Aug2012-v1'
@@ -137,7 +137,7 @@ def SingleElectron():
     #    
     SubSample='Run2012D-PromptReco-v1'
     FilesDir='/nfs/dust/cms/user/kruecker/desysusy/artur/nTupler13/data/SingleElectron/Run2012D-PromptReco-v1/'
-    nJobs=200
+    nJobs=150
     InfoPack.append((SubSample,FilesDir,nJobs))
     #
     #
@@ -207,12 +207,12 @@ def TTJetsMG():
     #
     SubSample='SemiLept'
     FilesDir='/pnfs/desy.de/cms/tier2/store/user/fcostanz/nTuple13_v2/mc/TTJets_SemiLeptMGDecays_8TeV-madgraph/Summer12_DR53X-PU_S10_START53_V7A_ext-v1/'
-    nJobs=75
+    nJobs=30
     InfoPack.append((SubSample,FilesDir,nJobs))        
     #
     SubSample='DiLept'
     FilesDir='/nfs/dust/cms/user/fcost/store/NTuple13_v2/TTJets_FullLeptMGDecays_8TeV-madgraph/Summer12_DR53X-PU_S10_START53_V7A-v2/'
-    nJobs=40
+    nJobs=20
     InfoPack.append((SubSample,FilesDir,nJobs))        
     #
     #
@@ -222,7 +222,7 @@ def TTJetsMG():
 def TTJetsMCatNLO():
     Sample='TTJetsMCatNLO'
     Config='config_FullSim_Stop.txt'
-    mJobs=100
+    mJobs=50
     InfoPack=[]
     
     SubSample='NoSub'
@@ -307,7 +307,7 @@ def TTJetsSys():
 def DYJetsToLL():
     Sample='DYJetsToLL'
     Config='config_FullSim_Stop.txt'
-    nJobs=30
+    nJobs=15
     InfoPack=[]
     
     SubSample='M10To50'
@@ -329,27 +329,27 @@ def WJetsToLNu():
     
     SubSample='Inclusive'
     FilesDir='/pnfs/desy.de/cms/tier2/store/user/fcostanz/nTuple13_v2/mc/WJetsToLNu_TuneZ2Star_8TeV-madgraph-tarball/Summer12_DR53X-PU_S10_START53_V7A-v1/'
-    nJobs=80
+    nJobs=40
     InfoPack.append((SubSample,FilesDir,nJobs))
     #
     SubSample='1Jet'
     FilesDir='/nfs/dust/cms/user/kruecker/desysusy/francesco/NTuple13_v2/W1JetsToLNu_TuneZ2Star_8TeV-madgraph/Summer12_DR53X-PU_S10_START53_V7A-v1/'
-    nJobs=80
+    nJobs=40
     InfoPack.append((SubSample,FilesDir,nJobs))
     #
     SubSample='2Jets'
     FilesDir='/nfs/dust/cms/user/kruecker/desysusy/francesco/NTuple13_v2/W2JetsToLNu_TuneZ2Star_8TeV-madgraph/Summer12_DR53X-PU_S10_START53_V7A-v1/'
-    nJobs=80
+    nJobs=40
     InfoPack.append((SubSample,FilesDir,nJobs))
     #
     SubSample='3Jets'
     FilesDir='/nfs/dust/cms/user/kruecker/desysusy/francesco/NTuple13_v2/W3JetsToLNu_TuneZ2Star_8TeV-madgraph/Summer12_DR53X-PU_S10_START53_V7A-v1/'
-    nJobs=80
+    nJobs=40
     InfoPack.append((SubSample,FilesDir,nJobs))
     #
     SubSample='4Jets'
     FilesDir='/nfs/dust/cms/user/kruecker/desysusy/francesco/NTuple13_v2/W4JetsToLNu_TuneZ2Star_8TeV-madgraph/Summer12_DR53X-PU_S10_START53_V7A-v1/'
-    nJobs=80
+    nJobs=40
     InfoPack.append((SubSample,FilesDir,nJobs))
     #
     #
@@ -360,7 +360,7 @@ def WJetsToLNu():
 def SingleTop():
     Sample='SingleTop'
     Config='config_FullSim_Stop.txt'
-    nJobs=25
+    nJobs=10
     InfoPack=[]
     
     SubSample='TBarToDilepton-tW'
@@ -411,7 +411,7 @@ def SingleTop():
 def DiBoson():
     Sample='DiBoson'
     Config='config_FullSim_Stop.txt'
-    nJobs=6
+    nJobs=3
     InfoPack=[]
     #
     SubSample='ZZJetsTo4'
@@ -458,7 +458,7 @@ def DiBoson():
 def TriBoson():
     Sample='TriBoson'
     Config='config_FullSim_Stop.txt'
-    nJobs=6
+    nJobs=3
     InfoPack=[]
     #
     SubSample='ZZZNoGstarJets'
@@ -489,7 +489,7 @@ def TriBoson():
 def TTV():
     Sample='TTV'
     Config='config_FullSim_Stop.txt'
-    nJobs=6
+    nJobs=3
     InfoPack=[]
     #    
     SubSample='TTZJets'
@@ -575,7 +575,7 @@ def QCD():
 def T2tb():
     Sample='T2tb'
     Config='config_Scan_Stop.txt'
-    nJobs=30
+    nJobs=15
     InfoPack=[]
 
     SubSample='mStop100To375mLSP1To275'
@@ -807,7 +807,7 @@ def T2ttPoints():
 def T2tt():
     Sample='T2tt'
     Config='config_Scan_Stop.txt'
-    nJobs=30
+    nJobs=15
     InfoPack=[]
 
     SubSample='mStop150To350mLSP0To250'
@@ -961,17 +961,17 @@ def T2bw():
     
 if __name__=='__main__':
     #MuHad()
-    #SingleMu()
-    #SingleElectron()
+    SingleMu()
+    SingleElectron()
     TTJetsPOWHEG() 
     TTJetsMG()
-    #DYJetsToLL()
+    DYJetsToLL()
     WJetsToLNu()
     SingleTop()
     DiBoson()
     TriBoson()
     TTV()
-    #QCD()
+    QCD()
     #T2tb()
     #T2tbPoints()
     #T2ttPoints()

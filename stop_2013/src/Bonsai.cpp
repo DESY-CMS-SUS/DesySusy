@@ -18,6 +18,8 @@ Bonsai::Bonsai(TDirectory* indir, TString newdir): SubTree( indir, newdir){
 
   tree= new TTree( "bonsai", "Bonsai subTree");
   
+  bdisc = new vector<Float_t>();
+  bdiscNoReshape = new vector<Float_t>();
   this->Reset();
   this->SetBranches();
   
@@ -58,8 +60,9 @@ void Bonsai::Reset()
   jet4 = 0.;
   
   nbjets = 0.;
+  bdisc->clear();
+  bdiscNoReshape->clear();
   bjet1 = 0.;
-  disc1 = 0.;
   bjetHighestDisc = 0.;
   discH = 0.;
   
@@ -88,6 +91,7 @@ void Bonsai::Reset()
   m3b = 0.;
   m3 = 0.;
   centrality = 0.;
+  centralityNoLep = 0.;
   mt2w = 0.;
   hadChi2 = 0.;
   topness = 0.;
@@ -160,8 +164,9 @@ void Bonsai::SetBranches()
   tree->Branch("jet4", &jet4, "jet4/F");
   
   tree->Branch("nbjets",&nbjets,"nbjets/F");
+  tree->Branch("bdisc", "std::vector<Float_t>", &bdisc);
+  tree->Branch("bdiscNoReshape", "std::vector<Float_t>", &bdiscNoReshape);
   tree->Branch("bjet1", &bjet1, "bjet1/F");
-  tree->Branch("disc1", &disc1, "disc1/F");
   tree->Branch("bjetHighestDisc", &bjetHighestDisc, "bjetHighestDisc/F");
   tree->Branch("discH", &discH, "discH/F");
   
@@ -190,6 +195,7 @@ void Bonsai::SetBranches()
   tree->Branch("m3b",&m3b,"m3b/F");
   tree->Branch("m3",&m3,"m3/F");
   tree->Branch("centrality",&centrality,"centrality/F");
+  tree->Branch("centralityNoLep",&centralityNoLep,"centralityNoLep/F");
   tree->Branch("mt2w",&mt2w,"mt2w/F");
   tree->Branch("hadChi2",&hadChi2,"hadChi2/F");
   tree->Branch("topness",&topness,"topness/F");
@@ -266,16 +272,25 @@ void Bonsai::Fill( Event* event, EasyChain* chain)
   if (njets > 3.)
     jet4 = event->Jets("Selected")->at(3)->Pt();
 
+  for ( int ijet = 0; ijet < njets; ijet++){
+    if( !event->Info()->isData){
+      bdisc->push_back(event->Jets("Selected")->at(ijet)->BJetDisc("CSV_Reshape"));  
+      bdiscNoReshape->push_back(event->Jets("Selected")->at(ijet)->BJetDisc("CSV_NoReshape"));
+    }
+    else {
+      bdisc->push_back(event->Jets("Selected")->at(ijet)->BJetDisc("CSV"));  
+      bdiscNoReshape->push_back(event->Jets("Selected")->at(ijet)->BJetDisc("CSV"));
+    }
+  }
+
   nbjets = event->nBJets();
   if (nbjets > 0) {
     bjet1 = event->BJets("CSV")->at(0)->Pt();
-    disc1 = event->BJets("CSV")->at(0)->BJetDisc("CSV");
     bjetHighestDisc = event->BJetsBDiscOrdered("CSV")->at(0)->Pt();
     discH = event->BJetsBDiscOrdered("CSV")->at(0)->BJetDisc("CSV");
   }
   else{
     bjet1 = -1.;
-    disc1 = -1.;
     bjetHighestDisc = -1.;
     discH = -1.;
   }
@@ -312,10 +327,11 @@ void Bonsai::Fill( Event* event, EasyChain* chain)
     m3 = -1;
   }
   centrality = event->Centrality();
-  
+  centralityNoLep = event->CentralityNoLep();
+
   mt2w = event->MT2W();
   hadChi2 = event->HadChi2();
-  topness = event->Topness();
+  //topness = event->Topness();
 
   dphimin = event->DeltaPhiMinj12m();
   drlb1 = event->DeltaRlb1();
@@ -356,7 +372,7 @@ void Bonsai::Fill( Event* event, EasyChain* chain)
   kinRegion = OK;
 
   // Search Region Pre IsoTrack Veto
-  OK = event->Muons("Selected")->size() + event->Electrons("Selected")->size() == 1;
+  OK = event->Muons("Selected")->size() + event->Electrons("Selected")->size() > 0.001;
   OK = OK && njets >= 3;
   OK = OK && nbjets > 0;
   OK = OK && phiCorrMet > 80.;
