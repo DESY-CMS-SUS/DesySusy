@@ -41,18 +41,20 @@ void SkimmingTree::Reset(){
 }
 
 void SkimmingTree::SetBranches(){
-  tree->Branch(            "Info",             "EventInfo",            &info);
-  tree->Branch(          "Tracks", "std::vector<Particle>",          &tracks);
-  tree->Branch(           "Muons",     "std::vector<Muon>",           &muons);
-  tree->Branch(       "Electrons", "std::vector<Electron>",       &electrons);
-  tree->Branch(            "Taus",      "std::vector<Tau>",            &taus);
-  tree->Branch(            "Jets",      "std::vector<Jet>",            &jets);
-  tree->Branch(         "GenJets",   "std::vector<GenJet>",         &genJets);
-  tree->Branch(          "RawMET",              "LorentzM",          &rawMET);
-  tree->Branch(        "TypeIMET",              "LorentzM",        &typeIMET);
-  tree->Branch( "TypeIPhiCorrMET",              "LorentzM", &typeIPhiCorrMET);
-  tree->Branch(          "MvaMET",              "LorentzM",          &mvaMET);
-  tree->Branch(         "CaloMET",              "LorentzM",         &caloMET);
+  //tree->Branch(            "Info",             "EventInfo",            &info, );
+
+  tree->Branch(            "Info",             "EventInfo",            &info, 32000, 0);
+  tree->Branch(          "Tracks", "std::vector<Particle>",          &tracks, 32000, 0);
+  tree->Branch(           "Muons",     "std::vector<Muon>",           &muons, 32000, 0);
+  tree->Branch(       "Electrons", "std::vector<Electron>",       &electrons, 32000, 0);
+  tree->Branch(            "Taus",      "std::vector<Tau>",            &taus, 32000, 0);
+  tree->Branch(            "Jets",      "std::vector<Jet>",            &jets, 32000, 0);
+  tree->Branch(         "GenJets",   "std::vector<GenJet>",         &genJets, 32000, 0);
+  tree->Branch(          "RawMET",              "LorentzM",          &rawMET, 32000, 0);
+  tree->Branch(        "TypeIMET",              "LorentzM",        &typeIMET, 32000, 0);
+  tree->Branch( "TypeIPhiCorrMET",              "LorentzM", &typeIPhiCorrMET, 32000, 0);
+  tree->Branch(          "MvaMET",              "LorentzM",          &mvaMET, 32000, 0);
+  tree->Branch(         "CaloMET",              "LorentzM",         &caloMET, 32000, 0);
 }  
 
 void SkimmingTree::Fill(Event* event, EasyChain* chain){

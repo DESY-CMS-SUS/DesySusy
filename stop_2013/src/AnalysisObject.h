@@ -1,11 +1,13 @@
 #ifndef AnalysisObject_h
 #define AnalysisObject_h
 
+#include "TObject.h"
+
 #include "NtupleTools2_h.h"
 
 using namespace std;
 
-class AnalysisObject{
+class AnalysisObject: public TObject{
 
 protected:
   int maptotree;
@@ -45,6 +47,6 @@ public:
   void SetID(const string& key, const bool& value);
   void SetIDMap(const map< string, bool>& id_In);
 
-  //ClassDef(AnalysisObject,1);
+  ClassDef(AnalysisObject,1);
 };
 #endif

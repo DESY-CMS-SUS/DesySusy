@@ -37,6 +37,6 @@ class Particle : public AnalysisObject {
 		   const double& iso_In, const double& dz_In);
   virtual void Set(const int& maptotree_In, const LorentzM& momentum_In, const int& pdgID_In, const int& charge_In,
 		   const double& iso_In, const double& dz_In, const map< string, bool>& id_In);
-  //ClassDef(Particle,1);
+  ClassDef(Particle,1);
 };
 #endif

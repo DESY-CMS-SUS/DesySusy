@@ -2,7 +2,7 @@
 
 using namespace std;
 
-//ClassImp(Muon);
+ClassImp(Muon);
 
 Muon::Muon(){
   pdgID=13;

@@ -330,7 +330,7 @@ void Bonsai::Fill( Event* event, EasyChain* chain)
   centralityNoLep = event->CentralityNoLep();
 
   mt2w = event->MT2W();
-  hadChi2 = event->HadChi2();
+  //hadChi2 = event->HadChi2();
   //topness = event->Topness();
 
   dphimin = event->DeltaPhiMinj12m();
@@ -362,7 +362,7 @@ void Bonsai::Fill( Event* event, EasyChain* chain)
   pdgIdLep2 = 0;
   if(event->SecondLepton() != 0)
     pdgIdLep2 = event->SecondLepton()->PdgID();
-
+  
   bool OK = false;  
   //Showing kinematic variables
   OK = event->Muons("Selected")->size() + event->Electrons("Selected")->size() == 1;

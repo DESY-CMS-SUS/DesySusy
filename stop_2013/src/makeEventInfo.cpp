@@ -39,6 +39,9 @@ void makeEventInfo(EasyChain* tree, EventInfo& info)
   float rho = tree->Get( rho, "rho");
   info.rho = rho;
   
+  info.LepFromTop = 0;
+  info.Charginos = 0;
+
   if ( info.isData) return;
 
   vector<LorentzM>& p4     = tree->Get( &p4,          "genP4");
@@ -47,12 +50,10 @@ void makeEventInfo(EasyChain* tree, EventInfo& info)
   vector<int>& MotherIndex = tree->Get( &MotherIndex, "genMotherIndex");
   vector<int>& MotherPdgId = tree->Get( &MotherPdgId, "genMotherPdgId");
   
-  info.LepFromTop = 0;
   for (int igen=0; igen<status.size(); igen++)
     if (abs(pdgId.at(igen))==6)
       info.LepFromTop += gen_tools::Decay(igen,&MotherIndex,&pdgId,&status,"");
   
-  info.Charginos = 0;
   for (int igen=0; igen<status.size(); igen++)
     if (abs(pdgId.at(igen))==1000024)
       info.Charginos++;

@@ -71,6 +71,6 @@ class Jet: public AnalysisObject {
 
   void Set(const int maptotree_In, const LorentzM& momentum_In, const double& scaleCorrFactor_In=1., const string& type_In="");
 
-  //ClassDef(Jet,1)
+  ClassDef(Jet,1)
 };
 #endif

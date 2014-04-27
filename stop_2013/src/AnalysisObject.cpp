@@ -3,7 +3,7 @@
 
 using namespace ROOT::Math::VectorUtil;
 
-//ClassImp(AnalysisObject);
+ClassImp(AnalysisObject);
 
 AnalysisObject::AnalysisObject() {
   maptotree=-1;

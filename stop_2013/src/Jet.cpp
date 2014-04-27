@@ -5,7 +5,7 @@
 using namespace std;
 using namespace ROOT::Math::VectorUtil;
 
-//ClassImp(Jet);
+ClassImp(Jet);
 
 map<string, map<string, double> > Jet::bJetWP;
 

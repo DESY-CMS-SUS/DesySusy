@@ -41,11 +41,12 @@ class GenJet: public AnalysisObject {
   void SetMatchedJet( const Jet* matchedJet_In);
 
   void Set(const int maptotree_In, const LorentzM& momentum_In, const string& type_In="");
+
+  ClassDef(GenJet,1);
 };
 
 namespace desy_tools{
   void matchGenJets( vector<Jet>& Jets, vector<GenJet>& genJets);
   void matchGenJets( vector<Jet*>& Jets, vector<GenJet*>& genJets);
 }
-
 #endif
