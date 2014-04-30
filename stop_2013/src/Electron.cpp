@@ -2,6 +2,8 @@
 
 using namespace std;
 
+ClassImp(Electron);
+
 Electron::Electron(){
   charge=99.;
   pdgID=11;

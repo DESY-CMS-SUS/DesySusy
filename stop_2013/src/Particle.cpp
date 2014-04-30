@@ -5,7 +5,7 @@
 
 using namespace ROOT::Math::VectorUtil;
 
-//ClassImp( Particle);
+ClassImp( Particle);
 Particle::Particle(){
   charge = 99.;
   pdgID = 0;

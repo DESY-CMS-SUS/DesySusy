@@ -2,6 +2,8 @@
 
 using namespace std;
 
+ClassImp(Tau);
+
 Tau::Tau(){
   charge=99.;
   pdgID=15;

@@ -5,7 +5,7 @@
 using namespace std;
 using namespace ROOT::Math::VectorUtil;
 
-//ClassImp(GenJet);
+ClassImp(GenJet);
 
 //=======CONSTRUCTORS=============//
 

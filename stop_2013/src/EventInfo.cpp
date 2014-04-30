@@ -1,5 +1,7 @@
 #include "EventInfo.h"
 
+ClassImp(EventInfo);
+
 /*
 EventInfo::EventInfo(const EventInfo& copy){
   Sample     = copy.Sample;      

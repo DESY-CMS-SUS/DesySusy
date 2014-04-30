@@ -6,9 +6,11 @@
 #include <vector>
 #include <iostream>
 
+#include "TObject.h"
+
 using namespace std;
 
-class EventInfo{
+class EventInfo: public TObject{
 
 public:
 
@@ -70,5 +72,7 @@ public:
   double T2bWRL;
   double T2bWRS;
   double T2bWRR;
+
+  ClassDef(EventInfo,1);
 };	  
 #endif
